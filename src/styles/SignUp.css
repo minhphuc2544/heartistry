@@ -1,0 +1,67 @@
+.signup {
+    background-color: #FCF8EC;
+    width: 100vw;
+    height: 100vh;
+}
+
+.rightPart {
+    width: 50%;
+    height: 100%;
+    float: right;
+    display: grid;
+    place-items: center;
+}
+
+.leftPart {
+    display: flex;
+    text-align: center;
+    align-items: center;
+    justify-items: center;
+    justify-content: center;
+    width: 50%;
+    height: 100%;
+    float: left;
+}
+
+.signUpArea {
+    background-color: white;
+    height: 80%;
+    width: 80%;
+    border-radius: 10%;
+    display: grid;
+    place-items: center;
+}
+
+.signUpForm {
+    margin-top: -40px;
+}
+
+#submit {
+    font-size: 20px;
+    width: 150px;
+    height: 40px;
+    font-weight: bold;
+    border-radius: 12px;
+    background-color: #21B6A8;
+    color: white;
+    border: none;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);    
+    margin-top: 20px;
+    margin-bottom: 50px;
+    cursor: pointer;
+}
+
+.optionInput {
+    width: 315px;
+    height: 40px;
+    padding-left: 10px;
+    border-radius: 12px;
+    border: 1px solid black;
+}
+.DoBInput {
+    width: 305px;
+    height: 40px;
+    padding-left: 10px;
+    border-radius: 12px;
+    border: 1px solid black;
+}
