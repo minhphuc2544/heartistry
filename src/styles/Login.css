@@ -1,0 +1,15 @@
+div {
+    background-color: #FCF8EC;
+    display: flex;
+}
+
+.login {
+    background-color: white;
+    float: left;
+    align-self: center;
+}
+
+.logo {
+    float: right;
+    align-self: center;
+}
