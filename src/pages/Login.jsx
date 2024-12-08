@@ -11,7 +11,7 @@ export default function Login() {
                 <div className="loginArea">
                     <form className="form">
                         <div className="loginInfo">
-                        <h1 style={{ fontSize: 60, textAlign: "center", fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif" }}>Sign in</h1>
+                        <h1 style={{ fontSize: 60, textAlign: "center", fontFamily: 'Segoe UI', marginTop: -20, marginBottom: 30 }}>Sign in</h1>
                             <label className="label">Username</label><br></br>
                             <input type="text" className = "input" id="username" required style={{marginBottom: 10}} /><br></br>
                             <label className="label">Password</label><br></br>
