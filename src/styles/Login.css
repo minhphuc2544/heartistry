@@ -24,8 +24,8 @@
 
 .loginArea {
     background-color: white;
-    height: 80%;
-    width: 80%;
+    height: 70%;
+    width: 70%;
     border-radius: 10%;
     display: grid;
     place-items: center;
@@ -53,7 +53,7 @@
     border-radius: 12px;
     border: 1px solid black;
 }
-#submit {
+.submit {
     font-size: 20px;
     width: 50%;
     height: 40px;
@@ -64,7 +64,7 @@
     border: none;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);    
     margin-top: 20px;
-    margin-bottom: 50px;
+    margin-bottom: 20px;
     cursor: pointer;
 }
 
