@@ -18,7 +18,7 @@ export default function Login() {
                             <input type="password" className = "input" id="password" required /><br></br> <br></br>
                             <div className="action">
                                 <button type="submit" id="submit" className="submit">LOGIN</button><br></br>
-                                <Link to={`${baseUrl}passwordrecovery`} className="link" style={{marginTop: -25}}>Forgot your password?</Link>
+                                <Link to={`${baseUrl}passwordrecovery`} className="link">Forgot your password?</Link>
                                 <Link to={`${baseUrl}signup`} className="link">Don't have an account? Sign up</Link>
                             </div>
                         </div>
