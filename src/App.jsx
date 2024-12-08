@@ -6,7 +6,6 @@ import OTPVerification from "./pages/OTPVerification";
 import FlashCard from "./pages/FlashCard";
 import Dictionary from "./pages/Dictionary";
 import Setting from "./pages/Setting";
-import Home from "./pages/Home";
 import Menu from "./Menu";
 
 export default function App() {
