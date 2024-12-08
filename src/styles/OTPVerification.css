@@ -1,0 +1,88 @@
+.otp {
+    background-color: #FCF8EC;
+    width: 100vw;
+    height: 100vh;
+}
+
+.rightContainer4 {
+    width: 50%;
+    height: 100%;
+    float: right;
+    display: grid;
+    place-items: center;
+}
+
+.leftContainer4 {
+    display: flex;
+    text-align: center;
+    align-items: center;
+    justify-items: center;
+    justify-content: center;
+    width: 50%;
+    height: 100%;
+    float: left;
+}
+
+.otpArea {
+    background-color: white;
+    height: 55%;
+    width: 60%;
+    border-radius: 10%;
+    display: grid;
+    place-items: center;
+}
+
+.otpForm {
+    width: 80%;
+    height: 80%;
+    place-items: center;
+    align-items: center;
+}
+
+.submit {
+    font-size: 20px;
+    width: 150px;
+    height: 40px;
+    font-weight: bold;
+    border-radius: 12px;
+    background-color: #21B6A8;
+    color: white;
+    border: none;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);    
+    margin-top: 20px;
+    cursor: pointer;
+}
+
+.otpNumbers {
+    width: fit-content;
+    height: fit-content;
+}
+.inputOTP {
+    width: 40px;
+    border: solid black 1px;
+    margin: 0 10px;
+    text-align: center;
+    font-size: 36px;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+.input:focus {
+    outline: none;
+}
+
+.input:nth-child(1) {
+    cursor: pointer;
+    pointer-events: all;
+}
+
+.resend {
+    width: 120px;
+    height: 30px;
+    font-size: 18px;
+    margin: 10px;
+    float: right;
+    border: none;
+    background-color: white;
+    cursor: pointer;
+}
