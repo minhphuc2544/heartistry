@@ -15,9 +15,9 @@ export default function Login() {
                             <label className="label">Username</label><br></br>
                             <input type="text" className = "input" id="username" required style={{marginBottom: 10}} /><br></br>
                             <label className="label">Password</label><br></br>
-                            <input type="password" className = "input" id="password" required /><br></br> 
+                            <input type="password" className = "input" id="password" required /><br></br> <br></br>
                             <div className="action">
-                                <button type="submit" id="submit">LOGIN</button><br></br>
+                                <button type="submit" id="submit" className="submit">LOGIN</button><br></br>
                                 <Link to={`${baseUrl}passwordrecovery`} className="link">Forgot your password?</Link>
                                 <Link to={`${baseUrl}signup`} className="link">Don't have an account? Sign up</Link>
                             </div>
@@ -30,7 +30,7 @@ export default function Login() {
             </div>
 
             <div className="rightContainer">
-                <img src="./logo.svg" alt="logo" width={600} height={600}></img>
+                <img src="./logo_transparent.svg" alt="logo" width={1000}></img>
             </div>
 
         </div>
