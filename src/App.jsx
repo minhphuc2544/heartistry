@@ -17,7 +17,7 @@ export default function App() {
     <Route path={`${baseURL}/signup`} element={<SignUp />} />
     <Route path={`${baseURL}/passwordrecovery`} element={<PasswordRecovery />} />
     <Route path={`${baseURL}/otp`} element={<OTPVerification />} />
-    <Route path={`${baseURL}`} element={<Menu />} />
+    <Route path={`${baseURL}`} element={<Login />} />
     <Route path={`${baseURL}/flashcard`} element={<FlashCard />} />
     <Route path={`${baseURL}/dictionary`} element={<Dictionary />} />
     <Route path={`${baseURL}/document`} element={<Document />} />
