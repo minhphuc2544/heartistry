@@ -1,0 +1,32 @@
+
+.home {
+    background-color: white;
+    width: 84.5%;
+}
+
+.upper {
+    display: flex;
+}
+.wordSets {
+    border: solid black 1px;
+    width: 1000px;
+    height: 250px;
+    margin-top: 20px;
+    margin-left: 20px;
+}
+
+.userInfo {
+    border: solid black 1px;
+    width: 300px;
+    height: 250px;
+    margin-top: 20px;
+    margin-left: 20px;
+}
+
+.statistic {
+    border: solid black 1px;
+    width: 1000px;
+    height: 300px;
+    margin-top: 230px;
+    margin-left: 20px;
+}
