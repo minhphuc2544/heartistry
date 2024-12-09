@@ -6,7 +6,7 @@ import OTPVerification from "./pages/OTPVerification";
 import FlashCard from "./pages/FlashCard";
 import Dictionary from "./pages/Dictionary";
 import Setting from "./pages/Setting";
-import Menu from "./Menu";
+import Home from "./pages/Home";
 
 export default function App() {
   const baseURL = import.meta.env.BASE_URL;
@@ -17,7 +17,7 @@ export default function App() {
     <Route path={`${baseURL}/signup`} element={<SignUp />} />
     <Route path={`${baseURL}/passwordrecovery`} element={<PasswordRecovery />} />
     <Route path={`${baseURL}/otp`} element={<OTPVerification />} />
-    <Route path={`${baseURL}`} element={<Login />} />
+    <Route path={`${baseURL}`} element={<Home />} />
     <Route path={`${baseURL}/flashcard`} element={<FlashCard />} />
     <Route path={`${baseURL}/dictionary`} element={<Dictionary />} />
     <Route path={`${baseURL}/document`} element={<Document />} />
