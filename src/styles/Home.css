@@ -8,11 +8,66 @@
     display: flex;
 }
 .wordSets {
-    border: solid black 1px;
-    width: 1000px;
-    height: 250px;
+    width: 950px;
+    height: 280px;
     margin-top: 20px;
     margin-left: 20px;
+    background-color: #A3EBB1;
+    border-radius: 22px;
+    display: block;
+}
+.title {
+    margin-top: 10px;
+    margin-left: 30px;
+    font-family: 'Segoe UI';
+}
+
+.moveList {
+    position: relative;
+    left: 700px;
+    margin-top: 20px;
+}
+
+.set {
+    width: 270px;
+    height: 180px;
+    background-color: #21B6A8;
+    margin-top: 15px;
+    margin-bottom: 25px;
+    margin-left: 30px;
+    border-radius: 22px;
+}
+
+.topic {
+    font-family: 'Segoe UI';
+    font-size: 30px;
+    font-weight: 500;
+    text-align: center;
+    margin-top: 10px;
+}
+
+.wordNumbers {
+    font-family: 'Segoe UI';
+    font-size: 15px;
+    font-weight: 500;
+    text-align: center;
+    margin-top: 10px;
+}
+
+#learn {
+    float: right;
+    margin-bottom: 0;
+    margin-right: 20px;
+    margin-top: 40px;
+    background-color: #F9C0AB;
+    font-size: 20px;
+    width: 100px;
+    height: 40px;
+    font-weight: bold;
+    border-radius: 12px;
+    color: white;
+    border: none;
+    cursor: pointer;
 }
 
 .userInfo {
