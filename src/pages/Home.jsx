@@ -6,11 +6,11 @@ export default function Home() {
             <div className="upper">
 
                 <div className="wordSets">
-                    <div style={{ display: "flex"}}>
-                        <h1 className="title">Word Sets</h1> 
-                        <div className="moveList"> {/*add type for button: move list of wordsets if there are more wordsets than the numbers of wordsets tha the area can show (currently: 3) */}
-                            <input type="image" src="../focused_leftArrow.svg"></input>
-                            <input type="image" src="../focused_rightArrow.svg"></input>
+                    <div style={{ display: "flex" }}>
+                        <h1 className="title">Word Sets</h1>
+                        <div className="moveList"> {/*add type for button: move list of wordsets if there are more wordsets than the numbers of wordsets tha the area can show (currently: 4) */}
+                            <input type="image" src="../disabled_leftArrow.svg"></input>
+                            <input type="image" src="../enabled_rightArrow.svg"></input>
                         </div>
                     </div>
 
@@ -20,24 +20,40 @@ export default function Home() {
                             <p className="wordNumbers">Number of words: $(NoW)</p>  {/*show number of words in this wordset*/}
                             <button type="" id="learn">Learn</button>  {/*add type for button: begin to learn words in wordset*/}
                         </div>
-
-
                         <div className="set">
-
+                            <p className="topic">Education</p>
+                            <p className="wordNumbers">Number of words: $(NoW)</p>  {/*show number of words in this wordset*/}
+                            <button type="" id="learn">Learn</button>  {/*add type for button: begin to learn words in wordset*/}
                         </div>
-
                         <div className="set">
-
+                            <p className="topic">Education</p>
+                            <p className="wordNumbers">Number of words: $(NoW)</p>  {/*show number of words in this wordset*/}
+                            <button type="" id="learn">Learn</button>  {/*add type for button: begin to learn words in wordset*/}
                         </div>
-
-
+                        <div className="set">
+                            <p className="topic">Education</p>
+                            <p className="wordNumbers">Number of words: $(NoW)</p>  {/*show number of words in this wordset*/}
+                            <button type="" id="learn">Learn</button>  {/*add type for button: begin to learn words in wordset*/}
+                        </div>
                     </div>
                 </div>
 
 
-
+                
                 <div className="userInfo">
-
+                    <img className="userPicture" src="./logo.svg"></img> {/*user avatar*/}
+                    <p className="username">Heartistry</p> {/*username*/}
+                    <div className="duration">
+                            <div style={{display: "block", margin: 20}}>
+                                <p>Words</p>
+                                <p>100</p>
+                            </div>
+                            <div className="dashboard_separator"></div>
+                            <div style={{display: "block", margin: 20}}>
+                                <p>Days</p>
+                                <p>90</p>
+                            </div>
+                    </div>
                 </div>
             </div>
 

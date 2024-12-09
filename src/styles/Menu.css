@@ -42,7 +42,7 @@
   max-width: 18rem;
   min-width: 4rem;
   display: flex;
-  color: var(--white);
+  color: #F5FFF5;
   flex-direction: column;
   background: var(--sidebar-background);
   transition: max-width 0.2s ease-in-out;
