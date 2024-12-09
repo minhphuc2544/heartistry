@@ -15,30 +15,45 @@ export default function SignUp() {
     
     useEffect(() => {
         async function postSignUpInfo() {
-            const response = await fetch(`${import.meta.env.VITE_USER_API_URL}/users/signup`, {
+            // turn request object to string
+            const requestBody = JSON.stringify({
+                "username": username,
+                "password": password,
+                "fullname": fullname,
+                "gender": gender,
+                "dob": dob,
+                "email": email,
+                "phoneNumber": phoneNumber
+            });
+
+            // call api
+            const response = await fetch(`${import.meta.env.VITE_USER_API_BASE_URL}/users/signup`, {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
                     },
-                    body: JSON.stringify({
-                        "username": username,
-                        "password": password,
-                        "fullname": fullname,
-                        "gender": gender,
-                        "dob": dob,
-                        "email": email,
-                        "phoneNumber": phoneNumber
-                    }),
+                    body: requestBody,
                 }
             );
             
+            // navigate if response code is 200
             if (response.ok) {
+                localStorage.setItem('userSignUpInfo', requestBody);
                 navigate('/otp');
                 return;
             }
 
+            // catch errors and notify user
             const responseJson = await response.json();
-            // errors catching and alert user there
+            let alertMessage = '';
+            
+            if (Array.isArray(responseJson.message)) {
+                responseJson.message.forEach((v, i) => { alertMessage += `${i + 1}. ${v}\n`; });
+            } else {
+                alertMessage = `1. ${responseJson.message}`;
+            }
+            
+            window.alert(alertMessage);
         }
         
         if (username && password && fullname && gender && dob && email && phoneNumber) {
@@ -84,7 +99,6 @@ export default function SignUp() {
                             <label className="label">Phone number</label><br></br>
                             <input className="input" type="tel" pattern="0[0-9]{9}" required onChange={ (e) => setPhoneNumber(e.target.value) }></input>
                         </div>
-
                         <div className="action">
                             <input type="button" id="submit" onClick={() => setSubmitSignal(!submitSignal)} value={"SIGN UP"}></input><br></br>
                         </div>
