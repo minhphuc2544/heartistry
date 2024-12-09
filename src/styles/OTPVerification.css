@@ -63,8 +63,7 @@
     margin: 0 10px;
     text-align: center;
     font-size: 36px;
-    cursor: not-allowed;
-    pointer-events: none;
+    cursor: text;
 }
 
 .input:focus {
@@ -76,8 +75,19 @@
     pointer-events: all;
 }
 
-.resend {
-    width: 120px;
+.resend-time-remaining {
+    width: fit-content;
+    height: 30px;
+    font-size: 18px;
+    margin: 10px;
+    float: right;
+    border: none;
+    background-color: white;
+    pointer-events: none;
+}
+
+.resend-time-over {
+    width: fit-content;
     height: 30px;
     font-size: 18px;
     margin: 10px;
