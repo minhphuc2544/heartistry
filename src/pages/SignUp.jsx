@@ -60,7 +60,7 @@ export default function SignUp() {
             postSignUpInfo();
         }
     }, [submitSignal]);
-
+   
     return (
         <div className="signup">
             <div className="rightPart">
