@@ -1,6 +1,19 @@
+import { useNavigate } from "react-router-dom";
 import "../styles/Home.css"
+import Cookies from "js-cookie";
+import { useEffect } from "react";
 
 export default function Home() {
+    const navigate = useNavigate();
+    
+    // check if the access token is expired, if so, force the user to login again
+    useEffect(() => {
+        const access_token = Cookies.get('access_token');
+        if (!access_token) {
+            navigate('/login');
+        }
+    }, []);
+
     return (
         <div className="home">
             <div className="upper">

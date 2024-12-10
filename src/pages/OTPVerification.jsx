@@ -1,14 +1,15 @@
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import "../styles/OTPVerification.css"
 import { useEffect, useState } from "react";
 export default function SignUp() {
     const navigate = useNavigate();
+    const location = useLocation();
     const [otp, setOtp] = useState(new Array(6).fill(""));
     const [submitSignal, setSubmitSignal] = useState(false);
     const [resendSignal, setResendSignal] = useState(false);
     const [restartTimerSignal, setRestartTimerSignal] = useState(false);
     const [timeLeft, setTimeLeft] = useState(60);
-    const userSignUpInfo = localStorage.getItem('userSignUpInfo');
+    const userSignUpInfo = location.state || {};
 
     const handleChange = (value, index) => {
         if (!/^\d?$/.test(value)) return; // Allow only digits or empty values
@@ -44,19 +45,17 @@ export default function SignUp() {
                 return;
             }
 
-            const userSignUpInfoJson = JSON.parse(userSignUpInfo);
-
             // turn request object to string
-            const requestBody = JSON.stringify({
-                "username": userSignUpInfoJson.username,
-                "password": userSignUpInfoJson.password,
-                "fullname": userSignUpInfoJson.fullname,
-                "gender": userSignUpInfoJson.gender,
-                "dob": userSignUpInfoJson.dob,
-                "email": userSignUpInfoJson.email,
-                "phoneNumber": userSignUpInfoJson.phoneNumber,
+            const requestBody = {
+                "username": userSignUpInfo.username,
+                "password": userSignUpInfo.password,
+                "fullname": userSignUpInfo.fullname,
+                "gender": userSignUpInfo.gender,
+                "dob": userSignUpInfo.dob,
+                "email": userSignUpInfo.email,
+                "phoneNumber": userSignUpInfo.phoneNumber,
                 "otp": otp.join('')
-            });
+            };
 
             // call api
             const response = await fetch(`${import.meta.env.VITE_USER_API_BASE_URL}/users/otp_verification`, {
@@ -64,13 +63,12 @@ export default function SignUp() {
                     headers: {
                         "Content-Type": "application/json",
                     },
-                    body: requestBody,
+                    body: JSON.stringify(requestBody),
                 }
             );
             
             // navigate if response code is 200
             if (response.ok) {
-                localStorage.removeItem('userSignUpInfo');
                 navigate('/login');
                 return;
             }
@@ -97,18 +95,15 @@ export default function SignUp() {
     // useEffect uses to send the otp again
     useEffect(() => {
         async function postSignUpInfo() {
-            const userSignUpInfoJson = JSON.parse(userSignUpInfo);
-
-            // turn request object to string
-            const requestBody = JSON.stringify({
-                "username": userSignUpInfoJson.username,
-                "password": userSignUpInfoJson.password,
-                "fullname": userSignUpInfoJson.fullname,
-                "gender": userSignUpInfoJson.gender,
-                "dob": userSignUpInfoJson.dob,
-                "email": userSignUpInfoJson.email,
-                "phoneNumber": userSignUpInfoJson.phoneNumber
-            });
+            const requestBody = {
+                "username": userSignUpInfo.username,
+                "password": userSignUpInfo.password,
+                "fullname": userSignUpInfo.fullname,
+                "gender": userSignUpInfo.gender,
+                "dob": userSignUpInfo.dob,
+                "email": userSignUpInfo.email,
+                "phoneNumber": userSignUpInfo.phoneNumber
+            };
 
             // call api
             const response = await fetch(`${import.meta.env.VITE_USER_API_BASE_URL}/users/signup`, {
@@ -116,7 +111,7 @@ export default function SignUp() {
                     headers: {
                         "Content-Type": "application/json",
                     },
-                    body: requestBody,
+                    body: JSON.stringify(requestBody),
                 }
             );
             
