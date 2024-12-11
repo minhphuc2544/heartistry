@@ -203,13 +203,16 @@
     margin: 10px;
     width: 40px;
     height: 40px;
-    filter: none; /* Default state for the image */
-    transition: filter 0.3s ease, transform 0.3s ease; /* Smooth transition effect */
+    filter: none;
+    /* Default state for the image */
+    transition: filter 0.3s ease, transform 0.3s ease;
+    /* Smooth transition effect */
 }
 
 .unfocused_cancel:hover {
     filter: brightness(0) saturate(100%) invert(28%) sepia(94%) saturate(5647%) hue-rotate(356deg) brightness(92%) contrast(99%);
-    transform: scale(1.1); /* Optional zoom-in effect */
+    transform: scale(1.1);
+    /* Optional zoom-in effect */
 }
 
 .start {
@@ -224,7 +227,7 @@
     border: 2px solid black;
     border-radius: 22px;
     background-color: #90ee90;
-    box-shadow:  0 4px 6px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
     cursor: pointer;
     transition: all 0.3s ease;
     overflow: hidden;
@@ -232,7 +235,7 @@
 
 }
 
-.start::before{
+.start::before {
     content: "";
     position: absolute;
     top: 0;
@@ -242,19 +245,21 @@
     background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.6), transparent);
     transition: left 0.5s;
     z-index: 1;
-  }
+}
 
-  .start:hover {
-    background-color: #77dd77; /* Slightly darker green */
+.start:hover {
+    background-color: #77dd77;
+    /* Slightly darker green */
     color: white;
-  }
+}
 
-  .start:hover::before {
-    left: 100%; /* Slide the light effect */
-  }
-  
+.start:hover::before {
+    left: 100%;
+    /* Slide the light effect */
+}
 
-  .card {
+
+.card {
     width: 50%;
     height: 90%;
     background-color: white;
@@ -266,4 +271,9 @@
     transform: translate(-50%, -50%);
     border: solid 2px black;
     border-radius: 22px;
-  }
+}
+
+.back {
+    font-size: 25px;
+    margin: 20px;
+}

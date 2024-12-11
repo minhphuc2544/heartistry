@@ -5,11 +5,15 @@ import { useEffect } from "react";
 export default function FlashCard() {
     const [submitSignal, setSubmitSignal] = useState(false);
     const [isVisible, setVisible] = useState(false);
+    const [isTurn, setTurn] = useState(false);
     //useEffect will run at the first time render the web.
     useEffect(() => {
         setVisible(!isVisible);
     }, [submitSignal])
 
+    useEffect(() => {
+        setTurn(isTurn);
+    }, [isTurn])
     return (
         <>
             <div className="flashcard">
@@ -100,17 +104,36 @@ export default function FlashCard() {
 
             <div className="pop_up">
                 <input type="image" className="unfocused_cancel" src="./unfocused_cancel.svg"></input>
-                { isVisible ? <>
+                {isVisible ? <>
                     <h1 className="wordSet_topic">Education</h1>
                     <p className="vcb_count">Vocabulary count: 234 words</p>
                     <button className="start" onClick={() => setSubmitSignal(!submitSignal)}>Start</button>
                 </> : <>
-                    <div className="card">
-                        <div style={{display: "flex"}}>
-                        <p className="word">Flashcard</p>
-                        <p className="wordType">(n)</p>
-                        </div>
-                        
+                    <div className="card" onClick={() => setTurn(!isTurn)}>
+                        {
+                            isTurn ? <>
+                                <div className="back">
+                                    <div style={{ display: "flex", justifyContent: "center", fontSize: 40, marginBottom: 20 }}>
+                                        <p className="word">Flash card</p>
+                                        <p className="wordType">(n)</p>
+                                    </div>
+                                    <div style={{ display: "flex" }}>
+                                        <p className="phonetic"><b>Phonetic:</b>{ }/ˈflæʃˌkɑɹd/</p>
+                                    </div>
+                                    <p className="meaning"><b>Meaning:</b>{ } Thẻ thông tin</p>
+                                    <p className="definition"><b>Definition:</b>{ } a card with a word or picture on it that is used to help students learn</p>
+                                    <p className="example"><b>Example:</b>{ } She is learning math with flash cards.</p>
+                                    <p className="note"><b>Note:</b>{ } Note những điều cần lưu ý về từ</p>
+                                </div>
+                            </> :
+                                <>
+                                    <div className="front">
+                                        <p style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)", fontSize: 60, wordWrap: "break-word" }}>FlashCard</p>
+                                    </div>
+                                </>
+                        }
+
+
                     </div>
                 </>}
             </div>
