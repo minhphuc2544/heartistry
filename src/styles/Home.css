@@ -28,6 +28,7 @@
 .moveList {
     margin-left: 970px;
     margin-top: 20px;
+    height: fit-content;
 }
 
 .set {

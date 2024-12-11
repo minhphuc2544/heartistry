@@ -20,6 +20,7 @@ export default function FlashCard() {
                             <h1 className="title">Word Sets</h1>
                             <div className="moveList"> {/*add type for button: move list of wordsets if there are more wordsets than the numbers of wordsets tha the area can show (currently: 4) */}
                                 <input type="image" src="../disabled_leftArrow.svg"></input>
+                                {/* <p style={{ display: "inline" , margin: "auto"}}>{page + 1}</p> */}
                                 <input type="image" src="../enabled_rightArrow.svg"></input>
                             </div>
                         </div>

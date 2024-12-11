@@ -27,7 +27,10 @@
 
 .moveList {
     margin-left: 970px;
-    margin-top: 20px;
+    margin-top: 50px;
+    display: flex ;
+    justify-content: "center";
+    height: fit-content;
 }
 
 .createSet {
