@@ -3,13 +3,13 @@ import "../styles/FlashCard.css"
 import { useEffect } from "react";
 
 export default function FlashCard() {
-    const [isVisible, setVisible] = useState(true);
-    const [isTurn, setTurn] = useState(false);
-    const [isWordSetOpen, setWordSetOpen] = useState(false);
-    const [isCreateSet, setCreateSet] = useState(false);
+    const [isVisible, setVisible] = useState(true); //show info and button before learn words in word set
+    const [isTurn, setTurn] = useState(false); //to change the info on the card when user click (flip the card)
+    const [isWordSetOpen, setWordSetOpen] = useState(false); //check if word set is opened
+    const [isCreateSet, setCreateSet] = useState(false); // check if user is creating word set
     return (
         <>
-            <div className="flashcard" style={isWordSetOpen ? { filter: "blur(8px)" } : {}}  >
+            <div className="flashcard" style={isWordSetOpen || isCreateSet ? {  opacity: 0.1} : {}}  >
                 <div className="upper">
 
                     <div className="wordSets">
@@ -65,40 +65,15 @@ export default function FlashCard() {
                             </div>
                         </div>
 
-                        <div className="rcmSet">
-                            <p className="topic">Education</p>
-                            <p className="wordNumbers">Number of words: $(NoW)</p>  {/*show number of words in this wordset*/}
-                            <div style={{ display: "flex", justifyContent: "right", marginTop: 35, marginRight: 10 }}>
-                                <input type="image" id="add" className="rcmButton" src="./preview.svg" style={{ padding: 10 }}></input>
-                                <input type="image" id="preview" className="rcmButton" src="./add_wordset.svg" style={{ padding: 5 }}></input>
-                            </div>
-                        </div>
-
-                        <div className="rcmSet">
-                            <p className="topic">Education</p>
-                            <p className="wordNumbers">Number of words: $(NoW)</p>  {/*show number of words in this wordset*/}
-                            <div style={{ display: "flex", justifyContent: "right", marginTop: 35, marginRight: 10 }}>
-                                <input type="image" id="add" className="rcmButton" src="./preview.svg" style={{ padding: 10 }}></input>
-                                <input type="image" id="preview" className="rcmButton" src="./add_wordset.svg" style={{ padding: 5 }}></input>
-                            </div>
-                        </div>
-                        <div className="rcmSet">
-                            <p className="topic">Education</p>
-                            <p className="wordNumbers">Number of words: $(NoW)</p>  {/*show number of words in this wordset*/}
-                            <div style={{ display: "flex", justifyContent: "right", marginTop: 35, marginRight: 10 }}>
-                                <input type="image" id="add" className="rcmButton" src="./preview.svg" style={{ padding: 10 }}></input>
-                                <input type="image" id="preview" className="rcmButton" src="./add_wordset.svg" style={{ padding: 5 }}></input>
-                            </div>
-                        </div>
-
                     </div>
                 </div>
             </div>
             <WordSetPopUp isWordSetOpen={isWordSetOpen} isTurn={isTurn} isVisible={isVisible} setVisible={setVisible} setTurn={setTurn} setWordSetOpen={setWordSetOpen} />
-            <CreateWordSet />
+            <CreateWordSet isCreateSet={isCreateSet} setCreateSet={setCreateSet} isWordSetOpen={isWordSetOpen} setWordSetOpen={setWordSetOpen} />
         </>
     );
 }
+
 
 
 function WordSetPopUp({ isWordSetOpen, isTurn, isVisible, setVisible, setTurn, setWordSetOpen }) {
@@ -142,17 +117,19 @@ function WordSetPopUp({ isWordSetOpen, isTurn, isVisible, setVisible, setTurn, s
     </>)
 }
 
-function CreateWordSet() {
+function CreateWordSet({isCreateSet, setCreateSet, isWordSetOpen, setWordSetOpen}) {
     return (
         <>
-            <div className="createNewSet">
-                <div>
-                    <h1 style={{ display: "flex", margin: 15, fontSize: 25, marginBottom: 30}}>Create new word set</h1>
-                    <input type="image" className="unfocused_cancel" src="./unfocused_cancel.svg"></input>
+            {isCreateSet &&
+                <div className="createNewSet">
+                    <div>
+                        <h1 style={{ display: "flex", margin: 15, fontSize: 25, marginBottom: 30 }}>Create new word set</h1>
+                        <input type="image" className="unfocused_cancel" src="./unfocused_cancel.svg" onClick={()=> {{setCreateSet(false)}}}></input>
+                    </div>
+                    <input type="text" id="createSet" required></input>
+                    <input type="button" id="setName" value={"Create"}></input>
                 </div>
-                <input type="text" id="createSet" required></input>
-                <input type="button" id="setName" value={"Create"}></input>
-            </div>
+            }
         </>
     )
 }
