@@ -61,7 +61,7 @@ export default function Home() {
                     </div>
 
                     <div style={{ display: "flex" }}>
-                        { wordSets.length !== 0 ? wordSets.map((v, i) => <WordSetCard key={i} wordSetInfo={v} />) : <p>There's no wordsets</p> }
+                        { wordSets.length !== 0 ? wordSets.map((v, i) => <WordSetCard key={i} wordSetInfo={v} setWordSetOpen={setWordSetOpen} />) : <p>There's no wordsets</p> }
                     </div>
                 </div>
 
@@ -95,12 +95,12 @@ export default function Home() {
     );
 }
 
-function WordSetCard({ wordSetInfo }) {
+function WordSetCard({ wordSetInfo, setWordSetOpen }) {
     return (
         <div className="set">
             <p className="topic">{wordSetInfo.topic}</p>
             <p className="wordNumbers">Number of words: {wordSetInfo.noWords}</p>  {/*show number of words in this wordset*/}
-            <button type="" id="learn">Learn</button>  {/*add type for button: begin to learn words in wordset*/}
+            <button type="" id="learn" onClick={() => setWordSetOpen(true)}>Learn</button>  {/*add type for button: begin to learn words in wordset*/}
         </div>
     );
 }
