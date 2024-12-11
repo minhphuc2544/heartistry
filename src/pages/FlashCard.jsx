@@ -7,9 +7,10 @@ export default function FlashCard() {
     const [isTurn, setTurn] = useState(false); //to change the info on the card when user click (flip the card)
     const [isWordSetOpen, setWordSetOpen] = useState(false); //check if word set is opened
     const [isCreateSet, setCreateSet] = useState(false); // check if user is creating word set
+    const [isEditWordSet, setWordSetEdit] = useState(false); // check if user is editing word set
     return (
         <>
-            <div className="flashcard" style={isWordSetOpen || isCreateSet ? {  opacity: 0.1} : {}}  >
+            <div className="flashcard" style={isWordSetOpen || isCreateSet ? { opacity: 0.1 } : {}}  >
                 <div className="upper">
 
                     <div className="wordSets">
@@ -68,7 +69,7 @@ export default function FlashCard() {
                     </div>
                 </div>
             </div>
-            <WordSetPopUp isWordSetOpen={isWordSetOpen} isTurn={isTurn} isVisible={isVisible} setVisible={setVisible} setTurn={setTurn} setWordSetOpen={setWordSetOpen} />
+            <WordSetPopUp isWordSetOpen={isWordSetOpen} isTurn={isTurn} isVisible={isVisible} setVisible={setVisible} setTurn={setTurn} setWordSetOpen={setWordSetOpen} isEditWordSet={isEditWordSet} setWordSetEdit={setWordSetEdit}/>
             <CreateWordSet isCreateSet={isCreateSet} setCreateSet={setCreateSet} isWordSetOpen={isWordSetOpen} setWordSetOpen={setWordSetOpen} />
         </>
     );
@@ -76,7 +77,7 @@ export default function FlashCard() {
 
 
 
-function WordSetPopUp({ isWordSetOpen, isTurn, isVisible, setVisible, setTurn, setWordSetOpen }) {
+function WordSetPopUp({ isWordSetOpen, isTurn, isVisible, setVisible, setTurn, setWordSetOpen, isEditWordSet, setWordSetEdit }) {
     return (<>
         {
             isWordSetOpen &&
@@ -86,6 +87,7 @@ function WordSetPopUp({ isWordSetOpen, isTurn, isVisible, setVisible, setTurn, s
                     <h1 className="wordSet_topic">Education</h1>
                     <p className="vcb_count">Vocabulary count: 234 words</p>
                     <button className="start" onClick={() => setVisible(!isVisible)}>Start</button>
+                    <button className="editWordSet" onClick={() => setWordSetEdit(true)}>Edit word set</button>
                 </> : <>
                     <div className="card" onClick={() => setTurn(!isTurn)}>
                         {
@@ -112,19 +114,28 @@ function WordSetPopUp({ isWordSetOpen, isTurn, isVisible, setVisible, setTurn, s
                         }
                     </div>
                 </>}
+                {
+                    isEditWordSet &&
+                    <>
+                    <div className="editWS">
+                        
+                    </div>
+                    </>
+                    
+                }
             </div>
         }
     </>)
 }
 
-function CreateWordSet({isCreateSet, setCreateSet, isWordSetOpen, setWordSetOpen}) {
+function CreateWordSet({ isCreateSet, setCreateSet, isWordSetOpen, setWordSetOpen }) {
     return (
         <>
             {isCreateSet &&
                 <div className="createNewSet">
                     <div>
                         <h1 style={{ display: "flex", margin: 15, fontSize: 25, marginBottom: 30 }}>Create new word set</h1>
-                        <input type="image" className="unfocused_cancel" src="./unfocused_cancel.svg" onClick={()=> {{setCreateSet(false)}}}></input>
+                        <input type="image" className="unfocused_cancel" src="./unfocused_cancel.svg" onClick={() => { { setCreateSet(false) } }}></input>
                     </div>
                     <input type="text" id="createSet" required></input>
                     <input type="button" id="setName" value={"Create"}></input>
