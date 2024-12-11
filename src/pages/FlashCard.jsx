@@ -9,6 +9,7 @@ export default function FlashCard() {
     const [isCreateSet, setCreateSet] = useState(false); // check if user is creating word set
     const [isEditWordSet, setWordSetEdit] = useState(false); // check if user is editing word set
     const [isAddNewWord, setAddNewWord] = useState(false); //check if user is adding new word to word set
+    const [isPreviewRcmWS, setPreviewRcmWS] = useState(false); //check if user is preview recomment word set
     return (
         <>
             <div className="flashcard" style={isWordSetOpen || isCreateSet ? { opacity: 0.1 } : {}}  >
@@ -62,7 +63,7 @@ export default function FlashCard() {
                             <p className="topic">Education</p>
                             <p className="wordNumbers">Number of words: $(NoW)</p>  {/*show number of words in this wordset*/}
                             <div style={{ display: "flex", justifyContent: "right", marginTop: 35, marginRight: 10 }}>
-                                <input type="image" id="add" className="rcmButton" src="./preview.svg" style={{ padding: 10 }}></input>
+                                <input type="image" id="add" className="rcmButton" src="./preview.svg" style={{ padding: 10 }} onClick={() => { setPreviewRcmWS(true) }}></input>
                                 <input type="image" id="preview" className="rcmButton" src="./add_wordset.svg" style={{ padding: 5 }}></input>
                             </div>
                         </div>
@@ -70,16 +71,17 @@ export default function FlashCard() {
                     </div>
                 </div>
             </div>
-            <WordSetPopUp isWordSetOpen={isWordSetOpen} isTurn={isTurn} isVisible={isVisible} setVisible={setVisible} setTurn={setTurn} setWordSetOpen={setWordSetOpen} isEditWordSet= {isEditWordSet} setWordSetEdit={setWordSetEdit} isAddNewWord={isAddNewWord} setAddNewWord={setAddNewWord} />
+            <WordSetPopUp isWordSetOpen={isWordSetOpen} isTurn={isTurn} isVisible={isVisible} setVisible={setVisible} setTurn={setTurn} setWordSetOpen={setWordSetOpen} isEditWordSet={isEditWordSet} setWordSetEdit={setWordSetEdit} isAddNewWord={isAddNewWord} setAddNewWord={setAddNewWord} />
             <CreateWordSet isCreateSet={isCreateSet} setCreateSet={setCreateSet} />
             <AddNewWord isAddNewWord={isAddNewWord} setAddNewWord={setAddNewWord} />
+            <PreviewRcmWordSet isPreviewRcmWS={isPreviewRcmWS} setPreviewRcmWS={setPreviewRcmWS} />
         </>
     );
 }
 
 
 
-function WordSetPopUp({ isWordSetOpen, isTurn, isVisible, setVisible, setTurn, setWordSetOpen, isEditWordSet, setWordSetEdit , isAddNewWord, setAddNewWord}) {
+function WordSetPopUp({ isWordSetOpen, isTurn, isVisible, setVisible, setTurn, setWordSetOpen, isEditWordSet, setWordSetEdit, isAddNewWord, setAddNewWord }) {
     return (<>
         {
             isWordSetOpen &&
@@ -138,7 +140,7 @@ function WordSetPopUp({ isWordSetOpen, isTurn, isVisible, setVisible, setTurn, s
                             </div>
                             <div style={{ display: "flex" }}>
                                 <button className="editBtn" style={{ backgroundColor: "#81C784" }} onClick={() => { setAddNewWord(true) }}>Add new word</button>
-                                <button className="editBtn" style={{ backgroundColor: "#FFEB3B" }}>Apply change</button>
+                                <button className="editBtn " style={{ backgroundColor: "#FFEB3B" }}>Apply change</button>
                             </div>
                         </div>
                     </>
@@ -166,7 +168,7 @@ function CreateWordSet({ isCreateSet, setCreateSet }) {
     )
 }
 
-function AddNewWord({isAddNewWord, setAddNewWord}) {
+function AddNewWord({ isAddNewWord, setAddNewWord }) {
     return (
         <>
             {
@@ -193,7 +195,39 @@ function AddNewWord({isAddNewWord, setAddNewWord}) {
                     <input type="button" value={"Add"} className="addWord"></input>
                 </div>
             }
+        </>
+    )
+}
 
+function PreviewRcmWordSet({ isPreviewRcmWS, setPreviewRcmWS }) {
+    return (
+        <>
+            {
+                isPreviewRcmWS &&
+                <div className="preview">
+                    <div style={{ display: "flex" }}>
+                        <input type="text" className="editTopic" value={"Education"} style={{ pointerEvents: "none" }}></input>
+                        <input type="image" className="unfocused_cancel" src="./unfocused_cancel.svg" onClick={() => setAddNewWord(false)}></input>
+                    </div>
+                    <div style={{ display: "flex", justifyContent: "center", margin: 20 }}>
+                        <input type="image" src="./disabled_leftArrow.svg"></input>
+                        {/* <p style={{ display: "inline" }}>{ page + 1 }</p> */}
+                        <input type="image" src="./enabled_rightArrow.svg"></input>
+                        <input type="image" className="unfocused_cancel" src="./unfocused_cancel.svg" onClick={() => { setPreviewRcmWS(false) }}></input>
+                    </div>
+                    <div className="wordList">
+                                <div style={{ display: "flex" }}> {/*add this div to add word in this list */}
+                                    <input type="text" className="editInfo" defaultValue={"word1"}></input>
+                                    <input type="text" className="editInfo" defaultValue={"note1"}></input>
+                                    <input type="image" className="deleteWord" src="./unfocused_cancel.svg" style={{ padding: "1px" }}></input>
+                                </div>
+
+                            </div>
+                            <div style={{ display: "flex" }}>
+                                <button className="editBtn" style={{ backgroundColor: "#81C784" }}>Add to your word sets</button>
+                            </div>
+                </div>
+            }
         </>
     )
 }
