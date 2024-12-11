@@ -8,12 +8,13 @@ export default function Home() {
     const PAGE_SIZE = 4;
     const [page, setPage] = useState(0);
     const [wordSets, setWordSets] = useState([]);
+    const [lastPage, setLastPage] = useState(0);
     const [isVisible, setVisible] = useState(true); //show info and button before learn words in word set
     const [isTurn, setTurn] = useState(false); //to change the info on the card when user click (flip the card)
     const [isWordSetOpen, setWordSetOpen] = useState(false); //check if word set is opened
     const [isEditWordSet, setWordSetEdit] = useState(false); // check if user is editing word set
     const [isAddNewWord, setAddNewWord] = useState(false); //check if user is adding new word to word set
-
+  
     // check if the access token is expired, if so, force the user to login again
     useEffect(() => {
         const access_token = Cookies.get('access_token');
@@ -38,7 +39,8 @@ export default function Home() {
 
             const responseJson = await response.json();
 
-            setWordSets(responseJson);
+            setWordSets(responseJson.response);
+            setLastPage(Math.floor(responseJson.pagination.total / PAGE_SIZE));
         }
 
         getWordSetPage()
@@ -52,19 +54,14 @@ export default function Home() {
                     <div style={{ display: "flex" }}>
                         <h1 className="title">Word Sets</h1>
                         <div className="moveList"> {/*add type for button: move list of wordsets if there are more wordsets than the numbers of wordsets tha the area can show (currently: 4) */}
-                            <input type="image" src="../disabled_leftArrow.svg" onClick={() => page > 0 && setPage(page - 1)}></input>
-                            <p style={{ display: "inline" , margin: "auto"}}>{page + 1}</p>
-                            <input type="image" src="../enabled_rightArrow.svg" onClick={() => wordSets.length && setPage(page + 1)}></input>
+                            <input type="image" src="../disabled_leftArrow.svg" onClick={ () => page > 0 && setPage(page - 1) }></input>
+                            <p style={{ display: "inline" }}>{ page + 1 }</p>
+                            <input type="image" src="../enabled_rightArrow.svg" onClick={ () => page < lastPage && setPage(page + 1) }></input>
                         </div>
                     </div>
 
                     <div style={{ display: "flex" }}>
-                        {/* { wordSets.length !== 0 ? wordSets.map((v, i) => <WordSetCard key={i} wordSetInfo={v} />) : <p>There's no more wordsets</p> } */}
-                        <div className="set">
-                            <p className="topic">Education</p>
-                            <p className="wordNumbers">Number of words: 94</p>  {/*show number of words in this wordset*/}
-                            <button type="" id="learn"onClick={() => setWordSetOpen(true)}>Learn</button>  {/*add type for button: begin to learn words in wordset*/}
-                        </div>
+                        { wordSets.length !== 0 ? wordSets.map((v, i) => <WordSetCard key={i} wordSetInfo={v} />) : <p>There's no wordsets</p> }
                     </div>
                 </div>
 
