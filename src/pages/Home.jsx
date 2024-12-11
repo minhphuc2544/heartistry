@@ -8,6 +8,7 @@ export default function Home() {
     const PAGE_SIZE = 4;
     const [page, setPage] = useState(0);
     const [wordSets, setWordSets] = useState([]);
+    const [lastPage, setLastPage] = useState(0);
     
     // check if the access token is expired, if so, force the user to login again
     useEffect(() => {
@@ -33,7 +34,8 @@ export default function Home() {
 
             const responseJson = await response.json();
             
-            setWordSets(responseJson);
+            setWordSets(responseJson.response);
+            setLastPage(Math.floor(responseJson.pagination.total / PAGE_SIZE));
         }
 
         getWordSetPage()
@@ -49,12 +51,12 @@ export default function Home() {
                         <div className="moveList"> {/*add type for button: move list of wordsets if there are more wordsets than the numbers of wordsets tha the area can show (currently: 4) */}
                             <input type="image" src="../disabled_leftArrow.svg" onClick={ () => page > 0 && setPage(page - 1) }></input>
                             <p style={{ display: "inline" }}>{ page + 1 }</p>
-                            <input type="image" src="../enabled_rightArrow.svg" onClick={ () => wordSets.length && setPage(page + 1) }></input>
+                            <input type="image" src="../enabled_rightArrow.svg" onClick={ () => page < lastPage && setPage(page + 1) }></input>
                         </div>
                     </div>
 
                     <div style={{ display: "flex" }}>
-                        { wordSets.length !== 0 ? wordSets.map((v, i) => <WordSetCard key={i} wordSetInfo={v} />) : <p>There's no more wordsets</p> }
+                        { wordSets.length !== 0 ? wordSets.map((v, i) => <WordSetCard key={i} wordSetInfo={v} />) : <p>There's no wordsets</p> }
                     </div>
                 </div>
 
