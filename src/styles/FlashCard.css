@@ -371,15 +371,30 @@
     border-radius: 22px;
 }
 
+.deleteWord {
+    filter: none;
+    /* Default state for the image */
+    transition: filter 0.3s ease, transform 0.3s ease;
+    /* Smooth transition effect */
+}
+
+.deleteWord:hover {
+    filter: brightness(0) saturate(100%) invert(28%) sepia(94%) saturate(5647%) hue-rotate(356deg) brightness(92%) contrast(99%);
+    transform: scale(1.1);
+    /* Optional zoom-in effect */
+}
+
 .editTopic {
     text-align: center;
     display: block;
     margin: auto;
     position: relative;
     top: 10px;
-    width: 200px;
+    width: 400px;
     height: 50px;
     font-size: 30px;
+    background-color: aquamarine;
+    border-radius: 12px;
 }
 
 .wordList {
@@ -398,6 +413,7 @@
     border-radius: 5px;
     height: 30px;
     padding: 2px;
+    margin-right: 5px;
 }
 
 
@@ -407,4 +423,10 @@
     position: relative;
     top: 10px;
     padding: 2%;
+    border-radius: 12px;
+    font-size: 20px;
+    border: 2px solid black;
+    border-radius: 22px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
 }

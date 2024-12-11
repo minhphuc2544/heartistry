@@ -123,65 +123,20 @@ function WordSetPopUp({ isWordSetOpen, isTurn, isVisible, setVisible, setTurn, s
                                 <input type="image" src="./disabled_leftArrow.svg"></input>
                                 {/* <p style={{ display: "inline" }}>{ page + 1 }</p> */}
                                 <input type="image" src="./enabled_rightArrow.svg"></input>
-                                <input type="image" className="unfocused_cancel" src="./unfocused_cancel.svg"></input>
+                                <input type="image" className="unfocused_cancel" src="./unfocused_cancel.svg" onClick={()=>{setWordSetEdit(false)}}></input>
                             </div>
 
                             <div className="wordList">
                                 <div style={{display: "flex"}}> {/*add this div to add word in this list */}
                                     <input type="text" className="editInfo" defaultValue={"word1"}></input>
                                     <input type="text" className="editInfo" defaultValue={"note1"}></input>
-                                    <input type="image" src="./unfocused_cancel.svg" style={{padding: "1px"}}></input>
+                                    <input type="image" className="deleteWord" src="./unfocused_cancel.svg" style={{padding: "1px"}}></input>
                                 </div>
-                                <div style={{display: "flex"}}> {/*add this div to add word in this list */}
-                                    <input type="text" className="editInfo" defaultValue={"word1"}></input>
-                                    <input type="text" className="editInfo" defaultValue={"note1"}></input>
-                                    <input type="image" src="./unfocused_cancel.svg" style={{padding: "1px"}}></input>
-                                </div>
-                                <div style={{display: "flex"}}> {/*add this div to add word in this list */}
-                                    <input type="text" className="editInfo" defaultValue={"word1"}></input>
-                                    <input type="text" className="editInfo" defaultValue={"note1"}></input>
-                                    <input type="image" src="./unfocused_cancel.svg" style={{padding: "1px"}}></input>
-                                </div>
-                                <div style={{display: "flex"}}> {/*add this div to add word in this list */}
-                                    <input type="text" className="editInfo" defaultValue={"word1"}></input>
-                                    <input type="text" className="editInfo" defaultValue={"note1"}></input>
-                                    <input type="image" src="./unfocused_cancel.svg" style={{padding: "1px"}}></input>
-                                </div>
-                                <div style={{display: "flex"}}> {/*add this div to add word in this list */}
-                                    <input type="text" className="editInfo" defaultValue={"word1"}></input>
-                                    <input type="text" className="editInfo" defaultValue={"note1"}></input>
-                                    <input type="image" src="./unfocused_cancel.svg" style={{padding: "1px"}}></input>
-                                </div>
-                                <div style={{display: "flex"}}> {/*add this div to add word in this list */}
-                                    <input type="text" className="editInfo" defaultValue={"word1"}></input>
-                                    <input type="text" className="editInfo" defaultValue={"note1"}></input>
-                                    <input type="image" src="./unfocused_cancel.svg" style={{padding: "1px"}}></input>
-                                </div>
-                                <div style={{display: "flex"}}> {/*add this div to add word in this list */}
-                                    <input type="text" className="editInfo" defaultValue={"word1"}></input>
-                                    <input type="text" className="editInfo" defaultValue={"note1"}></input>
-                                    <input type="image" src="./unfocused_cancel.svg" style={{padding: "1px"}}></input>
-                                </div>
-                                <div style={{display: "flex"}}> {/*add this div to add word in this list */}
-                                    <input type="text" className="editInfo" defaultValue={"word1"}></input>
-                                    <input type="text" className="editInfo" defaultValue={"note1"}></input>
-                                    <input type="image" src="./unfocused_cancel.svg" style={{padding: "1px"}}></input>
-                                </div>
-                                <div style={{display: "flex"}}> {/*add this div to add word in this list */}
-                                    <input type="text" className="editInfo" defaultValue={"word1"}></input>
-                                    <input type="text" className="editInfo" defaultValue={"note1"}></input>
-                                    <input type="image" src="./unfocused_cancel.svg" style={{padding: "1px"}}></input>
-                                </div>
-                                <div style={{display: "flex"}}> {/*add this div to add word in this list */}
-                                    <input type="text" className="editInfo" defaultValue={"word1"}></input>
-                                    <input type="text" className="editInfo" defaultValue={"note1"}></input>
-                                    <input type="image" src="./unfocused_cancel.svg" style={{padding: "1px"}}></input>
-                                </div>
-                               
+                                
                             </div>
                             <div style={{display: "flex"}}>
-                                <button className="editBtn addWord">Add new word</button>
-                                <button className="editBtn apply">Apply change</button>
+                                <button className="editBtn addWord" style={{backgroundColor: "#81C784"}}>Add new word</button>
+                                <button className="editBtn apply" style={{backgroundColor: "#FFEB3B"}}>Apply change</button>
                             </div>
                         </div>
                     </>
