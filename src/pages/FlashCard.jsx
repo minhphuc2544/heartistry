@@ -1,6 +1,15 @@
+import { useState } from "react";
 import "../styles/FlashCard.css"
+import { useEffect } from "react";
 
 export default function FlashCard() {
+    const [submitSignal, setSubmitSignal] = useState(false);
+    const [isVisible, setVisible] = useState(false);
+    //useEffect will run at the first time render the web.
+    useEffect(() => {
+        setVisible(!isVisible);
+    }, [submitSignal])
+
     return (
         <>
             <div className="flashcard">
@@ -90,10 +99,20 @@ export default function FlashCard() {
             </div>
 
             <div className="pop_up">
-                <h1 className="wordSet_topic">Education</h1>
                 <input type="image" className="unfocused_cancel" src="./unfocused_cancel.svg"></input>
-                <p className="vcb_count">Vocabulary count: 234 words</p>
-                <button className="start">Start</button>
+                { isVisible ? <>
+                    <h1 className="wordSet_topic">Education</h1>
+                    <p className="vcb_count">Vocabulary count: 234 words</p>
+                    <button className="start" onClick={() => setSubmitSignal(!submitSignal)}>Start</button>
+                </> : <>
+                    <div className="card">
+                        <div style={{display: "flex"}}>
+                        <p className="word">Flashcard</p>
+                        <p className="wordType">(n)</p>
+                        </div>
+                        
+                    </div>
+                </>}
             </div>
         </>
     );
