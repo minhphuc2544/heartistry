@@ -95,12 +95,13 @@ export default function FlashCard() {
                 </div>
             </div>
             <WordSetPopUp isWordSetOpen={isWordSetOpen} isTurn={isTurn} isVisible={isVisible} setVisible={setVisible} setTurn={setTurn} setWordSetOpen={setWordSetOpen} />
-
+            <CreateWordSet />
         </>
     );
 }
 
-function WordSetPopUp({isWordSetOpen, isTurn, isVisible, setVisible, setTurn, setWordSetOpen }) {
+
+function WordSetPopUp({ isWordSetOpen, isTurn, isVisible, setVisible, setTurn, setWordSetOpen }) {
     return (<>
         {
             isWordSetOpen &&
@@ -139,4 +140,19 @@ function WordSetPopUp({isWordSetOpen, isTurn, isVisible, setVisible, setTurn, se
             </div>
         }
     </>)
+}
+
+function CreateWordSet() {
+    return (
+        <>
+            <div className="createNewSet">
+                <div>
+                    <h1 style={{ display: "flex", margin: 15, fontSize: 25, marginBottom: 30}}>Create new word set</h1>
+                    <input type="image" className="unfocused_cancel" src="./unfocused_cancel.svg"></input>
+                </div>
+                <input type="text" id="createSet" required></input>
+                <input type="button" id="setName" value={"Create"}></input>
+            </div>
+        </>
+    )
 }
