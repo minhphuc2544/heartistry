@@ -7,20 +7,22 @@ import FlashCard from "./pages/FlashCard";
 import Dictionary from "./pages/Dictionary";
 import Setting from "./pages/Setting";
 import Home from "./pages/Home";
+import Menu from "./Menu";
 
 export default function App() {
   const baseURL = import.meta.env.BASE_URL;
-
-  return <Routes>
-    <Route path={`${baseURL}*`} element={<Navigate to={baseURL} />} />
-    <Route path={`${baseURL}/login`} element={<Login />} />
-    <Route path={`${baseURL}/signup`} element={<SignUp />} />
-    <Route path={`${baseURL}/passwordrecovery`} element={<PasswordRecovery />} />
-    <Route path={`${baseURL}/otp`} element={<OTPVerification />} />
-    <Route path={`${baseURL}`} element={<FlashCard />} />
-    <Route path={`${baseURL}/flashcard`} element={<FlashCard />} />
-    <Route path={`${baseURL}/dictionary`} element={<Dictionary />} />
-    <Route path={`${baseURL}/document`} element={<Document />} />
-    <Route path={`${baseURL}/setting`} element={<Setting />} />
-  </Routes>
+  return (
+    <Routes>
+      <Route path={`${baseURL}*`} element={<Navigate to={baseURL} />} />
+      <Route path={`${baseURL}/login`} element={<Login />} />
+      <Route path={`${baseURL}/signup`} element={<SignUp />} />
+      <Route path={`${baseURL}/passwordrecovery`} element={<PasswordRecovery />} />
+      <Route path={`${baseURL}/otp`} element={<OTPVerification />} />
+      <Route path={`${baseURL}`} element={<><Menu /><Home /></>} />
+      <Route path={`${baseURL}/flashcard`} element={<><Menu /><FlashCard /></>} />
+      <Route path={`${baseURL}/dictionary`} element={<><Menu /><Dictionary /></>} />
+      <Route path={`${baseURL}/document`} element={<><Menu /><Document /></>} />
+      <Route path={`${baseURL}/setting`} element={<><Menu /><Setting /></>} />
+    </Routes>
+  )
 }
