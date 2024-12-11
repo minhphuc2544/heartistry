@@ -275,9 +275,29 @@ function WordSetCard({ wordSetInfo, setWordSetOpen, setLearningWordSet }) {
 function WordRow({ wordInfo, setChangedWords }) {
     const newWord = useRef(wordInfo);
     const isChanged = useRef(false);
+    const [isDeleted, setDeleted] = useState(false);
 
-    return (
-        <div style={{ display: "flex" }}> {/*add this div to add word in this list */}
+    useEffect(() => {
+        async function deleteWord() {
+            // call api
+            const response = await fetch(`${import.meta.env.VITE_TASK_API_BASE_URL}/words/${wordInfo.id}`, {
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${Cookies.get('access_token')}`
+                },
+            });
+
+            console.log(await response.json());
+        }
+
+        if (isDeleted) {
+            deleteWord();
+        }
+    }, [isDeleted])
+
+    return (<>
+        {!isDeleted && <div style={{ display: "flex" }}> {/*add this div to add word in this list */}
             <input
                 type="text"
                 className="editInfo"
@@ -328,7 +348,7 @@ function WordRow({ wordInfo, setChangedWords }) {
                 )}
                 onChange={ () => isChanged.current = true }
             ></input>
-            <input type="image" className="deleteWord" src="./unfocused_cancel.svg" style={{ padding: "1px" }}></input>
-        </div>
-    )
+            <input type="image" className="deleteWord" src="./unfocused_cancel.svg" style={{ padding: "1px" }} onClick={ () => { setDeleted(true); } }></input>
+        </div>}
+    </>)
 }
