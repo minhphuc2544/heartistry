@@ -160,6 +160,7 @@ function WordSetPopUp({ learningWordSet, isWordSetOpen, setWordSetOpen, setAddNe
             for (let word of changedWords) {
                 updateWords(word.id, word.word, word.note);
             }
+            window.alert('Words changed successfully');
         }
         
         setNeedUpdate(false);
