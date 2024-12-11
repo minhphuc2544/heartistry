@@ -15,8 +15,7 @@ export default function SignUp() {
     
     useEffect(() => {
         async function postSignUpInfo() {
-            // turn request object to string
-            const requestBody = JSON.stringify({
+            const requestBody = {
                 "username": username,
                 "password": password,
                 "fullname": fullname,
@@ -24,7 +23,7 @@ export default function SignUp() {
                 "dob": dob,
                 "email": email,
                 "phoneNumber": phoneNumber
-            });
+            };
 
             // call api
             const response = await fetch(`${import.meta.env.VITE_USER_API_BASE_URL}/users/signup`, {
@@ -32,14 +31,13 @@ export default function SignUp() {
                     headers: {
                         "Content-Type": "application/json",
                     },
-                    body: requestBody,
+                    body: JSON.stringify(requestBody),
                 }
             );
             
             // navigate if response code is 200
             if (response.ok) {
-                localStorage.setItem('userSignUpInfo', requestBody);
-                navigate('/otp');
+                navigate('/otp', { state: requestBody });
                 return;
             }
 

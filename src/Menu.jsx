@@ -1,5 +1,7 @@
+import { Link } from "react-router-dom";
 import "./styles/Menu.css"
 export default function Menu() {
+    const baseUrl = import.meta.env.BASE_URL;
     return (
         <div className="body">
             <nav className="sidebar">
@@ -9,7 +11,7 @@ export default function Menu() {
                 <div className="sidebar-links">
                     <ul>
                         <li>
-                            <a href="#home" title="Dashboard" className="tooltip">
+                            <Link to={`${baseUrl}`} title="Dashboard" className="tooltip">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24"
                                     height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
                                     stroke-linejoin="round" aria-hidden="true">
@@ -21,10 +23,10 @@ export default function Menu() {
                                 </svg>
                                 <span className="span">Dashboard</span>
                                 <span className="tooltip__content">Dashboard</span>
-                            </a>
+                            </Link>
                         </li>
                         <li>
-                            <a href="#market-overview" className="tooltip">
+                            <Link to={`${baseUrl}flashcard`} className="tooltip">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24"
                                     height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
                                     stroke-linejoin="round" aria-hidden="true">
@@ -36,21 +38,21 @@ export default function Menu() {
                                 </svg>
                                 <span className="span">Flash cards</span>
                                 <span className="tooltip__content">Flash cards</span>
-                            </a>
+                            </Link>
                         </li>
                         <li>
-                            <a href="#tasks" title="Tasks" className="tooltip">
+                            <Link to={`${baseUrl}dictionary`} title="Tasks" className="tooltip">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="icon icon-tabler icons-tabler-outline icon-tabler-checkbox"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M9 11l3 3l8 -8" /><path d="M20 12v6a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h9" /></svg>
                                 <span className="span">Dictionary</span>
                                 <span className="tooltip__content">Dictionary</span>
-                            </a>
+                            </Link>
                         </li>
                         <li>
-                            <a href="#users" title="Users" className="tooltip">
+                            <Link to={`${baseUrl}document`} title="Users" className="tooltip">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="icon icon-tabler icons-tabler-outline icon-tabler-users"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M9 7m-4 0a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" /><path d="M3 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" /><path d="M16 3.13a4 4 0 0 1 0 7.75" /><path d="M21 21v-2a4 4 0 0 0 -3 -3.85" /></svg>
                                 <span className="span">Documents</span>
                                 <span className="tooltip__content">Documents</span>
-                            </a>
+                            </Link>
                         </li>
                     </ul>
                 </div>
@@ -58,7 +60,7 @@ export default function Menu() {
                 <div className="sidebar-links">
                     <ul>
                         <li>
-                            <a href="#settings" title="Settings" className="tooltip">
+                            <Link to={`${baseUrl}setting`} title="Settings" className="tooltip">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke-width="2"
                                     stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                                     <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
@@ -69,10 +71,10 @@ export default function Menu() {
                                 </svg>
                                 <span className="span">Settings</span>
                                 <span className="tooltip__content">Settings</span>
-                            </a>
+                            </Link>
                         </li>
                         <li>
-                            <a href="#support" title="Support" className="tooltip">
+                            <a href="https://www.facebook.com/heartistry.english" target="_blank" title="Support" className="tooltip">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="icon icon-tabler icons-tabler-outline icon-tabler-info-square-rounded"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M12 9h.01" /><path d="M11 12h1v4h1" /><path d="M12 3c7.2 0 9 1.8 9 9s-1.8 9 -9 9s-9 -1.8 -9 -9s1.8 -9 9 -9z" /></svg>
                                 <span className="span">Support</span>
                                 <span className="tooltip__content">Support</span>
@@ -89,7 +91,7 @@ export default function Menu() {
                     <div className="avatar__name">
                         <div className="user-name">Heartistry</div>
                     </div>
-                    <a href="#logout" className="logout">
+                    <Link to={`${baseUrl}login`} className="logout">
                         <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-logout" width="24" height="24"
                             viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
                             stroke-linejoin="round" aria-labelledby="logout-icon" role="img">
@@ -99,7 +101,7 @@ export default function Menu() {
                             <path d="M9 12h12l-3 -3"></path>
                             <path d="M18 15l3 -3"></path>
                         </svg>
-                    </a>
+                    </Link>
                 </div>
             </nav>
         </div>
