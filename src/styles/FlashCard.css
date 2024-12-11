@@ -430,3 +430,51 @@
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
     cursor: pointer;
 }
+
+.addNewWord {
+    background-color: whitesmoke;
+    width: 25%;
+    height: 60%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 22px;
+    border: solid 2px black;
+}
+
+.findWord {
+    width: 300px;
+    height: 50px;
+    border: solid black 1px;
+    border-radius: 12px;
+    padding: 5px;
+    position: relative;
+    margin: auto;
+    top: 5px;
+    font-size: 20px;
+}
+
+.info {
+    font-size: 25px;
+    margin: 10px;
+}
+
+.addNote {
+    width: 350px;
+    padding: 5px;
+    font-size: 20px;
+}
+
+.addWord {
+    display: block;
+    margin: auto;
+    position: relative;
+    top: 30px;
+    width: 20%;
+    height: 10%;
+    font-size: 25px;
+    border: solid 1px black;
+    border-radius: 12px;
+    background-color: #FFF5D7;
+}

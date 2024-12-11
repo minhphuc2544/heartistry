@@ -8,6 +8,7 @@ export default function FlashCard() {
     const [isWordSetOpen, setWordSetOpen] = useState(false); //check if word set is opened
     const [isCreateSet, setCreateSet] = useState(false); // check if user is creating word set
     const [isEditWordSet, setWordSetEdit] = useState(false); // check if user is editing word set
+    const [isAddNewWord, setAddNewWord] = useState(false); //check if user is adding new word to word set
     return (
         <>
             <div className="flashcard" style={isWordSetOpen || isCreateSet ? { opacity: 0.1 } : {}}  >
@@ -69,15 +70,16 @@ export default function FlashCard() {
                     </div>
                 </div>
             </div>
-            <WordSetPopUp isWordSetOpen={isWordSetOpen} isTurn={isTurn} isVisible={isVisible} setVisible={setVisible} setTurn={setTurn} setWordSetOpen={setWordSetOpen} isEditWordSet={isEditWordSet} setWordSetEdit={setWordSetEdit} />
-            <CreateWordSet isCreateSet={isCreateSet} setCreateSet={setCreateSet} isWordSetOpen={isWordSetOpen} setWordSetOpen={setWordSetOpen} />
+            <WordSetPopUp isWordSetOpen={isWordSetOpen} isTurn={isTurn} isVisible={isVisible} setVisible={setVisible} setTurn={setTurn} setWordSetOpen={setWordSetOpen} isEditWordSet= {isEditWordSet} setWordSetEdit={setWordSetEdit} isAddNewWord={isAddNewWord} setAddNewWord={setAddNewWord} />
+            <CreateWordSet isCreateSet={isCreateSet} setCreateSet={setCreateSet} />
+            <AddNewWord isAddNewWord={isAddNewWord} setAddNewWord={setAddNewWord} />
         </>
     );
 }
 
 
 
-function WordSetPopUp({ isWordSetOpen, isTurn, isVisible, setVisible, setTurn, setWordSetOpen, isEditWordSet, setWordSetEdit }) {
+function WordSetPopUp({ isWordSetOpen, isTurn, isVisible, setVisible, setTurn, setWordSetOpen, isEditWordSet, setWordSetEdit , isAddNewWord, setAddNewWord}) {
     return (<>
         {
             isWordSetOpen &&
@@ -123,20 +125,20 @@ function WordSetPopUp({ isWordSetOpen, isTurn, isVisible, setVisible, setTurn, s
                                 <input type="image" src="./disabled_leftArrow.svg"></input>
                                 {/* <p style={{ display: "inline" }}>{ page + 1 }</p> */}
                                 <input type="image" src="./enabled_rightArrow.svg"></input>
-                                <input type="image" className="unfocused_cancel" src="./unfocused_cancel.svg" onClick={()=>{setWordSetEdit(false)}}></input>
+                                <input type="image" className="unfocused_cancel" src="./unfocused_cancel.svg" onClick={() => { setWordSetEdit(false) }}></input>
                             </div>
 
                             <div className="wordList">
-                                <div style={{display: "flex"}}> {/*add this div to add word in this list */}
+                                <div style={{ display: "flex" }}> {/*add this div to add word in this list */}
                                     <input type="text" className="editInfo" defaultValue={"word1"}></input>
                                     <input type="text" className="editInfo" defaultValue={"note1"}></input>
-                                    <input type="image" className="deleteWord" src="./unfocused_cancel.svg" style={{padding: "1px"}}></input>
+                                    <input type="image" className="deleteWord" src="./unfocused_cancel.svg" style={{ padding: "1px" }}></input>
                                 </div>
-                                
+
                             </div>
-                            <div style={{display: "flex"}}>
-                                <button className="editBtn addWord" style={{backgroundColor: "#81C784"}}>Add new word</button>
-                                <button className="editBtn apply" style={{backgroundColor: "#FFEB3B"}}>Apply change</button>
+                            <div style={{ display: "flex" }}>
+                                <button className="editBtn" style={{ backgroundColor: "#81C784" }} onClick={() => { setAddNewWord(true) }}>Add new word</button>
+                                <button className="editBtn" style={{ backgroundColor: "#FFEB3B" }}>Apply change</button>
                             </div>
                         </div>
                     </>
@@ -147,7 +149,7 @@ function WordSetPopUp({ isWordSetOpen, isTurn, isVisible, setVisible, setTurn, s
     </>)
 }
 
-function CreateWordSet({ isCreateSet, setCreateSet, isWordSetOpen, setWordSetOpen }) {
+function CreateWordSet({ isCreateSet, setCreateSet }) {
     return (
         <>
             {isCreateSet &&
@@ -163,3 +165,36 @@ function CreateWordSet({ isCreateSet, setCreateSet, isWordSetOpen, setWordSetOpe
         </>
     )
 }
+
+function AddNewWord({isAddNewWord, setAddNewWord}) {
+    return (
+        <>
+            {
+                isAddNewWord &&
+                <div className="addNewWord">
+                    <div style={{ display: "flex" }}>
+                        <input type="text" className="findWord" placeholder="Type the word you want to add"></input>
+                        <input type="image" className="unfocused_cancel" src="./unfocused_cancel.svg" onClick={() => setAddNewWord(false)}></input>
+                    </div>
+                    <div style={{ display: "flex", justifyContent: "center", fontSize: 40, marginTop: 20 }}>
+                        <p className="word">Flash card</p>
+                        <p className="wordType">(n)</p>
+                    </div>
+                    <div style={{ display: "flex" }}>
+                        <p className="info phonetic"><b>Phonetic:</b>{ }/ˈflæʃˌkɑɹd/</p>
+                    </div>
+                    <p className="info meaning"><b>Meaning:</b>{ } Thẻ thông tin</p>
+                    <p className="info definition"><b>Definition:</b>{ } a card with a word or picture on it that is used to help students learn</p>
+                    <p className="info example"><b>Example:</b>{ } She is learning math with flash cards.</p>
+                    <div style={{ display: "flex" }}>
+                        <p className="info note"><b>Note:</b></p>
+                        <input type="text" className="addNote"></input>
+                    </div>
+                    <input type="button" value={"Add"} className="addWord"></input>
+                </div>
+            }
+
+        </>
+    )
+}
+
