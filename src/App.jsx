@@ -5,6 +5,7 @@ import PasswordRecovery from "./pages/PasswordRecovery";
 import OTPVerification from "./pages/OTPVerification";
 import FlashCard from "./pages/FlashCard";
 import Dictionary from "./pages/Dictionary";
+import Document from "./pages/Document";
 import Setting from "./pages/Setting";
 import Home from "./pages/Home";
 import Menu from "./Menu";
