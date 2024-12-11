@@ -358,7 +358,7 @@
 }
 
 .editWS {
-    width: 50%;
+    width: 70%;
     height: 90%;
     background-color: white;
     margin: 0;
@@ -369,4 +369,42 @@
     transform: translate(-50%, -50%);
     border: solid 2px black;
     border-radius: 22px;
+}
+
+.editTopic {
+    text-align: center;
+    display: block;
+    margin: auto;
+    position: relative;
+    top: 10px;
+    width: 200px;
+    height: 50px;
+    font-size: 30px;
+}
+
+.wordList {
+    width: 80%;
+    height: 65%;
+    justify-self: center;
+    justify-items: center;
+}
+
+.editInfo {
+    border: none;
+    background-color: burlywood;
+    font-size: 20px;
+    margin-top: 2.5px;
+    margin-bottom: 2.5px;
+    border-radius: 5px;
+    height: 30px;
+    padding: 2px;
+}
+
+
+
+.editBtn {
+    margin: auto;
+    position: relative;
+    top: 10px;
+    padding: 2%;
 }

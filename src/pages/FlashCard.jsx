@@ -69,7 +69,7 @@ export default function FlashCard() {
                     </div>
                 </div>
             </div>
-            <WordSetPopUp isWordSetOpen={isWordSetOpen} isTurn={isTurn} isVisible={isVisible} setVisible={setVisible} setTurn={setTurn} setWordSetOpen={setWordSetOpen} isEditWordSet={isEditWordSet} setWordSetEdit={setWordSetEdit}/>
+            <WordSetPopUp isWordSetOpen={isWordSetOpen} isTurn={isTurn} isVisible={isVisible} setVisible={setVisible} setTurn={setTurn} setWordSetOpen={setWordSetOpen} isEditWordSet={isEditWordSet} setWordSetEdit={setWordSetEdit} />
             <CreateWordSet isCreateSet={isCreateSet} setCreateSet={setCreateSet} isWordSetOpen={isWordSetOpen} setWordSetOpen={setWordSetOpen} />
         </>
     );
@@ -117,11 +117,75 @@ function WordSetPopUp({ isWordSetOpen, isTurn, isVisible, setVisible, setTurn, s
                 {
                     isEditWordSet &&
                     <>
-                    <div className="editWS">
-                        
-                    </div>
+                        <div className="editWS">
+                            <input type="text" className="editTopic" defaultValue={"Education"}></input>
+                            <div style={{ display: "flex", justifyContent: "center", margin: 20 }}>
+                                <input type="image" src="./disabled_leftArrow.svg"></input>
+                                {/* <p style={{ display: "inline" }}>{ page + 1 }</p> */}
+                                <input type="image" src="./enabled_rightArrow.svg"></input>
+                                <input type="image" className="unfocused_cancel" src="./unfocused_cancel.svg"></input>
+                            </div>
+
+                            <div className="wordList">
+                                <div style={{display: "flex"}}> {/*add this div to add word in this list */}
+                                    <input type="text" className="editInfo" defaultValue={"word1"}></input>
+                                    <input type="text" className="editInfo" defaultValue={"note1"}></input>
+                                    <input type="image" src="./unfocused_cancel.svg" style={{padding: "1px"}}></input>
+                                </div>
+                                <div style={{display: "flex"}}> {/*add this div to add word in this list */}
+                                    <input type="text" className="editInfo" defaultValue={"word1"}></input>
+                                    <input type="text" className="editInfo" defaultValue={"note1"}></input>
+                                    <input type="image" src="./unfocused_cancel.svg" style={{padding: "1px"}}></input>
+                                </div>
+                                <div style={{display: "flex"}}> {/*add this div to add word in this list */}
+                                    <input type="text" className="editInfo" defaultValue={"word1"}></input>
+                                    <input type="text" className="editInfo" defaultValue={"note1"}></input>
+                                    <input type="image" src="./unfocused_cancel.svg" style={{padding: "1px"}}></input>
+                                </div>
+                                <div style={{display: "flex"}}> {/*add this div to add word in this list */}
+                                    <input type="text" className="editInfo" defaultValue={"word1"}></input>
+                                    <input type="text" className="editInfo" defaultValue={"note1"}></input>
+                                    <input type="image" src="./unfocused_cancel.svg" style={{padding: "1px"}}></input>
+                                </div>
+                                <div style={{display: "flex"}}> {/*add this div to add word in this list */}
+                                    <input type="text" className="editInfo" defaultValue={"word1"}></input>
+                                    <input type="text" className="editInfo" defaultValue={"note1"}></input>
+                                    <input type="image" src="./unfocused_cancel.svg" style={{padding: "1px"}}></input>
+                                </div>
+                                <div style={{display: "flex"}}> {/*add this div to add word in this list */}
+                                    <input type="text" className="editInfo" defaultValue={"word1"}></input>
+                                    <input type="text" className="editInfo" defaultValue={"note1"}></input>
+                                    <input type="image" src="./unfocused_cancel.svg" style={{padding: "1px"}}></input>
+                                </div>
+                                <div style={{display: "flex"}}> {/*add this div to add word in this list */}
+                                    <input type="text" className="editInfo" defaultValue={"word1"}></input>
+                                    <input type="text" className="editInfo" defaultValue={"note1"}></input>
+                                    <input type="image" src="./unfocused_cancel.svg" style={{padding: "1px"}}></input>
+                                </div>
+                                <div style={{display: "flex"}}> {/*add this div to add word in this list */}
+                                    <input type="text" className="editInfo" defaultValue={"word1"}></input>
+                                    <input type="text" className="editInfo" defaultValue={"note1"}></input>
+                                    <input type="image" src="./unfocused_cancel.svg" style={{padding: "1px"}}></input>
+                                </div>
+                                <div style={{display: "flex"}}> {/*add this div to add word in this list */}
+                                    <input type="text" className="editInfo" defaultValue={"word1"}></input>
+                                    <input type="text" className="editInfo" defaultValue={"note1"}></input>
+                                    <input type="image" src="./unfocused_cancel.svg" style={{padding: "1px"}}></input>
+                                </div>
+                                <div style={{display: "flex"}}> {/*add this div to add word in this list */}
+                                    <input type="text" className="editInfo" defaultValue={"word1"}></input>
+                                    <input type="text" className="editInfo" defaultValue={"note1"}></input>
+                                    <input type="image" src="./unfocused_cancel.svg" style={{padding: "1px"}}></input>
+                                </div>
+                               
+                            </div>
+                            <div style={{display: "flex"}}>
+                                <button className="editBtn addWord">Add new word</button>
+                                <button className="editBtn apply">Apply change</button>
+                            </div>
+                        </div>
                     </>
-                    
+
                 }
             </div>
         }
