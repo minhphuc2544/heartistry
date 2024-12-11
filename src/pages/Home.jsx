@@ -13,7 +13,7 @@ export default function Home() {
     useEffect(() => {
         const access_token = Cookies.get('access_token');
         if (!access_token) {
-            navigate('/login');
+            // navigate('/login');
         }
     }, []);
 

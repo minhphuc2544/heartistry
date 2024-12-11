@@ -3,20 +3,13 @@ import "../styles/FlashCard.css"
 import { useEffect } from "react";
 
 export default function FlashCard() {
-    const [submitSignal, setSubmitSignal] = useState(false);
-    const [isVisible, setVisible] = useState(false);
+    const [isVisible, setVisible] = useState(true);
     const [isTurn, setTurn] = useState(false);
-    //useEffect will run at the first time render the web.
-    useEffect(() => {
-        setVisible(!isVisible);
-    }, [submitSignal])
-
-    useEffect(() => {
-        setTurn(isTurn);
-    }, [isTurn])
+    const [isWordSetOpen, setWordSetOpen] = useState(false);
+    const [isCreateSet, setCreateSet] = useState(false);
     return (
         <>
-            <div className="flashcard">
+            <div className="flashcard" style={isWordSetOpen ? { filter: "blur(8px)" } : {}}  >
                 <div className="upper">
 
                     <div className="wordSets">
@@ -30,12 +23,12 @@ export default function FlashCard() {
 
                         <div style={{ display: "flex" }}>
                             <div className="createSet">
-                                <input type="image" id="create" src="./add_wordset.svg"></input>
+                                <input type="image" id="create" src="./add_wordset.svg" onClick={() => setCreateSet(true)}></input>
                             </div>
                             <div className="set">
                                 <p className="topic">Education</p>
                                 <p className="wordNumbers">Number of words: $(NoW)</p>  {/*show number of words in this wordset*/}
-                                <button type="" id="learn">Learn</button>  {/*add type for button: begin to learn words in wordset*/}
+                                <button type="" id="learn" onClick={() => setWordSetOpen(true)}>Learn</button>  {/*add type for button: begin to learn words in wordset*/}
                             </div>
                         </div>
                     </div>
@@ -101,13 +94,22 @@ export default function FlashCard() {
                     </div>
                 </div>
             </div>
+            <WordSetPopUp isWordSetOpen={isWordSetOpen} isTurn={isTurn} isVisible={isVisible} setVisible={setVisible} setTurn={setTurn} setWordSetOpen={setWordSetOpen} />
 
+        </>
+    );
+}
+
+function WordSetPopUp({isWordSetOpen, isTurn, isVisible, setVisible, setTurn, setWordSetOpen }) {
+    return (<>
+        {
+            isWordSetOpen &&
             <div className="pop_up">
-                <input type="image" className="unfocused_cancel" src="./unfocused_cancel.svg"></input>
+                <input type="image" className="unfocused_cancel" src="./unfocused_cancel.svg" onClick={() => { setWordSetOpen(false); setVisible(true); setTurn(false) }}></input>
                 {isVisible ? <>
                     <h1 className="wordSet_topic">Education</h1>
                     <p className="vcb_count">Vocabulary count: 234 words</p>
-                    <button className="start" onClick={() => setSubmitSignal(!submitSignal)}>Start</button>
+                    <button className="start" onClick={() => setVisible(!isVisible)}>Start</button>
                 </> : <>
                     <div className="card" onClick={() => setTurn(!isTurn)}>
                         {
@@ -132,11 +134,9 @@ export default function FlashCard() {
                                     </div>
                                 </>
                         }
-
-
                     </div>
                 </>}
             </div>
-        </>
-    );
+        }
+    </>)
 }

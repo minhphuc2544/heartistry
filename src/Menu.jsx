@@ -11,7 +11,7 @@ export default function Menu() {
                 <div className="sidebar-links">
                     <ul>
                         <li>
-                            <Link to={`${baseUrl}`} title="Dashboard" className="tooltip">
+                            <Link to={`${baseUrl}`} title="Home" className="tooltip">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24"
                                     height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
                                     stroke-linejoin="round" aria-hidden="true">
@@ -21,8 +21,8 @@ export default function Menu() {
                                     <path d="M14 12h6v8h-6z" />
                                     <path d="M14 4h6v4h-6z" />
                                 </svg>
-                                <span className="span">Dashboard</span>
-                                <span className="tooltip__content">Dashboard</span>
+                                <span className="span">Home</span>
+                                <span className="tooltip__content">Home</span>
                             </Link>
                         </li>
                         <li>
