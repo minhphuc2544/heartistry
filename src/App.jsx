@@ -11,7 +11,6 @@ import Menu from "./Menu";
 
 export default function App() {
   const baseURL = import.meta.env.BASE_URL;
-
   return (
     <Routes>
       <Route path={`${baseURL}*`} element={<Navigate to={baseURL} />} />
