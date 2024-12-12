@@ -33,7 +33,7 @@ export default function FlashCard() {
         async function getWordSetPage() {
 
             // call api
-            const response = await fetch(`${import.meta.env.VITE_TASK_API_BASE_URL}/wordsets/me?page=${wordSetPage}&pageSize=${WORDSET_PAGE_SIZE}`, {
+            const response = await fetch(`${import.meta.env.VITE_TASK_API_BASE_URL}/wordsets/me/pagination?page=${wordSetPage}&pageSize=${WORDSET_PAGE_SIZE}`, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
@@ -116,7 +116,7 @@ export default function FlashCard() {
     );
 }
 
-function WordSetPopUp({ learningWordSet, isWordSetOpen, setWordSetOpen, setAddNewWord}) {
+function WordSetPopUp({ learningWordSet, isWordSetOpen, setWordSetOpen, setAddNewWord }) {
     // for API's purpose
     const WORD_PAGE_SIZE = 10;
     const [wordPage, setWordPage] = useState(0); // word page number
@@ -125,7 +125,7 @@ function WordSetPopUp({ learningWordSet, isWordSetOpen, setWordSetOpen, setAddNe
     // for UI's purpose
     const [isEditWordSet, setWordSetEdit] = useState(false); // check if user is editing word set
     const [isVisible, setVisible] = useState(true); //show info and button before learn words in word set
-    const [isTurn, setTurn] = useState(false); //to change the info on the card when user click (flip the card)
+    const [isTurn, setTurn] = useState(false); // to change the info on the card when user click (flip the card)
 
     // useEffect uses to get word page
     useEffect(() => {
@@ -134,7 +134,7 @@ function WordSetPopUp({ learningWordSet, isWordSetOpen, setWordSetOpen, setAddNe
             setWords([]);
 
             // call api
-            const response = await fetch(`${import.meta.env.VITE_TASK_API_BASE_URL}/words/${learningWordSet.id}?page=${wordPage}&pageSize=${WORD_PAGE_SIZE}`, {
+            const response = await fetch(`${import.meta.env.VITE_TASK_API_BASE_URL}/words/${learningWordSet.id}/pagination?page=${wordPage}&pageSize=${WORD_PAGE_SIZE}`, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
@@ -168,41 +168,45 @@ function WordSetPopUp({ learningWordSet, isWordSetOpen, setWordSetOpen, setAddNe
                     <p className="vcb_count">Vocabulary count: { learningWordSet.noWords }</p>
                     <button className="start" onClick={() => setVisible(false)}>Start</button>
                     <button className="editWordSet" onClick={() => setWordSetEdit(true)}>Edit word set</button>
-                </> : <>
-                    <div className="card" onClick={() => setTurn(!isTurn)}>
-                        {
-                            isTurn ? <>
-                                <div className="back">
-                                    <div style={{ display: "flex", justifyContent: "center", fontSize: 40, marginBottom: 20 }}>
-                                        <p className="word">{  }</p>
-                                        <p className="wordType">(n)</p>
-                                    </div>
-                                    <div style={{ display: "flex" }}>
-                                        <p className="phonetic"><b>Phonetic:</b>{ }/ˈflæʃˌkɑɹd/</p>
-                                    </div>
-                                    <p className="meaning"><b>Meaning:</b>{ } Thẻ thông tin</p>
-                                    <p className="definition"><b>Definition:</b>{ } a card with a word or picture on it that is used to help students learn</p>
-                                    <p className="example"><b>Example:</b>{ } She is learning math with flash cards.</p>
-                                    <p className="note"><b>Note:</b>{ } Note những điều cần lưu ý về từ</p>
-                                </div>
-                            </> :
-                                <>
-                                    <div className="front">
-                                        <p style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)", fontSize: 60, wordWrap: "break-word" }}>FlashCard</p>
-                                    </div>
-                                </>
-                        }
-                    </div>
-                </>}
+                </> : <FlipCard learningWordSet={learningWordSet} setTurn={setTurn} />}
                 {
-                    isEditWordSet && <WordSetEdit learningWordSet={learningWordSet} words={words} wLastPage={wLastPage} wordPage={wordPage} setWordPage={setWordPage} />
+                    isEditWordSet && <WordSetEdit learningWordSet={learningWordSet} words={words} wLastPage={wLastPage} wordPage={wordPage} setWordPage={setWordPage} setWordSetEdit={setWordSetEdit} setAddNewWord={setAddNewWord} />
                 }
             </div>
         }
     </>)
 }
 
-function WordSetEdit({ learningWordSet, words, wLastPage, wordPage, setWordPage }) {
+function FlipCard({ learningWordSet, setTurn }) {
+    return (
+        <div className="card" onClick={() => setTurn(old => !old)}>
+            {
+                isTurn ? <>
+                    <div className="back">
+                        <div style={{ display: "flex", justifyContent: "center", fontSize: 40, marginBottom: 20 }}>
+                            <p className="word">{  }</p>
+                            <p className="wordType">(n)</p>
+                        </div>
+                        <div style={{ display: "flex" }}>
+                            <p className="phonetic"><b>Phonetic:</b>{ }/ˈflæʃˌkɑɹd/</p>
+                        </div>
+                        <p className="meaning"><b>Meaning:</b>{ } Thẻ thông tin</p>
+                        <p className="definition"><b>Definition:</b>{ } a card with a word or picture on it that is used to help students learn</p>
+                        <p className="example"><b>Example:</b>{ } She is learning math with flash cards.</p>
+                        <p className="note"><b>Note:</b>{ } Note những điều cần lưu ý về từ</p>
+                    </div>
+                </> :
+                    <>
+                        <div className="front">
+                            <p style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)", fontSize: 60, wordWrap: "break-word" }}>FlashCard</p>
+                        </div>
+                    </>
+            }
+        </div>
+    );
+}
+
+function WordSetEdit({ learningWordSet, words, wLastPage, wordPage, setWordPage, setWordSetEdit, setAddNewWord }) {
     const [needUpdate, setNeedUpdate] = useState(false); // signal to update words and wordset's topic
     const [changedWords, setChangedWords] = useState([]); // list of changed words
     const changedTopic = useRef(learningWordSet.topic); // change if current wordset's topic changed
