@@ -7,10 +7,10 @@ export default function Home() {
     // for API's purpose
     const navigate = useNavigate();
     const WORDSET_PAGE_SIZE = 4;
-    const [wordSetPage, setWordSetPage] = useState(0);
-    const [wordSets, setWordSets] = useState([]);
-    const [wsLastPage, setWsLastPage] = useState(0);
-    const [learningWordSet, setLearningWordSet] = useState({}); 
+    const [wordSetPage, setWordSetPage] = useState(0); // page number of wordset
+    const [wordSets, setWordSets] = useState([]); // list of response wordsets
+    const [wsLastPage, setWsLastPage] = useState(0); // last page number (0-base index)
+    const [learningWordSet, setLearningWordSet] = useState({}); // opening wordset (click "Learn" button)
     // for UI's purpose
     const [isWordSetOpen, setWordSetOpen] = useState(false); //check if word set is opened
     const [isAddNewWord, setAddNewWord] = useState(false); //check if user is adding new word to word set
@@ -28,7 +28,7 @@ export default function Home() {
         async function getWordSetPage() {
 
             // call api
-            const response = await fetch(`${import.meta.env.VITE_TASK_API_BASE_URL}/wordsets/me?page=${wordSetPage}&pageSize=${WORDSET_PAGE_SIZE}`, {
+            const response = await fetch(`${import.meta.env.VITE_TASK_API_BASE_URL}/wordsets/me/pagination?page=${wordSetPage}&pageSize=${WORDSET_PAGE_SIZE}`, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
@@ -93,19 +93,16 @@ export default function Home() {
     );
 }
 
-function WordSetPopUp({ learningWordSet, isWordSetOpen, setWordSetOpen, setAddNewWord}) {
+function WordSetPopUp({ learningWordSet, isWordSetOpen, setWordSetOpen, setAddNewWord }) {
     // for API's purpose
     const WORD_PAGE_SIZE = 10;
-    const [wordPage, setWordPage] = useState(0);
-    const [words, setWords] = useState([]);
-    const [wLastPage, setWLastPage] = useState(0);
-    const [needUpdate, setNeedUpdate] = useState(false);
-    const [changedWords, setChangedWords] = useState([]);
-    const changedTopic = useRef(learningWordSet.topic);
+    const [wordPage, setWordPage] = useState(0); // word page number
+    const [words, setWords] = useState([]); // list of words
+    const [wLastPage, setWLastPage] = useState(0); // last word page number (0-base index)
     // for UI's purpose
     const [isEditWordSet, setWordSetEdit] = useState(false); // check if user is editing word set
     const [isVisible, setVisible] = useState(true); //show info and button before learn words in word set
-    const [isTurn, setTurn] = useState(false); //to change the info on the card when user click (flip the card)
+    const [isTurn, setTurn] = useState(false); // to change the info on the card when user click (flip the card)
 
     // useEffect uses to get word page
     useEffect(() => {
@@ -114,7 +111,7 @@ function WordSetPopUp({ learningWordSet, isWordSetOpen, setWordSetOpen, setAddNe
             setWords([]);
 
             // call api
-            const response = await fetch(`${import.meta.env.VITE_TASK_API_BASE_URL}/words/${learningWordSet.id}?page=${wordPage}&pageSize=${WORD_PAGE_SIZE}`, {
+            const response = await fetch(`${import.meta.env.VITE_TASK_API_BASE_URL}/words/${learningWordSet.id}/pagination?page=${wordPage}&pageSize=${WORD_PAGE_SIZE}`, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
@@ -138,6 +135,59 @@ function WordSetPopUp({ learningWordSet, isWordSetOpen, setWordSetOpen, setAddNe
         setWords([]);
     }, [isEditWordSet, wordPage])
 
+    return (<>
+        {
+            isWordSetOpen &&
+            <div className="pop_up">
+                <input type="image" className="unfocused_cancel" src="./unfocused_cancel.svg" onClick={() => { setWordSetOpen(false); setVisible(true); setTurn(false); setAddNewWord(false); setWordSetEdit(false); setWordPage(0) }}></input>
+                {isVisible ? <>
+                    <h1 className="wordSet_topic">{ learningWordSet.topic }</h1>
+                    <p className="vcb_count">Vocabulary count: { learningWordSet.noWords }</p>
+                    <button className="start" onClick={() => setVisible(false)}>Start</button>
+                    <button className="editWordSet" onClick={() => setWordSetEdit(true)}>Edit word set</button>
+                </> : <FlipCard learningWordSet={learningWordSet} setTurn={setTurn} />}
+                {
+                    isEditWordSet && <WordSetEdit learningWordSet={learningWordSet} words={words} wLastPage={wLastPage} wordPage={wordPage} setWordPage={setWordPage} setWordSetEdit={setWordSetEdit} setAddNewWord={setAddNewWord} />
+                }
+            </div>
+        }
+    </>)
+}
+
+function FlipCard({ learningWordSet, setTurn }) {
+    return (
+        <div className="card" onClick={() => setTurn(old => !old)}>
+            {
+                isTurn ? <>
+                    <div className="back">
+                        <div style={{ display: "flex", justifyContent: "center", fontSize: 40, marginBottom: 20 }}>
+                            <p className="word">{  }</p>
+                            <p className="wordType">(n)</p>
+                        </div>
+                        <div style={{ display: "flex" }}>
+                            <p className="phonetic"><b>Phonetic:</b>{ }/ˈflæʃˌkɑɹd/</p>
+                        </div>
+                        <p className="meaning"><b>Meaning:</b>{ } Thẻ thông tin</p>
+                        <p className="definition"><b>Definition:</b>{ } a card with a word or picture on it that is used to help students learn</p>
+                        <p className="example"><b>Example:</b>{ } She is learning math with flash cards.</p>
+                        <p className="note"><b>Note:</b>{ } Note những điều cần lưu ý về từ</p>
+                    </div>
+                </> :
+                    <>
+                        <div className="front">
+                            <p style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)", fontSize: 60, wordWrap: "break-word" }}>FlashCard</p>
+                        </div>
+                    </>
+            }
+        </div>
+    );
+}
+
+function WordSetEdit({ learningWordSet, words, wLastPage, wordPage, setWordPage, setWordSetEdit, setAddNewWord }) {
+    const [needUpdate, setNeedUpdate] = useState(false); // signal to update words and wordset's topic
+    const [changedWords, setChangedWords] = useState([]); // list of changed words
+    const changedTopic = useRef(learningWordSet.topic); // change if current wordset's topic changed
+    
     // useEffect uses to update changed words
     useEffect(() => {
         async function updateWords(id, word, note) {
@@ -185,75 +235,32 @@ function WordSetPopUp({ learningWordSet, isWordSetOpen, setWordSetOpen, setAddNe
         
         setNeedUpdate(false);
     }, [needUpdate])
-
-    return (<>
-        {
-            isWordSetOpen &&
-            <div className="pop_up">
-                <input type="image" className="unfocused_cancel" src="./unfocused_cancel.svg" onClick={() => { setWordSetOpen(false); setVisible(true); setTurn(false); setAddNewWord(false); setWordSetEdit(false); setWordPage(0) }}></input>
-                {isVisible ? <>
-                    <h1 className="wordSet_topic">{ learningWordSet.topic }</h1>
-                    <p className="vcb_count">Vocabulary count: { learningWordSet.noWords }</p>
-                    <button className="start" onClick={() => setVisible(false)}>Start</button>
-                    <button className="editWordSet" onClick={() => setWordSetEdit(true)}>Edit word set</button>
-                </> : <>
-                    <div className="card" onClick={() => setTurn(!isTurn)}>
-                        {
-                            isTurn ? <>
-                                <div className="back">
-                                    <div style={{ display: "flex", justifyContent: "center", fontSize: 40, marginBottom: 20 }}>
-                                        <p className="word">{  }</p>
-                                        <p className="wordType">(n)</p>
-                                    </div>
-                                    <div style={{ display: "flex" }}>
-                                        <p className="phonetic"><b>Phonetic:</b>{ }/ˈflæʃˌkɑɹd/</p>
-                                    </div>
-                                    <p className="meaning"><b>Meaning:</b>{ } Thẻ thông tin</p>
-                                    <p className="definition"><b>Definition:</b>{ } a card with a word or picture on it that is used to help students learn</p>
-                                    <p className="example"><b>Example:</b>{ } She is learning math with flash cards.</p>
-                                    <p className="note"><b>Note:</b>{ } Note những điều cần lưu ý về từ</p>
-                                </div>
-                            </> :
-                                <>
-                                    <div className="front">
-                                        <p style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)", fontSize: 60, wordWrap: "break-word" }}>FlashCard</p>
-                                    </div>
-                                </>
-                        }
-                    </div>
-                </>}
-                {
-                    isEditWordSet &&
-                    <>
-                        <div className="editWS">
-                            <input
-                                type="text"
-                                className="editTopic"
-                                defaultValue={learningWordSet.topic}
-                                onChange={(e) => { changedTopic.current = e.target.value }}
-                            ></input>
-                            <div style={{ display: "flex", justifyContent: "center", margin: 20 }}>
-                                <input type="image" src="./disabled_leftArrow.svg"  onClick={ () => wordPage > 0 && setWordPage(wordPage - 1) }></input>
-                                {/* <p style={{ display: "inline" }}>{ page + 1 }</p> */}
-                                <input type="image" src="./enabled_rightArrow.svg"  onClick={ () => wordPage < wLastPage && setWordPage(wordPage + 1) }></input>
-                                <p style={{ display: "inline" }}>{ wordPage + 1 }</p>
-                                <input type="image" className="unfocused_cancel" src="./unfocused_cancel.svg" onClick={() => { setWordSetEdit(false); setAddNewWord(false) }}></input>
-                            </div>
-
-                            <div className="wordList">
-                                { words.length ? words.map((v, i) => <WordRow key={i} wordInfo={v} setChangedWords={setChangedWords} />) : <p>There's no word</p> }
-                            </div>
-                            <div style={{ display: "flex" }}>
-                                <button className="editBtn" style={{ backgroundColor: "#81C784" }} onClick={() => { setAddNewWord(true) }}>Add new word</button>
-                                <button className="editBtn" style={{ backgroundColor: "#FFEB3B" }} onClick={ () => setNeedUpdate(true) }>Apply change</button>
-                            </div>
-                        </div>
-                    </>
-
-                }
+    
+    return (
+        <div className="editWS">
+            <input
+                type="text"
+                className="editTopic"
+                defaultValue={learningWordSet.topic}
+                onChange={(e) => { changedTopic.current = e.target.value }}
+            ></input>
+            <div style={{ display: "flex", justifyContent: "center", margin: 20 }}>
+                <input type="image" src="./disabled_leftArrow.svg"  onClick={ () => wordPage > 0 && setWordPage(wordPage - 1) }></input>
+                {/* <p style={{ display: "inline" }}>{ page + 1 }</p> */}
+                <input type="image" src="./enabled_rightArrow.svg"  onClick={ () => wordPage < wLastPage && setWordPage(wordPage + 1) }></input>
+                <p style={{ display: "inline" }}>{ wordPage + 1 }</p>
+                <input type="image" className="unfocused_cancel" src="./unfocused_cancel.svg" onClick={() => { setWordSetEdit(false); setAddNewWord(false) }}></input>
             </div>
-        }
-    </>)
+
+            <div className="wordList">
+                { words.length ? words.map((v, i) => <WordRow key={i} wordInfo={v} setChangedWords={setChangedWords} />) : <p>There's no word</p> }
+            </div>
+            <div style={{ display: "flex" }}>
+                <button className="editBtn" style={{ backgroundColor: "#81C784" }} onClick={() => { setAddNewWord(true) }}>Add new word</button>
+                <button className="editBtn" style={{ backgroundColor: "#FFEB3B" }} onClick={ () => setNeedUpdate(true) }>Apply change</button>
+            </div>
+        </div>
+    );
 }
 
 function AddNewWord({ isAddNewWord, setAddNewWord }) {
@@ -298,9 +305,9 @@ function WordSetCard({ wordSetInfo, setWordSetOpen, setLearningWordSet }) {
 }
 
 function WordRow({ wordInfo, setChangedWords }) {
-    const newWord = useRef(wordInfo);
-    const isChanged = useRef(false);
-    const [isDeleted, setDeleted] = useState(false);
+    const newWord = useRef(wordInfo); // temporary object to store changed word
+    const isChanged = useRef(false); // true if onChange event happened, false if onBlur
+    const [isDeleted, setDeleted] = useState(false); // true if word needs to be deleted, false if not
 
     useEffect(() => {
         async function deleteWord() {
