@@ -316,6 +316,7 @@
     border-radius: 8px;
     font-size: 20px;
     font-family: cursive;
+    cursor: pointer;
 }
 
 .editWordSet {
