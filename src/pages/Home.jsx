@@ -7,10 +7,10 @@ export default function Home() {
     // for API's purpose
     const navigate = useNavigate();
     const WORDSET_PAGE_SIZE = 4;
-    const [wordSetPage, setWordSetPage] = useState(0);
-    const [wordSets, setWordSets] = useState([]);
-    const [wsLastPage, setWsLastPage] = useState(0);
-    const [learningWordSet, setLearningWordSet] = useState({}); 
+    const [wordSetPage, setWordSetPage] = useState(0); // page number of wordset
+    const [wordSets, setWordSets] = useState([]); // list of response wordsets
+    const [wsLastPage, setWsLastPage] = useState(0); // last page number (0-base index)
+    const [learningWordSet, setLearningWordSet] = useState({}); // opening wordset (click "Learn" button)
     // for UI's purpose
     const [isWordSetOpen, setWordSetOpen] = useState(false); //check if word set is opened
     const [isAddNewWord, setAddNewWord] = useState(false); //check if user is adding new word to word set
@@ -96,12 +96,12 @@ export default function Home() {
 function WordSetPopUp({ learningWordSet, isWordSetOpen, setWordSetOpen, setAddNewWord}) {
     // for API's purpose
     const WORD_PAGE_SIZE = 10;
-    const [wordPage, setWordPage] = useState(0);
-    const [words, setWords] = useState([]);
-    const [wLastPage, setWLastPage] = useState(0);
-    const [needUpdate, setNeedUpdate] = useState(false);
-    const [changedWords, setChangedWords] = useState([]);
-    const changedTopic = useRef(learningWordSet.topic);
+    const [wordPage, setWordPage] = useState(0); // word page number
+    const [words, setWords] = useState([]); // list of words
+    const [wLastPage, setWLastPage] = useState(0); // last word page number (0-base index)
+    const [needUpdate, setNeedUpdate] = useState(false); // signal to update words and wordset's topic
+    const [changedWords, setChangedWords] = useState([]); // list of changed words
+    const changedTopic = useRef(learningWordSet.topic); // change if current wordset's topic changed
     // for UI's purpose
     const [isEditWordSet, setWordSetEdit] = useState(false); // check if user is editing word set
     const [isVisible, setVisible] = useState(true); //show info and button before learn words in word set
@@ -298,9 +298,9 @@ function WordSetCard({ wordSetInfo, setWordSetOpen, setLearningWordSet }) {
 }
 
 function WordRow({ wordInfo, setChangedWords }) {
-    const newWord = useRef(wordInfo);
-    const isChanged = useRef(false);
-    const [isDeleted, setDeleted] = useState(false);
+    const newWord = useRef(wordInfo); // temporary object to store changed word
+    const isChanged = useRef(false); // true if onChange event happened, false if onBlur
+    const [isDeleted, setDeleted] = useState(false); // true if word needs to be deleted, false if not
 
     useEffect(() => {
         async function deleteWord() {
