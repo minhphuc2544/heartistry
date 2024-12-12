@@ -39,7 +39,7 @@ export default function Home() {
             const responseJson = await response.json();
 
             setWordSets(responseJson.response);
-            setWsLastPage(Math.floor(responseJson.pagination.total / WORDSET_PAGE_SIZE));
+            setWsLastPage(Math.ceil(responseJson.pagination.total / WORDSET_PAGE_SIZE) - 1);
         }
 
         getWordSetPage()
@@ -101,6 +101,7 @@ function WordSetPopUp({ learningWordSet, isWordSetOpen, setWordSetOpen, setAddNe
     const [wLastPage, setWLastPage] = useState(0);
     const [needUpdate, setNeedUpdate] = useState(false);
     const [changedWords, setChangedWords] = useState([]);
+    const changedTopic = useRef(learningWordSet.topic);
     // for UI's purpose
     const [isEditWordSet, setWordSetEdit] = useState(false); // check if user is editing word set
     const [isVisible, setVisible] = useState(true); //show info and button before learn words in word set
@@ -124,7 +125,7 @@ function WordSetPopUp({ learningWordSet, isWordSetOpen, setWordSetOpen, setAddNe
             const responseJson = await response.json();
 
             setWords(responseJson.response);
-            setWLastPage(Math.floor(responseJson.pagination.total / WORD_PAGE_SIZE));
+            setWLastPage(Math.ceil(responseJson.pagination.total / WORD_PAGE_SIZE) - 1);
         }
 
         // set words if the edit page is opened
@@ -156,9 +157,28 @@ function WordSetPopUp({ learningWordSet, isWordSetOpen, setWordSetOpen, setAddNe
             });
         }
 
+        async function updateWordSet(topic) {
+            const requestBody = {
+                "topic": topic,
+            }
+
+            // call api
+            const response = await fetch(`${import.meta.env.VITE_TASK_API_BASE_URL}/wordsets/${learningWordSet.id}`, {
+                method: "PATCH",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${Cookies.get('access_token')}`
+                },
+                body: JSON.stringify(requestBody),
+            });
+        }
+
         if (needUpdate) {
             for (let word of changedWords) {
                 updateWords(word.id, word.word, word.note);
+            }
+            if (changedTopic.current !== learningWordSet.topic) {
+                updateWordSet(changedTopic.current);
             }
             window.alert('Words changed successfully');
         }
@@ -206,7 +226,12 @@ function WordSetPopUp({ learningWordSet, isWordSetOpen, setWordSetOpen, setAddNe
                     isEditWordSet &&
                     <>
                         <div className="editWS">
-                            <input type="text" className="editTopic" defaultValue={learningWordSet.topic}></input>
+                            <input
+                                type="text"
+                                className="editTopic"
+                                defaultValue={learningWordSet.topic}
+                                onChange={(e) => { changedTopic.current = e.target.value }}
+                            ></input>
                             <div style={{ display: "flex", justifyContent: "center", margin: 20 }}>
                                 <input type="image" src="./disabled_leftArrow.svg"  onClick={ () => wordPage > 0 && setWordPage(wordPage - 1) }></input>
                                 {/* <p style={{ display: "inline" }}>{ page + 1 }</p> */}
