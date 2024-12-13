@@ -124,3 +124,12 @@
     margin-top: 230px;
     margin-left: 20px;
 }
+
+.no-ws-text {
+    font-size: 50px;
+    margin: 60px auto 0px auto;
+}
+
+.no-w-text{
+    font-size: 50px;
+}
