@@ -8,11 +8,19 @@ export default function FlashCard() {
     // for API's purpose
     const navigate = useNavigate();
     const WORDSET_PAGE_SIZE = 3;
+    const RCM_WORDSET_PAGE_SIZE = 4;
+    const RCM_WORD_PAGE_SIZE = 10;
     const [wordSetPage, setWordSetPage] = useState(0); // page number of wordset
     const [wordSets, setWordSets] = useState([]); // list of response wordsets
     const [wsLastPage, setWsLastPage] = useState(0); // last page number (0-base index)
     const [learningWordSet, setLearningWordSet] = useState({});  // opening wordset (click "Learn" button)
+    const [rcmWordSetPage, setRcmWordSetPage] = useState(0); // page number of recommended wordset
+    const [rcmWordSets, setRcmWordSets] = useState([]); // list of recommend wordset by admins
+    const [rcmWsLastPage, setRcmWsLastPage] = useState(0); // last page number of recommended wordsets (0-base index)
     const [updatePageSignal, setUpdatePageSignal] = useState(false); // signal to update current page
+    const [viewingWordSet, setViewingWordSet] = useState({}); // viewing recommended wordset
+    const [rcmWordPage, setRcmWordPage] = useState(0); // wordpage page number
+    const [rcmWords, setRcmWords] = useState([]); // recommended words in a recommeded wordset
     const [updateWsEditSignal, setUpdateWsEditSignal] = useState(false); // signal to update WordSetEdit after adding new word
     // for UI's purpose
     const [isWordSetOpen, setWordSetOpen] = useState(false); //check if word set is opened
@@ -49,6 +57,59 @@ export default function FlashCard() {
 
         getWordSetPage()
     }, [wordSetPage, updatePageSignal])
+
+    // useEffect uses to get recommended wordsets
+    useEffect(() => {
+        async function getRcmWordSetPage() {
+
+            // call api
+            const response = await fetch(`${import.meta.env.VITE_TASK_API_BASE_URL}/wordsets/recommended/pagination?page=${rcmWordSetPage}&pageSize=${RCM_WORDSET_PAGE_SIZE}`, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${Cookies.get('access_token')}`
+                }
+            });
+
+            const responseJson = await response.json();
+
+            setRcmWordSets(responseJson.response);
+            setRcmWsLastPage(Math.ceil(responseJson.pagination.total / RCM_WORDSET_PAGE_SIZE) - 1);
+        }
+
+        getRcmWordSetPage()
+    }, [rcmWordSetPage])
+
+    // useEffect uses to get word page
+    useEffect(() => {
+        async function getRecommendedWordPage() {
+            // reset the words list for not caching
+            setRcmWords([]);
+
+            // call api
+            const response = await fetch(`${import.meta.env.VITE_TASK_API_BASE_URL}/words/${viewingWordSet.id}/pagination?page=${rcmWordPage}&pageSize=${RCM_WORD_PAGE_SIZE}`, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${Cookies.get('access_token')}`
+                }
+            });
+
+            const responseJson = await response.json();
+
+            setRcmWords(responseJson.response);
+            setRcmWsLastPage(Math.ceil(responseJson.pagination.total / RCM_WORD_PAGE_SIZE) - 1);
+        }
+
+        // set words if the edit page is opened
+        if (isPreviewRcmWS) {
+            getRecommendedWordPage();
+            return;
+        }
+
+        // set words to empty if the edit page is closed
+        setRcmWords([]);
+    }, [isPreviewRcmWS, rcmWordPage])
 
     return (
         <>
@@ -95,23 +156,14 @@ export default function FlashCard() {
                 <h1 className="rcmTitle">Our recommend word sets</h1>
                 <div className="rcmWordSets">
                     <div style={{ display: "flex" }}>
-
-                        <div className="rcmSet">
-                            <p className="topic">Education</p>
-                            <p className="wordNumbers">Number of words: $(NoW)</p>  {/*show number of words in this wordset*/}
-                            <div style={{ display: "flex", justifyContent: "right", marginTop: 35, marginRight: 10 }}>
-                                <input type="image" id="add" className="rcmButton" src="./preview.svg" style={{ padding: 10 }} onClick={() => { setPreviewRcmWS(true) }}></input>
-                                <input type="image" id="preview" className="rcmButton" src="./add_wordset.svg" style={{ padding: 5 }}></input>
-                            </div>
-                        </div>
-
+                        { rcmWordSets.map((v, i) => <RcmWordSetCard key={i} setPreviewRcmWS={setPreviewRcmWS} curWordSet={v} setViewingWordSet={setViewingWordSet} setUpdatePageSignal={setUpdatePageSignal} />) }
                     </div>
                 </div>
             </div>
             <WordSetPopUp updateWsEditSignal={updateWsEditSignal} learningWordSet={learningWordSet} isWordSetOpen={isWordSetOpen} setWordSetOpen={setWordSetOpen} setAddNewWord={setAddNewWord} />
             <CreateWordSet setUpdatePageSignal={setUpdatePageSignal} isCreateSet={isCreateSet} setCreateSet={setCreateSet} />
             <AddNewWord setUpdateWsEditSignal={setUpdateWsEditSignal} learningWordSet={learningWordSet} isAddNewWord={isAddNewWord} setAddNewWord={setAddNewWord} />
-            <PreviewRcmWordSet isPreviewRcmWS={isPreviewRcmWS} setPreviewRcmWS={setPreviewRcmWS} />
+            <PreviewRcmWordSet setUpdatePageSignal={setUpdatePageSignal} viewingWordSet={viewingWordSet} rcmWords={rcmWords} rcmWsLastPage={rcmWsLastPage} rcmWordPage={rcmWordPage} setRcmWordPage={setRcmWordPage} isPreviewRcmWS={isPreviewRcmWS} setPreviewRcmWS={setPreviewRcmWS} setAddNewWord={setAddNewWord} />
         </>
     );
 }
@@ -336,9 +388,8 @@ function WordSetEdit({ learningWordSet, words, wLastPage, wordPage, setWordPage,
             ></input>
             <div style={{ display: "flex", justifyContent: "center", margin: 20 }}>
                 <input type="image" src="./disabled_leftArrow.svg"  onClick={ () => wordPage > 0 && setWordPage(wordPage - 1) }></input>
-                {/* <p style={{ display: "inline" }}>{ page + 1 }</p> */}
-                <input type="image" src="./enabled_rightArrow.svg"  onClick={ () => wordPage < wLastPage && setWordPage(wordPage + 1) }></input>
                 <p style={{ display: "inline" }}>{ wordPage + 1 }</p>
+                <input type="image" src="./enabled_rightArrow.svg"  onClick={ () => wordPage < wLastPage && setWordPage(wordPage + 1) }></input>
                 <input type="image" className="unfocused_cancel" src="./unfocused_cancel.svg" onClick={() => { setWordSetEdit(false); setAddNewWord(false) }}></input>
             </div>
 
@@ -507,39 +558,6 @@ function AddNewWord({ setUpdateWsEditSignal, learningWordSet, isAddNewWord, setA
     )
 }
 
-function PreviewRcmWordSet({ isPreviewRcmWS, setPreviewRcmWS }) {
-    return (
-        <>
-            {
-                isPreviewRcmWS &&
-                <div className="preview">
-                    <div style={{ display: "flex" }}>
-                        <input type="text" className="editTopic" value={"Education"} style={{ pointerEvents: "none" }}></input>
-                        <input type="image" className="unfocused_cancel" src="./unfocused_cancel.svg" onClick={() => setAddNewWord(false)}></input>
-                    </div>
-                    <div style={{ display: "flex", justifyContent: "center", margin: 20 }}>
-                        <input type="image" src="./disabled_leftArrow.svg"></input>
-                        {/* <p style={{ display: "inline" }}>{ page + 1 }</p> */}
-                        <input type="image" src="./enabled_rightArrow.svg"></input>
-                        <input type="image" className="unfocused_cancel" src="./unfocused_cancel.svg" onClick={() => { setPreviewRcmWS(false) }}></input>
-                    </div>
-                    <div className="wordList">
-                                <div style={{ display: "flex" }}> {/*add this div to add word in this list */}
-                                    <input type="text" className="editInfo" defaultValue={"word1"}></input>
-                                    <input type="text" className="editInfo" defaultValue={"note1"}></input>
-                                    <input type="image" className="deleteWord" src="./unfocused_cancel.svg" style={{ padding: "1px" }}></input>
-                                </div>
-
-                            </div>
-                            <div style={{ display: "flex" }}>
-                                <button className="editBtn" style={{ backgroundColor: "#81C784" }}>Add to your word sets</button>
-                            </div>
-                </div>
-            }
-        </>
-    )
-}
-
 function WordSetCard({ wordSetInfo, setWordSetOpen, setLearningWordSet }) {
     return (
         <div className="set">
@@ -627,4 +645,187 @@ function WordRow({ wordInfo, setChangedWords }) {
             <input type="image" className="deleteWord" src="./unfocused_cancel.svg" style={{ padding: "1px" }} onClick={ () => { setDeleted(true); } }></input>
         </div>}
     </>)
+}
+
+function PreviewRcmWordSet({ setUpdatePageSignal, viewingWordSet, rcmWords, rcmWsLastPage, rcmWordPage, setRcmWordPage, isPreviewRcmWS, setPreviewRcmWS, setAddNewWord }) {
+    const [needSave, setNeedSave] = useState(false); // true if user wanna save recommended wordsets
+
+    // useEffect uses to save new wordset
+    useEffect(() => {
+        async function addOneWord(savedWordSetId, word) {
+            const requestBody = {
+                "idWordSet": savedWordSetId,
+                "word": word.word,
+                "note": word.note
+            }
+
+            const response1 = await fetch(`${import.meta.env.VITE_TASK_API_BASE_URL}/words/add`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${Cookies.get('access_token')}`
+                },
+                body: JSON.stringify(requestBody),
+            });
+        }
+
+        async function findAllWords(savedWordSetId) {
+            // call api
+            const response = await fetch(`${import.meta.env.VITE_TASK_API_BASE_URL}/words/${viewingWordSet.id}/all`, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${Cookies.get('access_token')}`
+                }
+            });
+
+            if (response.ok) {
+                const allWords = await response.json();
+                for (let word of allWords) {
+                    await addOneWord(savedWordSetId, word);
+                }
+            }
+        }
+
+        async function saveRecommendedWordSet(topic) {
+            const requestBody = {
+                "topic": topic,
+            }
+
+            // call api
+            const response = await fetch(`${import.meta.env.VITE_TASK_API_BASE_URL}/wordsets/add`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${Cookies.get('access_token')}`
+                },
+                body: JSON.stringify(requestBody),
+            });
+
+            if (response.ok) {
+                const savedWordSet = await response.json()
+                findAllWords(savedWordSet.id);
+                setUpdatePageSignal(old => !old);
+                setPreviewRcmWS(false);
+            }
+        }
+
+        if (needSave) {
+            saveRecommendedWordSet(viewingWordSet.topic);
+        }
+    }, [needSave]);
+
+    return (
+        <>
+            {
+                isPreviewRcmWS &&
+                <div className="preview">
+                    <div style={{ display: "flex" }}>
+                        <input type="text" className="editTopic" value={viewingWordSet.topic} style={{ pointerEvents: "none" }}></input>
+                        <input type="image" className="unfocused_cancel" src="./unfocused_cancel.svg" onClick={() => setAddNewWord(false)}></input>
+                    </div>
+                    <div style={{ display: "flex", justifyContent: "center", margin: 20 }}>
+                        <input type="image" src="./disabled_leftArrow.svg" onClick={ () => rcmWordPage > 0 && setRcmWordPage(rcmWordPage - 1) }></input>
+                        <p style={{ display: "inline" }}>{ rcmWordPage + 1 }</p>
+                        <input type="image" src="./enabled_rightArrow.svg" onClick={ () => rcmWordPage < rcmWsLastPage && setRcmWordPage(rcmWordPage + 1) }></input>
+                        <input type="image" className="unfocused_cancel" src="./unfocused_cancel.svg" onClick={() => { setPreviewRcmWS(false) }}></input>
+                    </div>
+                    <div className="wordList">
+                        { rcmWords.length ? rcmWords.map((v, i) => <RcmWordRow key={i} wordInfo={v} />) : <p className="no-w-text">There's no word</p> }
+                    </div>
+                    <div style={{ display: "flex" }}>
+                        <button className="editBtn" style={{ backgroundColor: "#81C784" }} onClick={ () => setNeedSave(true) }>Add to your word sets</button>
+                    </div>
+                </div>
+            }
+        </>
+    )
+}
+
+function RcmWordSetCard({ setPreviewRcmWS, curWordSet, setViewingWordSet, setUpdatePageSignal }) {
+    const [needSave, setNeedSave] = useState(false); // true if user wanna save recommended wordsets
+
+    // useEffect uses to save new wordset
+    useEffect(() => {
+        async function addOneWord(savedWordSetId, word) {
+            const requestBody = {
+                "idWordSet": savedWordSetId,
+                "word": word.word,
+                "note": word.note
+            }
+
+            const response1 = await fetch(`${import.meta.env.VITE_TASK_API_BASE_URL}/words/add`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${Cookies.get('access_token')}`
+                },
+                body: JSON.stringify(requestBody),
+            });
+        }
+
+        async function findAllWords(savedWordSetId) {
+            // call api
+            const response = await fetch(`${import.meta.env.VITE_TASK_API_BASE_URL}/words/${curWordSet.id}/all`, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${Cookies.get('access_token')}`
+                }
+            });
+
+            if (response.ok) {
+                const allWords = await response.json();
+                for (let word of allWords) {
+                    await addOneWord(savedWordSetId, word);
+                }
+            }
+        }
+
+        async function saveRecommendedWordSet(topic) {
+            const requestBody = {
+                "topic": topic,
+            }
+
+            // call api
+            const response = await fetch(`${import.meta.env.VITE_TASK_API_BASE_URL}/wordsets/add`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${Cookies.get('access_token')}`
+                },
+                body: JSON.stringify(requestBody),
+            });
+
+            if (response.ok) {
+                const savedWordSet = await response.json()
+                findAllWords(savedWordSet.id);
+                setUpdatePageSignal(old => !old);
+            }
+        }
+
+        if (needSave) {
+            saveRecommendedWordSet(curWordSet.topic);
+        }
+    }, [needSave]);
+
+    return (
+        <div className="rcmSet">
+            <p className="topic">{curWordSet.topic}</p>
+            <p className="wordNumbers">Number of words: { curWordSet.noWords }</p>  {/*show number of words in this wordset*/}
+            <div style={{ display: "flex", justifyContent: "right", marginTop: 35, marginRight: 10 }}>
+                <input type="image" id="add" className="rcmButton" src="./preview.svg" style={{ padding: 10 }} onClick={() => { setPreviewRcmWS(true); setViewingWordSet(curWordSet) }}></input>
+                <input type="image" id="preview" className="rcmButton" src="./add_wordset.svg" style={{ padding: 5 }} onClick={ () => setNeedSave(true) }></input>
+            </div>
+        </div>
+    )
+}
+
+function RcmWordRow({ wordInfo }) {
+    return (
+        <div style={{ display: "flex", pointerEvents: "none" }}> {/*add this div to add word in this list */}
+            <input type="text" className="editInfo" value={wordInfo.word}></input>
+            <input type="text" className="editInfo" value={wordInfo.note}></input>
+        </div>
+    );
 }
