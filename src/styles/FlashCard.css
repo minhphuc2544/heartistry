@@ -482,6 +482,21 @@
     border: solid 1px black;
     border-radius: 12px;
     background-color: #FFF5D7;
+    cursor: pointer;
+}
+
+.addWord-disable {
+    display: block;
+    margin: auto;
+    position: relative;
+    top: 30px;
+    width: 20%;
+    height: 10%;
+    font-size: 25px;
+    border: solid 1px black;
+    border-radius: 12px;
+    background-color: gray;
+    pointer-events: none;
 }
 
 .preview {

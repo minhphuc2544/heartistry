@@ -12,8 +12,8 @@ export default function FlashCard() {
     const [wordSets, setWordSets] = useState([]); // list of response wordsets
     const [wsLastPage, setWsLastPage] = useState(0); // last page number (0-base index)
     const [learningWordSet, setLearningWordSet] = useState({});  // opening wordset (click "Learn" button)
-    const [wsCreateSignal, setWsCreateSignal] = useState(false); // signal to create wordset
     const [updatePageSignal, setUpdatePageSignal] = useState(false); // signal to update current page
+    const [updateWsEditSignal, setUpdateWsEditSignal] = useState(false); // signal to update WordSetEdit after adding new word
     // for UI's purpose
     const [isWordSetOpen, setWordSetOpen] = useState(false); //check if word set is opened
     const [isAddNewWord, setAddNewWord] = useState(false); //check if user is adding new word to word set
@@ -69,7 +69,7 @@ export default function FlashCard() {
                             <div className="createSet">
                                 <input type="image" id="create" src="./add_wordset.svg" onClick={() => setCreateSet(true)}></input>
                             </div>
-                            { wordSets.length ? wordSets.map((v, i) => <WordSetCard key={i} wordSetInfo={v} setWordSetOpen={setWordSetOpen} setLearningWordSet={setLearningWordSet} />) : <p>There's no wordsets</p> }
+                            { wordSets.length ? wordSets.map((v, i) => <WordSetCard key={i} wordSetInfo={v} setWordSetOpen={setWordSetOpen} setLearningWordSet={setLearningWordSet} />) : <p className="no-ws-text">There's no wordsets</p> }
                         </div>
                     </div>
 
@@ -108,15 +108,15 @@ export default function FlashCard() {
                     </div>
                 </div>
             </div>
-            <WordSetPopUp learningWordSet={learningWordSet} isWordSetOpen={isWordSetOpen} setWordSetOpen={setWordSetOpen} setAddNewWord={setAddNewWord} />
-            <CreateWordSet setUpdatePageSignal={setUpdatePageSignal} wsCreateSignal={wsCreateSignal} setWsCreateSignal={setWsCreateSignal} isCreateSet={isCreateSet} setCreateSet={setCreateSet} />
-            <AddNewWord isAddNewWord={isAddNewWord} setAddNewWord={setAddNewWord} />
+            <WordSetPopUp updateWsEditSignal={updateWsEditSignal} learningWordSet={learningWordSet} isWordSetOpen={isWordSetOpen} setWordSetOpen={setWordSetOpen} setAddNewWord={setAddNewWord} />
+            <CreateWordSet setUpdatePageSignal={setUpdatePageSignal} isCreateSet={isCreateSet} setCreateSet={setCreateSet} />
+            <AddNewWord setUpdateWsEditSignal={setUpdateWsEditSignal} learningWordSet={learningWordSet} isAddNewWord={isAddNewWord} setAddNewWord={setAddNewWord} />
             <PreviewRcmWordSet isPreviewRcmWS={isPreviewRcmWS} setPreviewRcmWS={setPreviewRcmWS} />
         </>
     );
 }
 
-function WordSetPopUp({ learningWordSet, isWordSetOpen, setWordSetOpen, setAddNewWord }) {
+function WordSetPopUp({ updateWsEditSignal, learningWordSet, isWordSetOpen, setWordSetOpen, setAddNewWord }) {
     // for API's purpose
     const WORD_PAGE_SIZE = 10;
     const [wordPage, setWordPage] = useState(0); // word page number
@@ -156,7 +156,7 @@ function WordSetPopUp({ learningWordSet, isWordSetOpen, setWordSetOpen, setAddNe
 
         // set words to empty if the edit page is closed
         setWords([]);
-    }, [isEditWordSet, wordPage])
+    }, [isEditWordSet, wordPage, updateWsEditSignal])
 
     return (<>
         {
@@ -276,7 +276,7 @@ function WordSetEdit({ learningWordSet, words, wLastPage, wordPage, setWordPage,
             </div>
 
             <div className="wordList">
-                { words.length ? words.map((v, i) => <WordRow key={i} wordInfo={v} setChangedWords={setChangedWords} />) : <p>There's no word</p> }
+                { words.length ? words.map((v, i) => <WordRow key={i} wordInfo={v} setChangedWords={setChangedWords} />) : <p className="no-w-text">There's no word</p> }
             </div>
             <div style={{ display: "flex" }}>
                 <button className="editBtn" style={{ backgroundColor: "#81C784" }} onClick={() => { setAddNewWord(true) }}>Add new word</button>
@@ -286,8 +286,9 @@ function WordSetEdit({ learningWordSet, words, wLastPage, wordPage, setWordPage,
     );
 }
 
-function CreateWordSet({ setUpdatePageSignal, wsCreateSignal, setWsCreateSignal, isCreateSet, setCreateSet }) {
+function CreateWordSet({ setUpdatePageSignal, isCreateSet, setCreateSet }) {
     const [wordSetTopic, setWordSetTopic] = useState(''); // listen to the wordset's topic input
+    const [wsCreateSignal, setWsCreateSignal] = useState(false); // signal to create wordset
 
     // useEffect uses to create new wordset
     useEffect(() => {
@@ -308,7 +309,7 @@ function CreateWordSet({ setUpdatePageSignal, wsCreateSignal, setWsCreateSignal,
 
             if (response.ok) {
                 setUpdatePageSignal(old => !old);
-                window.alert("Create wordset successfully");
+                setCreateSet(false);
             }
         }
 
@@ -333,31 +334,106 @@ function CreateWordSet({ setUpdatePageSignal, wsCreateSignal, setWsCreateSignal,
     )
 }
 
-function AddNewWord({ isAddNewWord, setAddNewWord }) {
+function AddNewWord({ setUpdateWsEditSignal, learningWordSet, isAddNewWord, setAddNewWord }) {
+    const [wordToSearch, setWordToSearch] = useState('');
+    const [foundWord, setFoundWord] = useState({ isFound: false }); // the word that'll be found using free dictionary api
+    const [addSignal, setAddSignal] = useState(false); // signal to add ne word
+    const [note, setNote] = useState(''); // note input of the word
+
+    // useEffects use to display info of the searched word
+    useEffect(() => {
+        async function findWord() {
+            // call api
+            const response = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${wordToSearch}`, {
+                method: 'GET'
+            });
+
+            // check if word is valid
+            if (response.ok) {
+                const responseJson = await response.json();
+                const firstWord = responseJson[0];
+                const firstMeaning = firstWord.meanings[0];
+                const firstDefinition = firstMeaning.definitions[0];
+
+                setFoundWord({
+                    word: firstWord.word,
+                    phonetic: firstWord.phonetic,
+                    partOfSpeech: firstMeaning.partOfSpeech,
+                    definition: firstDefinition.definition,
+                    example: firstDefinition.example,
+                    isFound: true,
+                });
+
+                return;
+            }
+
+            // handle if word is invalid
+            setFoundWord({
+                isFound: false,
+            });
+        }
+
+        if (wordToSearch) {
+            findWord();
+        }
+    }, [wordToSearch])
+
+    // useEffect uses to add new word to database
+    useEffect(() => {
+        async function addWord() {
+            const requestBody = {
+                "idWordSet": learningWordSet.id,
+                "word": wordToSearch,
+                "note": note,
+            }
+
+            // call api
+            const response = await fetch(`${import.meta.env.VITE_TASK_API_BASE_URL}/words/add`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${Cookies.get('access_token')}`
+                },
+                body: JSON.stringify(requestBody),
+            });
+
+            if (response.ok) {
+                setAddSignal(false);
+                setFoundWord({ isFound: false });
+                setAddNewWord(false);
+                setUpdateWsEditSignal(old => !old);
+            }
+        }
+
+        if (foundWord.isFound) {
+            addWord();
+        }
+    }, [addSignal])
+
     return (
         <>
             {
                 isAddNewWord &&
                 <div className="addNewWord">
                     <div style={{ display: "flex" }}>
-                        <input type="text" className="findWord" placeholder="Type the word you want to add"></input>
+                        <input type="text" className="findWord" placeholder="Type the word you want to add" onChange={ (e) => setWordToSearch(e.target.value) }></input>
                         <input type="image" className="unfocused_cancel" src="./unfocused_cancel.svg" onClick={() => setAddNewWord(false)}></input>
                     </div>
                     <div style={{ display: "flex", justifyContent: "center", fontSize: 40, marginTop: 20 }}>
-                        <p className="word">Flash card</p>
-                        <p className="wordType">(n)</p>
+                        { foundWord.isFound && <p className="word"> { foundWord.word }</p> }
+                        { foundWord.isFound && <p className="wordType"> ({ foundWord.partOfSpeech })</p> }
                     </div>
                     <div style={{ display: "flex" }}>
-                        <p className="info phonetic"><b>Phonetic:</b>{ }/ˈflæʃˌkɑɹd/</p>
+                        { foundWord.isFound && foundWord.phonetic && <p className="info phonetic"><b>Phonetic:</b> { foundWord.phonetic }</p> }
                     </div>
-                    <p className="info meaning"><b>Meaning:</b>{ } Thẻ thông tin</p>
-                    <p className="info definition"><b>Definition:</b>{ } a card with a word or picture on it that is used to help students learn</p>
-                    <p className="info example"><b>Example:</b>{ } She is learning math with flash cards.</p>
+                    {/* <p className="info meaning"><b>Meaning:</b>{ foundWord.translatedText }</p> */}
+                    { foundWord.isFound && <p className="info definition"><b>Definition:</b> { foundWord.definition }</p> }
+                    { foundWord.isFound && foundWord.example && <p className="info example"><b>Example:</b> { foundWord.example }</p> }
                     <div style={{ display: "flex" }}>
                         <p className="info note"><b>Note:</b></p>
-                        <input type="text" className="addNote"></input>
+                        <input placeholder="Add your note" type="text" className="addNote" onChange={ (e) => setNote(e.target.value) }></input>
                     </div>
-                    <input type="button" value={"Add"} className="addWord"></input>
+                    <input type="button" value={"Add"} className={ foundWord.isFound ? "addWord" : "addWord-disable" } onClick={ () => setAddSignal(!addSignal) }></input>
                 </div>
             }
         </>
@@ -422,8 +498,6 @@ function WordRow({ wordInfo, setChangedWords }) {
                     "Authorization": `Bearer ${Cookies.get('access_token')}`
                 },
             });
-
-            console.log(await response.json());
         }
 
         if (isDeleted) {

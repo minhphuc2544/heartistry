@@ -1,6 +1,8 @@
 import { Link } from "react-router-dom";
 import "./styles/Menu.css"
 import { useEffect, useState } from "react";
+import Cookies from 'js-cookie';
+
 export default function Menu() {
     const baseUrl = import.meta.env.BASE_URL;
 
@@ -118,7 +120,7 @@ export default function Menu() {
                         <div className="avatar__name">
                             <div className="user-name">Heartistry</div>
                         </div>
-                        <Link to={`${baseUrl}login`} className="logout">
+                        <Link to={`${baseUrl}login`} className="logout" onClick={ () => { setCurPage('login'); Cookies.remove('access_token') } }>
                             <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-logout" width="24" height="24"
                                 viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
                                 stroke-linejoin="round" aria-labelledby="logout-icon" role="img">
