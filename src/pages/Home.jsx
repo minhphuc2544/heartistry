@@ -146,7 +146,7 @@ function WordSetPopUp({ updateWsEditSignal, learningWordSet, isWordSetOpen, setW
                     <p className="vcb_count">Vocabulary count: { learningWordSet.noWords }</p>
                     <button className="start" onClick={() => setVisible(false)}>Start</button>
                     <button className="editWordSet" onClick={() => setWordSetEdit(true)}>Edit word set</button>
-                </> : <FlipCard learningWordSet={learningWordSet} setTurn={setTurn} />}
+                </> : <FlipCard learningWordSet={learningWordSet} setTurn={setTurn} isTurn={isTurn} />}
                 {
                     isEditWordSet && <WordSetEdit learningWordSet={learningWordSet} words={words} wLastPage={wLastPage} wordPage={wordPage} setWordPage={setWordPage} setWordSetEdit={setWordSetEdit} setAddNewWord={setAddNewWord} />
                 }
@@ -155,30 +155,97 @@ function WordSetPopUp({ updateWsEditSignal, learningWordSet, isWordSetOpen, setW
     </>)
 }
 
-function FlipCard({ learningWordSet, setTurn }) {
+function FlipCard({ learningWordSet, setTurn, isTurn }) {
+    const [foundWord, setFoundWord] = useState({ isFound: false });
+    const [curWordIdx, setCurWordIdx] = useState(0);
+    const [allWords, setAllWords] = useState([]);
+
+    // useEffect to get all wordset's words
+    useEffect(() => {
+        async function getAllWords() {
+            // call api
+            const response = await fetch(`${import.meta.env.VITE_TASK_API_BASE_URL}/words/${learningWordSet.id}/all`, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${Cookies.get('access_token')}`
+                }
+            });
+
+            const responseJson = await response.json();
+            setAllWords(responseJson);
+        }
+
+        getAllWords();
+    }, []);
+
+    // useEffect to get word's info
+    useEffect(() => {
+        async function findWord(wordToFind) {
+            // call api
+            const response = await fetch(`https://api.dictionaryapi.dev/api/v2/entries/en/${wordToFind}`, {
+                method: 'GET'
+            });
+
+            // check if word is valid
+            if (response.ok) {
+                const responseJson = await response.json();
+                const firstWord = responseJson[0];
+                const firstMeaning = firstWord.meanings[0];
+                const firstDefinition = firstMeaning.definitions[0];
+
+                setFoundWord({
+                    word: firstWord.word,
+                    phonetic: firstWord.phonetic,
+                    partOfSpeech: firstMeaning.partOfSpeech,
+                    definition: firstDefinition.definition,
+                    example: firstDefinition.example,
+                    isFound: true,
+                });
+
+                return;
+            }
+
+            // handle if word is invalid
+            setFoundWord({
+                isFound: false,
+            });
+        }
+
+        if (allWords.length) {
+            findWord(allWords[curWordIdx].word);
+        }
+    }, [curWordIdx]);
+
     return (
-        <div className="card" onClick={() => setTurn(old => !old)}>
+        <div className="card" onClick={() => { 
+            isTurn && curWordIdx < allWords.length - 1 && setCurWordIdx(curWordIdx + 1);
+            if (curWordIdx < allWords.length - 1) {
+                setTurn(!isTurn);
+            } else {
+                !isTurn && setTurn(!isTurn);
+            }
+        }}>
             {
-                isTurn ? <>
+                allWords.length ?
+                    isTurn ?
                     <div className="back">
                         <div style={{ display: "flex", justifyContent: "center", fontSize: 40, marginBottom: 20 }}>
-                            <p className="word">{  }</p>
-                            <p className="wordType">(n)</p>
+                            <p className="word">{ allWords[curWordIdx].word }</p>
+                            { foundWord.isFound && <p className="wordType">({ foundWord.partOfSpeech })</p> }
                         </div>
                         <div style={{ display: "flex" }}>
-                            <p className="phonetic"><b>Phonetic:</b>{ }/ˈflæʃˌkɑɹd/</p>
+                            { foundWord.isFound && foundWord.phonetic && <p className="phonetic"><b>Phonetic:</b> { foundWord.phonetic }</p> }
                         </div>
-                        <p className="meaning"><b>Meaning:</b>{ } Thẻ thông tin</p>
-                        <p className="definition"><b>Definition:</b>{ } a card with a word or picture on it that is used to help students learn</p>
-                        <p className="example"><b>Example:</b>{ } She is learning math with flash cards.</p>
-                        <p className="note"><b>Note:</b>{ } Note những điều cần lưu ý về từ</p>
+                        {/* <p className="meaning"><b>Meaning:</b>{ } Thẻ thông tin</p> */}
+                        { foundWord.isFound && <p className="definition"><b>Definition:</b> { foundWord.definition }</p> }
+                        { foundWord.isFound && foundWord.example && <p className="example"><b>Example:</b> { foundWord.example }</p> }
+                        { allWords[curWordIdx].note && <p className="note"><b>Note:</b> { allWords[curWordIdx].note }</p> }
+                    </div> :
+                    <div className="front">
+                        <p style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)", fontSize: 60, wordWrap: "break-word" }}>{ allWords[curWordIdx].word }</p>
                     </div>
-                </> :
-                    <>
-                        <div className="front">
-                            <p style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)", fontSize: 60, wordWrap: "break-word" }}>FlashCard</p>
-                        </div>
-                    </>
+                : <p>This wordset has no word</p>
             }
         </div>
     );
