@@ -55,7 +55,7 @@ export default function Home() {
                         <h1 className="title">Word Sets</h1>
                         <div className="moveList"> {/*add type for button: move list of wordsets if there are more wordsets than the numbers of wordsets tha the area can show (currently: 4) */}
                             <input type="image" src="../disabled_leftArrow.svg" onClick={ () => wordSetPage > 0 && setWordSetPage(wordSetPage - 1) }></input>
-                            <p style={{ display: "inline" }}>{ wordSetPage + 1 }</p>
+                            <p style={{display: "inline", margin: "auto"}}>{ wordSetPage + 1 }</p>
                             <input type="image" src="../enabled_rightArrow.svg" onClick={ () => wordSetPage < wsLastPage && setWordSetPage(wordSetPage + 1) }></input>
                         </div>
                     </div>
@@ -314,7 +314,7 @@ function WordSetEdit({ learningWordSet, words, wLastPage, wordPage, setWordPage,
             ></input>
             <div style={{ display: "flex", justifyContent: "center", margin: 20 }}>
                 <input type="image" src="./disabled_leftArrow.svg"  onClick={ () => wordPage > 0 && setWordPage(wordPage - 1) }></input>
-                <p style={{ display: "inline" }}>{ wordPage + 1 }</p>
+                <p style={{ display: "inline", marginTop: "auto", marginBottom: "auto"}}>{ wordPage + 1 }</p>
                 <input type="image" src="./enabled_rightArrow.svg"  onClick={ () => wordPage < wLastPage && setWordPage(wordPage + 1) }></input>
                 <input type="image" className="unfocused_cancel" src="./unfocused_cancel.svg" onClick={() => { setWordSetEdit(false); setAddNewWord(false) }}></input>
             </div>

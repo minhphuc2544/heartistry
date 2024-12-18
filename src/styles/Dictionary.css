@@ -1,0 +1,173 @@
+.dictionary {
+    background-color: #F5FFF5;
+    width: 84.5%;
+}
+
+.searchBar {
+    width: 1000px;
+    height: 80px;
+    margin-top: 50px;
+    border-radius: 22px;
+    border: solid black 1px;
+    padding: 20px;
+    font-size: 30px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.dictionaryUserInfo {
+    border: none;
+    width: 300px;
+    height: 280px;
+    margin: 20px;
+    margin-top: 20px;
+    background-color: #C2D6E3;
+    border-radius: 22px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border: 1px solid #D4D4D4;
+    position: relative;
+    left: 260px;
+}
+
+.userPicture {
+    border: solid white 5px;
+    border-radius: 50%;
+    width: 120px;
+    display: block;
+    margin: auto;
+}
+
+.username {
+    text-align: center;
+    font-size: 25px;
+    font-family: 'Segoe UI';
+    margin-top: 10px;
+}
+
+.duration {
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    margin: 10px;
+    font-size: 20px;
+}
+
+.dashboard_separator {
+    width: 2px;
+    height: 50px;
+    background: black;
+    margin: 1rem 0;
+}
+
+.searchResult {
+    width: 1000px;
+    height: 700px;
+    background-color: white;
+    position: relative;
+    bottom: 140px;
+    border: solid black 1px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 22px;
+    font-size: 38px;
+    padding: 30px;
+}
+
+.part {
+    color: #2C3E50;
+    /* Dark Navy */
+}
+
+.addToWordSet {
+    background-color: #A3EBB1;
+    /* Bright Blue */
+    color: black;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 220px;
+    height: 70px;
+    font-size: 25px;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 22px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    float: right;
+    position: relative;
+    top: 200px;
+}
+
+.addToWordSet:hover {
+    background-color: #A3EBB1;
+    /* Darker Blue */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    /* Hover Effect */
+}
+
+.chooseWordSet {
+    background-color: beige;
+    width: 40%;
+    height: 65%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 22px;
+    border: solid 2px black;
+}
+
+.unfocused_cancel {
+    position: absolute;
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 10px;
+    width: 40px;
+    height: 40px;
+    filter: none;
+    /* Default state for the image */
+    transition: filter 0.3s ease, transform 0.3s ease;
+    /* Smooth transition effect */
+}
+
+.unfocused_cancel:hover {
+    filter: brightness(0) saturate(100%) invert(28%) sepia(94%) saturate(5647%) hue-rotate(356deg) brightness(92%) contrast(99%);
+    transform: scale(1.1);
+    /* Optional zoom-in effect */
+}
+
+.wordsetList {
+    display: flex;
+    justify-content: center;
+    margin: 30px;
+}
+
+.wordsetInfo {
+    font-family: sans-serif;
+    font-size: 20px;
+    margin-right: 50px;
+}
+
+.add {
+    background-color: #A3EBB1;
+    /* Bright Blue */
+    color: black;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    font-size: 25px;
+    padding: 10px 15px;
+    border: solid 1px black;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.add:hover {
+    background-color: #A3EBB1;
+    /* Darker Blue */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    /* Hover Effect */
+}
+
+.vertical_separator {
+    width: 100px;
+    height: 2px;
+    background: black;
+    margin: 1rem 0;
+}
