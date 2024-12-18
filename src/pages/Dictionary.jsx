@@ -59,16 +59,16 @@ function AddWordToWortSet({ isAddToWordSet, setAddToWordSet }) {
             {
                 isAddToWordSet &&
                 <div className="chooseWordSet">
-                    <input type="image" className="unfocused_cancel" src="./unfocused_cancel.svg" onClick={() => {setAddToWordSet(false)}}></input>
+                    <input type="image" className="unfocused_cancel" src="./unfocused_cancel.svg" onClick={() => { setAddToWordSet(false) }}></input>
                     <h1 style={{ textAlign: "center", fontSize: "45px", fontFamily: "cursive" }}>Add word to word set</h1>
                     <div style={{ display: "flex", justifyContent: "center", margin: 20 }}>
                         <input type="image" src="./disabled_leftArrow.svg" onClick={() => wordPage > 0 && setWordPage(wordPage - 1)}></input>
                         {/* <p style={{ display: "inline", margin: "auto" }}>{wordPage + 1}</p> */}
                         <input type="image" src="./enabled_rightArrow.svg" onClick={() => wordPage < wLastPage && setWordPage(wordPage + 1)}></input>
                     </div>
-                    <div className="wordsetList">
+                    <div className="wordsetList"> {/*  add this one to add more word sets, 5 word sets per pages */}
                         <div className="wordsetInfo">
-                            <p className="wordsetName">Education</p>
+                            <p className="wordsetName" style={{ fontSize: "35px" }}>Education</p>
                             <p className="wordsetWordNumber">Number of Words: 230</p>
                         </div>
                         <button className="add">Add</button>
