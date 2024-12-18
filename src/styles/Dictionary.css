@@ -72,12 +72,14 @@
 }
 
 .part {
-    color: #2C3E50; /* Dark Navy */
+    color: #2C3E50;
+    /* Dark Navy */
 }
 
 .addToWordSet {
-    background-color: #A3EBB1; /* Bright Blue */
-    color: black; 
+    background-color: #A3EBB1;
+    /* Bright Blue */
+    color: black;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     width: 220px;
     height: 70px;
@@ -90,9 +92,57 @@
     float: right;
     position: relative;
     top: 200px;
-  }
-  
+}
+
 .addToWordSet:hover {
-    background-color: #A3EBB1; /* Darker Blue */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Hover Effect */
-  }
+    background-color: #A3EBB1;
+    /* Darker Blue */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    /* Hover Effect */
+}
+
+.chooseWordSet {
+    background-color: beige;
+    width: 50%;
+    height: 65%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 22px;
+    border: solid 2px black;
+}
+
+.unfocused_cancel {
+    position: absolute;
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 10px;
+    width: 40px;
+    height: 40px;
+    filter: none;
+    /* Default state for the image */
+    transition: filter 0.3s ease, transform 0.3s ease;
+    /* Smooth transition effect */
+}
+
+.unfocused_cancel:hover {
+    filter: brightness(0) saturate(100%) invert(28%) sepia(94%) saturate(5647%) hue-rotate(356deg) brightness(92%) contrast(99%);
+    transform: scale(1.1);
+    /* Optional zoom-in effect */
+}
+
+.wordsetList {
+    display: flex;
+}
+
+.wordsetInfo {
+    text-align: center;
+    font-family: sans-serif;
+    font-size: 20px;
+}
+
+.add {
+    font-size: 20px;
+}
