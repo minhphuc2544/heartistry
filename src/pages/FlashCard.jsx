@@ -154,6 +154,11 @@ export default function FlashCard() {
                 </div>
 
                 <h1 className="rcmTitle">Our recommend word sets</h1>
+                <div className="moveList"> {/*add type for button: move list of wordsets if there are more wordsets than the numbers of wordsets tha the area can show (currently: 4) */}
+                    <input type="image" src="../disabled_leftArrow.svg" onClick={ () => rcmWordSetPage > 0 && setRcmWordSetPage(rcmWordSetPage - 1) }></input>
+                    <p style={{display: "inline", marginTop: "auto", marginBottom: "auto"}}>{ rcmWordSetPage + 1 }</p>
+                    <input type="image" src="../enabled_rightArrow.svg" onClick={ () => rcmWordSetPage < rcmWsLastPage && setRcmWordSetPage(rcmWordSetPage + 1) }></input>
+                </div>
                 <div className="rcmWordSets">
                     <div style={{ display: "flex" }}>
                         { rcmWordSets.map((v, i) => <RcmWordSetCard key={i} setPreviewRcmWS={setPreviewRcmWS} curWordSet={v} setViewingWordSet={setViewingWordSet} setUpdatePageSignal={setUpdatePageSignal} />) }
