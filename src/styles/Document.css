@@ -1,0 +1,15 @@
+.document {
+    background-color: #F5FFF5;
+    width: 84.5%;
+}
+
+.documentArea {
+    width: 1230px;
+    height: 900px;
+    margin-top: 20px;
+    margin-left: 20px;
+    border-radius: 22px;
+    font-size: 30px;
+    background-color: #A3EBB1;
+    opacity: 0.4;
+}
