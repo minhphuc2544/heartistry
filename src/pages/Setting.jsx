@@ -162,15 +162,64 @@ function UpdateInfoZone({  }) {
 }
 
 function ChangePassZone({  }) {
+    const [curPass, setCurPass] = useState('');
+    const [newPass, setNewPass] = useState('');
+    const [newPassConf, setNewPassConf] = useState('');
+    const [needChange, setNeedChange] = useState(false);
+
+    useEffect(() => {
+        async function changeUserPassword() {
+            const requestBody = {
+                password: curPass,
+                newPassword: newPass,
+            }
+
+            // call api
+            const response = await fetch(`${import.meta.env.VITE_USER_API_BASE_URL}/users/password`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${Cookies.get('access_token')}`,
+                    },
+                    body: JSON.stringify(requestBody),
+                }
+            );
+
+            if (response.ok) {
+                return;
+            }
+
+            // catch errors and notify user
+            const responseJson = await response.json();
+            let alertMessage = '';
+            if (Array.isArray(responseJson.message)) {
+                responseJson.message.forEach((v, i) => { alertMessage += `${i + 1}. ${v}\n`; });
+            } else {
+                alertMessage = `1. ${responseJson.message}`;
+            }
+            window.alert(alertMessage);
+            setNeedChange(false);
+        }
+
+        if (needChange) {
+            if (newPass !== newPassConf) {
+                setNeedChange(false);
+                window.alert("Password confirmation does not match. Please try again.");
+                return;
+            }
+            changeUserPassword();
+        }
+    }, [needChange]);
+
     return (
         <div>
             <label className="label">Current password</label><br></br>
-            <input type="text" className="input" id="username" required style={{ marginBottom: 10 }} /><br></br>
+            <input onChange={ (e) => setCurPass(e.target.value) } type="password" className="input" id="username" required style={{ marginBottom: 10 }} /><br></br>
             <label className="label">New password</label><br></br>
-            <input type="text" className="input" id="username" required style={{ marginBottom: 10 }} /><br></br>
+            <input onChange={ (e) => setNewPass(e.target.value) } type="password" className="input" id="username" required style={{ marginBottom: 10 }} /><br></br>
             <label className="label">Confirm new password</label><br></br>
-            <input type="text" className="input" id="username" required style={{ marginBottom: 10 }} /><br></br>
-            <button className="changepwdBtn">Change</button>
+            <input onChange={ (e) => setNewPassConf(e.target.value) } type="password" className="input" id="username" required style={{ marginBottom: 10 }} /><br></br>
+            <button className={ needChange ? "changepwdBtn-disable" : "changepwdBtn" } onClick={ () => setNeedChange(true) }>{ needChange ? "Changed" : "Change" }</button>
         </div>
     );
 }
