@@ -72,6 +72,23 @@
     display: block;
 }
 
+.updateBtn-disable {
+    background-color: gray;
+    /* Bright Blue */
+    color: black;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 150px;
+    height: 55px;
+    font-size: 25px;
+    border: none;
+    border-radius: 22px;
+    cursor: none; 
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    margin: 0 auto;
+    display: block;
+    pointer-events: none;
+}
+
 .changepwdBtn {
     background-color: #A3EBB1;
     /* Bright Blue */
