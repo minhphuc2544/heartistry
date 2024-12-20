@@ -20,6 +20,7 @@
     position: relative;
     left: 880px
 }
+
 .fileLogo {
     width: 90px;
     padding: 10px;
@@ -57,6 +58,7 @@
     left: 480px;
     margin: 5px;
 }
+
 .userInfo {
     border: none;
     width: 300px;
@@ -99,4 +101,55 @@
     height: 50px;
     background: black;
     margin: 1rem 0;
+}
+
+input[type="file"] {
+    display: none;
+}
+
+.custom-file-upload {
+    border: 1px solid #ccc;
+    padding: 6px 12px;
+    cursor: pointer;
+    display: block;
+    margin: auto;
+    width: fit-content;
+    margin-top: 10px;
+}
+
+.createNewDoc {
+    background-color: beige;
+    width: 20%;
+    height: 29%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 22px;
+    border: solid 2px black;
+}
+
+#createSetDoc {
+    display: block;
+    margin: auto;
+    width: 80%;
+    height: 15%;
+    border: 2px solid black;
+    border-radius: 8px;
+    padding: 5px;
+}
+
+#setNameDoc {
+    display: block;
+    margin: auto;
+    position: relative;
+    top: 10px;
+    width: 30%;
+    height: 15%;
+    border: solid 1px;
+    background-color: #F96E2A;
+    border-radius: 8px;
+    font-size: 20px;
+    font-family: cursive;
+    cursor: pointer;
 }

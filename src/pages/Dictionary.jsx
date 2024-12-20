@@ -160,7 +160,7 @@ function AddWordToWortSet({ wordToSearch, isAddToWordSet, setAddToWordSet }) {
                         <p style={{ display: "inline", marginTop: "auto", marginBottom: "auto" }}>{wordSetPage + 1}</p>
                         <input type="image" src="./enabled_rightArrow.svg" onClick={() => wordSetPage < wsLastPage && setWordSetPage(wordSetPage + 1)}></input>
                     </div>
-                    { wordSets.length ? wordSets.map((v, i) => <WordSetRow key={i} setUpdateWsListSignal={setUpdateWsListSignal} wordToSearch={wordToSearch} wordSetInfo={v} />) : <p className="no-ws-text">There's no wordsets</p> }
+                    { wordSets.length ? wordSets.map((v, i) => <WordSetRow key={i} setUpdateWsListSignal={setUpdateWsListSignal} wordToSearch={wordToSearch} wordSetInfo={v} />) : <p style={{width: "fit-content"}} className="no-ws-text">There's no wordsets</p> }
                 </div>
             }
         </>
