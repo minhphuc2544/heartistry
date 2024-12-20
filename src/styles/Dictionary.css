@@ -7,6 +7,7 @@
     width: 1000px;
     height: 80px;
     margin-top: 50px;
+    margin-left: 20px;
     border-radius: 22px;
     border: solid black 1px;
     padding: 20px;
@@ -18,7 +19,6 @@
     border: none;
     width: 300px;
     height: 280px;
-    margin: 20px;
     margin-top: 20px;
     background-color: #C2D6E3;
     border-radius: 22px;
@@ -64,6 +64,7 @@
     background-color: white;
     position: relative;
     bottom: 140px;
+    margin-left: 20px;
     border: solid black 1px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     border-radius: 22px;
@@ -92,6 +93,26 @@
     float: right;
     position: relative;
     top: 200px;
+}
+
+.addToWordSet-disable {
+    background-color: gray;
+    /* Bright Blue */
+    color: black;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 220px;
+    height: 70px;
+    font-size: 25px;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 22px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    float: right;
+    position: relative;
+    top: 200px;
+    cursor: none;
+    pointer-events: none;
 }
 
 .addToWordSet:hover {
@@ -156,6 +177,20 @@
     border-radius: 12px;
     cursor: pointer;
     transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.added {
+    background-color: gray;
+    /* Bright Blue */
+    color: black;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    font-size: 25px;
+    padding: 10px 15px;
+    border: solid 1px black;
+    border-radius: 12px;
+    cursor: none;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    pointer-events: none;
 }
 
 .add:hover {

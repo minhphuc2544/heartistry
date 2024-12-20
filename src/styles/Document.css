@@ -1,0 +1,155 @@
+.document {
+    background-color: #F5FFF5;
+    width: 84.5%;
+}
+
+.documentArea {
+    width: 1230px;
+    height: 900px;
+    margin-top: 20px;
+    margin-left: 20px;
+    border-radius: 22px;
+    font-size: 30px;
+    background-color: #D6F6D5;
+}
+
+.docMovelist {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    left: 880px
+}
+
+.fileLogo {
+    width: 90px;
+    padding: 10px;
+}
+
+.documentItem {
+    display: flex;
+    background-color: white;
+    width: 95%;
+    margin-top: 10px;
+    margin-left: 28.5px;
+    margin-bottom: 20px;
+    border-radius: 22px;
+    align-items: center;
+}
+
+.documentName {
+    font-size: 30px;
+    font-weight: bold;
+    font-family: sans-serif;
+}
+
+.documentDescription {
+    font-size: 20px;
+    font-family: sans-serif;
+}
+
+.docButton {
+    background-color: #21B6A8;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    padding: 5px;
+    position: relative;
+    left: 480px;
+    margin: 5px;
+}
+
+.userInfo {
+    border: none;
+    width: 300px;
+    height: 280px;
+    margin-top: 20px;
+    margin-left: 30px;
+    background-color: #C2D6E3;
+    border-radius: 22px;
+    display: block;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border: 1px solid #D4D4D4;
+
+}
+
+.userPicture {
+    border: solid white 5px;
+    border-radius: 50%;
+    width: 120px;
+    display: block;
+    margin: auto;
+}
+
+.username {
+    text-align: center;
+    font-size: 25px;
+    font-family: 'Segoe UI';
+    margin-top: 10px;
+}
+
+.duration {
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    margin: 10px;
+    font-size: 20px;
+}
+
+.dashboard_separator {
+    width: 2px;
+    height: 50px;
+    background: black;
+    margin: 1rem 0;
+}
+
+input[type="file"] {
+    display: none;
+}
+
+.custom-file-upload {
+    border: 1px solid #ccc;
+    padding: 6px 12px;
+    cursor: pointer;
+    display: block;
+    margin: auto;
+    width: fit-content;
+    margin-top: 10px;
+}
+
+.createNewDoc {
+    background-color: beige;
+    width: 20%;
+    height: 29%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 22px;
+    border: solid 2px black;
+}
+
+#createSetDoc {
+    display: block;
+    margin: auto;
+    width: 80%;
+    height: 15%;
+    border: 2px solid black;
+    border-radius: 8px;
+    padding: 5px;
+}
+
+#setNameDoc {
+    display: block;
+    margin: auto;
+    position: relative;
+    top: 10px;
+    width: 30%;
+    height: 15%;
+    border: solid 1px;
+    background-color: #F96E2A;
+    border-radius: 8px;
+    font-size: 20px;
+    font-family: cursive;
+    cursor: pointer;
+}
