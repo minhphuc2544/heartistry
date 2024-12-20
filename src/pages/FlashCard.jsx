@@ -498,7 +498,12 @@ function AddNewWord({ setUpdateWsEditSignal, learningWordSet, isAddNewWord, setA
 
         if (wordToSearch) {
             findWord();
+            return;
         }
+
+        setFoundWord({
+            isFound: false,
+        });
     }, [wordToSearch])
 
     // useEffect uses to add new word to database
