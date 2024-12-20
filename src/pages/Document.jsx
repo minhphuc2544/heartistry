@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import "../styles/Document.css";
+import Cookies from "js-cookie";
 
 export default function Document() {
     // for UI's purpose
@@ -49,8 +50,8 @@ export default function Document() {
 
                         </div>
                         <div className="documentList">
-                        {/* add this div for each document in the list, maximum 7 documents per page */}
-                            { documents.length ? documents.map((v, i) => <DocumentRow key={i} documentInfo={v}/>) : <p style={{width: "fit-content"}} className="no-ws-text">There's no document</p> }
+                            {/* add this div for each document in the list, maximum 7 documents per page */}
+                            {documents.length ? documents.map((v, i) => <DocumentRow key={i} documentInfo={v} />) : <p style={{ width: "fit-content" }} className="no-ws-text">There's no document</p>}
                         </div>
                     </div>
                     <div className="userInfo">
@@ -70,33 +71,43 @@ export default function Document() {
                     </div>
                 </div>
             </div>
-            { true && <AddDialog/> }
+            {true && <AddDialog setAddDialog={setAddDialog} />}
         </>
     );
 }
 
-function AddDialog({  }) {
+function AddDialog({ setAddDialog }) {
+    const [docName, setDocName] = useState('');
+    const [docDescription, setDocDescription] = useState('');
+    const [docFile, setDocFile] = useState('');
+    const [addSignal, setAddSignal] = useState(false);
+
+    useEffect(() => {
+        // TODO: codes to upload document to cloudiary, then get the url and post it to MySQL database
+    }, [addSignal]);
+
     return (
         <div className="createNewDoc">
             <div>
                 <h1 style={{ display: "flex", margin: 15, fontSize: 25, marginBottom: 30 }}>Create new document</h1>
-                <input type="image" className="unfocused_cancel" src="./unfocused_cancel.svg"></input>
+                <input type="image" className="unfocused_cancel" src="./unfocused_cancel.svg" onClick={() => setAddDialog(false)}></input>
             </div>
-            <input type="text" id="createSetDoc" required placeholder="Document's name"></input>
-            <input type="text" id="createSetDoc" required  placeholder="Document's description"></input>
-            <label for="file-input" class="custom-file-upload">Upload File</label><input id="file-input" type="file" />
-            <input type="button" id="setNameDoc" value={"Create"}></input>
+            <input type="text" id="createSetDoc" required placeholder="Document's name" onChange={(e) => setDocName(e.target.value)}></input>
+            <input type="text" id="createSetDoc" required placeholder="Document's description" onChange={(e) => setDocDescription(e.target.value)}></input>
+            <label htmlFor="file-input" className="custom-file-upload">Upload File</label>
+            <input accept=".pdf,.doc,.docx,.txt" id="file-input" type="file" onChange={(e) => setDocFile(e.target.files[0])} />
+            <input type="button" id="setNameDoc" value={"Create"} onClick={ () => setAddSignal(!addSignal) }></input>
         </div>
     )
 }
 
 function DocumentRow({ documentInfo }) {
     return (
-        <div className="documentItem"> 
+        <div className="documentItem">
             <img src="./pdf_icon.svg" className="fileLogo"></img>
             <div className="documentInfo">
-                <p className="documentName">Ielts document for beginner.pdf</p>
-                <p className="documentDescription">reading and writing tips with clear instruction</p>
+                <p className="documentName">{ documentInfo.name }</p>
+                <p className="documentDescription">{ documentInfo.description }</p>
             </div>
             <input type="image" src="./preview_icon.svg" className="docButton"></input>
             <input type="image" src="./download_icon.svg" className="docButton"></input>
