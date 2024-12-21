@@ -1,8 +1,10 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import "../styles/Document.css";
 import Cookies from "js-cookie";
 
 export default function Document() {
+    const navigate = useNavigate();
     // for UI's purpose
     const [isAddDialog, setAddDialog] = useState(false); // check if add dialog needs to appear
     // for API's purpose
@@ -11,6 +13,13 @@ export default function Document() {
     const [documentPage, setDocumentPage] = useState(0); // current page of the document page
     const [documentLastPage, setDocumentLastPage] = useState(0); // last page of the document page
 
+    // check if the access token is expired, if so, force the user to login again
+    useEffect(() => {
+        const access_token = Cookies.get('access_token');
+        if (!access_token) {
+            navigate('/login');
+        }
+    }, []);
 
     // useEffect uses to get a page of documents
     useEffect(() => {
@@ -52,21 +61,6 @@ export default function Document() {
                         <div className="documentList">
                             {/* add this div for each document in the list, maximum 7 documents per page */}
                             {documents.length ? documents.map((v, i) => <DocumentRow key={i} documentInfo={v} />) : <p style={{ width: "fit-content" }} className="no-ws-text">There's no document</p>}
-                        </div>
-                    </div>
-                    <div className="userInfo">
-                        <img className="userPicture" src="./logo.svg"></img> {/*user avatar*/}
-                        <p className="username">Heartistry</p> {/*username*/}
-                        <div className="duration">
-                            <div style={{ display: "block", margin: 20 }}>
-                                <p>Words</p>
-                                <p>100</p>
-                            </div>
-                            <div className="dashboard_separator"></div>
-                            <div style={{ display: "block", margin: 20 }}>
-                                <p>Days</p>
-                                <p>90</p>
-                            </div>
                         </div>
                     </div>
                 </div>

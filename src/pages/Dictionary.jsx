@@ -1,13 +1,23 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import "../styles/Dictionary.css"
 import Cookies from "js-cookie";
 
 export default function Dictionary() {
+    const navigate = useNavigate();
     // for UI's purpose
     const [isAddToWordSet, setAddToWordSet] = useState(false); //check if user add word to word set
     // for API's calling purpose
     const [wordToSearch, setWordToSearch] = useState('');
     const [foundWord, setFoundWord] = useState({ isFound: false }); // the word that'll be found using free dictionary api
+
+    // check if the access token is expired, if so, force the user to login again
+    useEffect(() => {
+        const access_token = Cookies.get('access_token');
+        if (!access_token) {
+            navigate('/login');
+        }
+    }, []);
 
     // useEffects use to display info of the searched word
     useEffect(() => {
@@ -56,24 +66,8 @@ export default function Dictionary() {
 
     return (
         <div className="dictionary">
-
             <div style={{ display: "flex" }}>
                 <input type="text" className="searchBar" placeholder="Search" onChange={ (e) => setWordToSearch(e.target.value) }></input>
-                <div className="dictionaryUserInfo">
-                    <img className="userPicture" src="./logo.svg"></img> {/*user avatar*/}
-                    <p className="username">Heartistry</p> {/*username*/}
-                    <div className="duration">
-                        <div style={{ display: "block", margin: 20 }}>
-                            <p>Words</p>
-                            <p>100</p>
-                        </div>
-                        <div className="dashboard_separator"></div>
-                        <div style={{ display: "block", margin: 20 }}>
-                            <p>Days</p>
-                            <p>90</p>
-                        </div>
-                    </div>
-                </div>
             </div>
 
             <div className="searchResult">
