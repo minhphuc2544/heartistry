@@ -7,7 +7,38 @@
     width: 400px;
     height: 300px;
     margin: 20px;
+    cursor: none;
+
+    position: relative;
+}
+
+.userAvatar:hover {
+    width: 400px;
+    height: 300px;
+    margin: 20px;
     border-radius: 22px;
+    opacity: .75;
+    cursor: pointer;
+}
+
+.userAvatar>img {
+    border-radius: 30px;
+    width: 300px;
+    height: 300px;
+    padding: 5px;
+    margin: auto;
+
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.upload-button-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 
 .userStudyInfo {
