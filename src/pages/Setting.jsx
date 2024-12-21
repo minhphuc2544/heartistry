@@ -8,7 +8,9 @@ export default function Setting() {
     const [isHovered, setHovered] = useState(false);
     const [avatarFile, setAvatarFile] = useState('');
     const [reloadSignal, setReloadSignal] = useState(false);
-    const [userInfo, setUserInfo] = useState({});
+    const [userInfo, setUserInfo] = useState('');
+    const [noWordSets, setNoWordSets] = useState(0);
+    const [noWords, setNoWords] = useState(0);
 
     // check if the access token is expired, if so, force the user to login again
     useEffect(() => {
@@ -66,7 +68,7 @@ export default function Setting() {
     // useEffect uses to pull user's avatar and analystics
     useEffect(() => {
         async function getUserInfo() {
-            // call api
+            // call api to get userinfo
             const response = await fetch(`${import.meta.env.VITE_USER_API_BASE_URL}/users/me`, {
                 method: "GET",
                 headers: {
@@ -79,6 +81,36 @@ export default function Setting() {
             if (response.ok) {
                 const responseJson = await response.json();
                 setUserInfo(responseJson);
+            }
+
+            // call api to get wordset count
+            const response1 = await fetch(`${import.meta.env.VITE_TASK_API_BASE_URL}/wordsets/me/count`, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${Cookies.get('access_token')}`,
+                }
+            }
+            );
+
+            if (response1.ok) {
+                const responseJson = await response1.json();
+                setNoWordSets(responseJson.amount);
+            }
+
+            // call api to get word count
+            const response2 = await fetch(`${import.meta.env.VITE_TASK_API_BASE_URL}/words/me/count`, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${Cookies.get('access_token')}`,
+                }
+            }
+            );
+
+            if (response2.ok) {
+                const responseJson = await response2.json();
+                setNoWords(responseJson.amount);
             }
         }
 
@@ -99,15 +131,15 @@ export default function Setting() {
                     <input accept=".png,.jpg,.jpeg" id="avatar-input" type="file" onChange={(e) => setAvatarFile(e.target.files[0])} />
                 </div>
                 <div className="userStudyInfo">
-                    <p className="title" style={{ marginTop: "60px" }}>You have studied with us 30{ } days from December 22nd{ }</p>
+                    <p className="title" style={{ marginTop: "60px" }}>You have studied with us { Math.ceil((new Date() - new Date(userInfo.createAt)) / (1000 * 60 * 60 * 24)) } days from { userInfo ? new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'long', day: 'numeric' }).format(new Date(userInfo.createAt)) : "NaN" }</p>
                     <div style={{ display: "flex", justifyContent: "center" }}>
                         <div>
                             <p className="info title">Words</p>
-                            <p className="info">2000{ }</p>
+                            <p className="info">{ noWords }</p>
                         </div>
                         <div>
                             <p className="info title">Word sets</p>
-                            <p className="info">14{ }</p>
+                            <p className="info">{ noWordSets }</p>
                         </div>
                     </div>
                 </div>
