@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import "./styles/Menu.css"
 import { useEffect, useState } from "react";
 import Cookies from 'js-cookie';
@@ -6,8 +6,11 @@ import Cookies from 'js-cookie';
 export default function Menu() {
     const baseUrl = import.meta.env.BASE_URL;
 
+    const location = useLocation();
+    const navigate = useNavigate();
     const [curPage, setCurPage] = useState(location.pathname.split("/")[1]);
     const [isMenuHidden, setMenuHidden] = useState(false);
+    const [userInfo, setUserInfo] = useState('');
 
     // the function uses to return the link's hover style
     const getStyle = (value) => {
@@ -20,6 +23,11 @@ export default function Menu() {
         return {};
     }
 
+    // listening to the location state, if it changes set it to the curpage right away
+    useEffect(() => {
+        setCurPage(location.pathname.split("/")[1]);
+    }, [location])
+
     // useEffect uses turn the menu of with specific pages
     useEffect(() => {
         if (curPage === 'login' || curPage === 'signup' || curPage === 'otp' || curPage === 'passwordrecovery') {
@@ -29,6 +37,28 @@ export default function Menu() {
 
         setMenuHidden(false);
     }, [curPage]);
+
+    // useEffect uses to pull user's info
+    useEffect(() => {
+        async function getUserInfo() {
+            // call api
+            const response = await fetch(`${import.meta.env.VITE_USER_API_BASE_URL}/users/me`, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${Cookies.get('access_token')}`,
+                }
+            }
+            );
+
+            if (response.ok) {
+                const responseJson = await response.json();
+                setUserInfo(responseJson);
+            }
+        }
+
+        getUserInfo();
+    }, [location])
 
     return (
         <>{!isMenuHidden &&
@@ -114,11 +144,11 @@ export default function Menu() {
 
                     <div className="sidebar__profile">
                         <div className="avatar__wrapper">
-                            <img className="avatar" src="./logo.svg" alt="Natalia Picture"></img>
+                            <img onClick={() => navigate("/setting")} className="avatar" src={userInfo.avatarUrl ? userInfo.avatarUrl : "./default_user.png" } alt="Natalia Picture"></img>
                             <div className="online__status"></div>
                         </div>
                         <div className="avatar__name">
-                            <div className="user-name">Heartistry</div>
+                            <div onClick={() => navigate("/setting")} className="user-name" style={{cursor: "pointer"}}>{ userInfo.fullname }</div>
                         </div>
                         <Link to={`${baseUrl}login`} className="logout" onClick={ () => { setCurPage('login'); Cookies.remove('access_token') } }>
                             <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-logout" width="24" height="24"
