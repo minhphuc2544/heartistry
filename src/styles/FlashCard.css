@@ -95,50 +95,6 @@
     cursor: pointer;
 }
 
-.userInfo {
-    border: none;
-    width: 300px;
-    height: 280px;
-    margin-top: 20px;
-    margin-left: 30px;
-    background-color: #C2D6E3;
-    border-radius: 22px;
-    display: block;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    border: 1px solid #D4D4D4;
-
-}
-
-.userPicture {
-    border: solid white 5px;
-    border-radius: 50%;
-    width: 120px;
-    display: block;
-    margin: auto;
-}
-
-.username {
-    text-align: center;
-    font-size: 25px;
-    font-family: 'Segoe UI';
-    margin-top: 10px;
-}
-
-.duration {
-    display: flex;
-    text-align: center;
-    justify-content: center;
-    margin: 10px;
-    font-size: 20px;
-}
-
-.dashboard_separator {
-    width: 2px;
-    height: 50px;
-    background: black;
-    margin: 1rem 0;
-}
-
 .rcmTitle {
     margin-top: 200px;
     margin-left: 20px;

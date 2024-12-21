@@ -66,24 +66,8 @@ export default function Dictionary() {
 
     return (
         <div className="dictionary">
-
             <div style={{ display: "flex" }}>
                 <input type="text" className="searchBar" placeholder="Search" onChange={ (e) => setWordToSearch(e.target.value) }></input>
-                <div className="dictionaryUserInfo">
-                    <img className="userPicture" src="./logo.svg"></img> {/*user avatar*/}
-                    <p className="username">Heartistry</p> {/*username*/}
-                    <div className="duration">
-                        <div style={{ display: "block", margin: 20 }}>
-                            <p>Words</p>
-                            <p>100</p>
-                        </div>
-                        <div className="dashboard_separator"></div>
-                        <div style={{ display: "block", margin: 20 }}>
-                            <p>Days</p>
-                            <p>90</p>
-                        </div>
-                    </div>
-                </div>
             </div>
 
             <div className="searchResult">

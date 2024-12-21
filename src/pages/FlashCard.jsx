@@ -133,24 +133,6 @@ export default function FlashCard() {
                             { wordSets.length ? wordSets.map((v, i) => <WordSetCard key={i} wordSetInfo={v} setWordSetOpen={setWordSetOpen} setLearningWordSet={setLearningWordSet} />) : <p className="no-ws-text">There's no wordsets</p> }
                         </div>
                     </div>
-
-
-
-                    <div className="userInfo">
-                        <img className="userPicture" src="./logo.svg"></img> {/*user avatar*/}
-                        <p className="username">Heartistry</p> {/*username*/}
-                        <div className="duration">
-                            <div style={{ display: "block", margin: 20 }}>
-                                <p>Words</p>
-                                <p>100</p>
-                            </div>
-                            <div className="dashboard_separator"></div>
-                            <div style={{ display: "block", margin: 20 }}>
-                                <p>Days</p>
-                                <p>90</p>
-                            </div>
-                        </div>
-                    </div>
                 </div>
 
                 <h1 className="rcmTitle">Our recommend word sets</h1>

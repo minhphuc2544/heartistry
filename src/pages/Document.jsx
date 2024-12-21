@@ -63,21 +63,6 @@ export default function Document() {
                             {documents.length ? documents.map((v, i) => <DocumentRow key={i} documentInfo={v} />) : <p style={{ width: "fit-content" }} className="no-ws-text">There's no document</p>}
                         </div>
                     </div>
-                    <div className="userInfo">
-                        <img className="userPicture" src="./logo.svg"></img> {/*user avatar*/}
-                        <p className="username">Heartistry</p> {/*username*/}
-                        <div className="duration">
-                            <div style={{ display: "block", margin: 20 }}>
-                                <p>Words</p>
-                                <p>100</p>
-                            </div>
-                            <div className="dashboard_separator"></div>
-                            <div style={{ display: "block", margin: 20 }}>
-                                <p>Days</p>
-                                <p>90</p>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
             {true && <AddDialog setAddDialog={setAddDialog} />}
