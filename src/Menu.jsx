@@ -12,6 +12,7 @@ export default function Menu() {
     const [isMenuHidden, setMenuHidden] = useState(false);
     const [isUserCardHidden, setUserCardHidden] = useState(false);
     const [userInfo, setUserInfo] = useState('');
+    const [noWords, setNoWords] = useState(0);
 
     // the function uses to return the link's hover style
     const getStyle = (value) => {
@@ -44,10 +45,10 @@ export default function Menu() {
         }
     }, [curPage]);
 
-    // useEffect uses to pull user's info
+    // useEffect uses to pull user's info and statistics
     useEffect(() => {
         async function getUserInfo() {
-            // call api
+            // call api to get user's info
             const response = await fetch(`${import.meta.env.VITE_USER_API_BASE_URL}/users/me`, {
                 method: "GET",
                 headers: {
@@ -60,6 +61,21 @@ export default function Menu() {
             if (response.ok) {
                 const responseJson = await response.json();
                 setUserInfo(responseJson);
+            }
+
+            // call api to get number of words
+            const response1 = await fetch(`${import.meta.env.VITE_TASK_API_BASE_URL}/words/me/count`, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${Cookies.get('access_token')}`,
+                }
+            }
+            );
+
+            if (response1.ok) {
+                const responseJson = await response1.json();
+                setNoWords(responseJson.amount);
             }
         }
 
@@ -179,12 +195,12 @@ export default function Menu() {
                     <div className="duration">
                         <div style={{ display: "block", margin: 20 }}>
                             <p>Words</p>
-                            <p>100</p>
+                            <p>{ noWords }</p>
                         </div>
                         <div className="dashboard_separator"></div>
                         <div style={{ display: "block", margin: 20 }}>
                             <p>Days</p>
-                            <p>90</p>
+                            <p>{ Math.ceil((new Date() - new Date(userInfo.createAt)) / (1000 * 60 * 60 * 24)) }</p>
                         </div>
                     </div>
                 </div>
