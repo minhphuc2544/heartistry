@@ -1,12 +1,22 @@
 import "../styles/Setting.css";
+import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Cookies from "js-cookie";
 
 export default function Setting() {
+    const navigate = useNavigate();
     const [isHovered, setHovered] = useState(false);
     const [avatarFile, setAvatarFile] = useState('');
     const [reloadSignal, setReloadSignal] = useState(false);
     const [userInfo, setUserInfo] = useState({});
+
+    // check if the access token is expired, if so, force the user to login again
+    useEffect(() => {
+        const access_token = Cookies.get('access_token');
+        if (!access_token) {
+            navigate('/login');
+        }
+    }, []);
 
     // useEffect uses to change avatar
     useEffect(() => {

@@ -1,13 +1,23 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import "../styles/Dictionary.css"
 import Cookies from "js-cookie";
 
 export default function Dictionary() {
+    const navigate = useNavigate();
     // for UI's purpose
     const [isAddToWordSet, setAddToWordSet] = useState(false); //check if user add word to word set
     // for API's calling purpose
     const [wordToSearch, setWordToSearch] = useState('');
     const [foundWord, setFoundWord] = useState({ isFound: false }); // the word that'll be found using free dictionary api
+
+    // check if the access token is expired, if so, force the user to login again
+    useEffect(() => {
+        const access_token = Cookies.get('access_token');
+        if (!access_token) {
+            navigate('/login');
+        }
+    }, []);
 
     // useEffects use to display info of the searched word
     useEffect(() => {

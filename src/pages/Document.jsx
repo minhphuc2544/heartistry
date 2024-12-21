@@ -1,8 +1,10 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import "../styles/Document.css";
 import Cookies from "js-cookie";
 
 export default function Document() {
+    const navigate = useNavigate();
     // for UI's purpose
     const [isAddDialog, setAddDialog] = useState(false); // check if add dialog needs to appear
     // for API's purpose
@@ -11,6 +13,13 @@ export default function Document() {
     const [documentPage, setDocumentPage] = useState(0); // current page of the document page
     const [documentLastPage, setDocumentLastPage] = useState(0); // last page of the document page
 
+    // check if the access token is expired, if so, force the user to login again
+    useEffect(() => {
+        const access_token = Cookies.get('access_token');
+        if (!access_token) {
+            navigate('/login');
+        }
+    }, []);
 
     // useEffect uses to get a page of documents
     useEffect(() => {
