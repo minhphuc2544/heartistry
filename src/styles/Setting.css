@@ -61,11 +61,11 @@
 .setting_info {
     text-align: center;
     margin-left: 20px;
-    margin-right: 50px;   
-    font-size: 35px; 
+    margin-right: 50px;
+    font-size: 35px;
 }
 
-.setting_updateInfo{
+.setting_updateInfo {
     margin: auto;
 }
 
@@ -73,10 +73,11 @@
     margin: auto;
 }
 
-.setting_label{
+.setting_label {
     font-size: 20px;
     font-family: sans-serif;
 }
+
 .setting_input {
     width: 350px;
     height: 45px;
@@ -86,6 +87,7 @@
     border: 1px solid black;
     margin-bottom: 11px;
 }
+
 .setting_optionInput {
     width: 350px;
     height: 45px;
@@ -115,7 +117,7 @@
     font-size: 25px;
     border: none;
     border-radius: 22px;
-    cursor: pointer; 
+    cursor: pointer;
     transition: background-color 0.3s ease, box-shadow 0.3s ease;
     margin: 0 auto;
     display: block;
@@ -131,7 +133,7 @@
     font-size: 25px;
     border: none;
     border-radius: 22px;
-    cursor: none; 
+    cursor: none;
     transition: background-color 0.3s ease, box-shadow 0.3s ease;
     margin: 0 auto;
     display: block;
@@ -148,7 +150,7 @@
     font-size: 25px;
     border: none;
     border-radius: 22px;
-    cursor: pointer; 
+    cursor: pointer;
     transition: background-color 0.3s ease, box-shadow 0.3s ease;
     margin: 0 auto;
     display: block;
@@ -165,8 +167,20 @@
     border: none;
     border-radius: 22px;
     cursor: none;
-    pointer-events: none; 
+    pointer-events: none;
     transition: background-color 0.3s ease, box-shadow 0.3s ease;
     margin: 0 auto;
     display: block;
+}
+
+input[type="file"] {
+    display: none;
+}
+
+.setting_custom-file-upload {
+    border: 1px solid #ccc;
+    display: inline-block;
+    padding: 6px 12px;
+    cursor: pointer;
+    color: white;
 }
