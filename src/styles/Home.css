@@ -3,11 +3,11 @@
     width: 84.5%;
 }
 
-.upper {
+.home_upper {
     display: flex;
 }
 
-.wordSets {
+.home_wordSets {
     width: 1230px;
     height: 280px;
     margin-top: 20px;
@@ -19,20 +19,20 @@
     border: 1px solid #D4D4D4;
 }
 
-.title {
+.home_title {
     margin-top: 10px;
     margin-left: 30px;
     font-family: 'Segoe UI';
 }
 
-.moveList {
+.home_moveList {
     display: flex ;
     position: fixed;
     top: 40px;
     left: 1480px
 }
 
-.set {
+.home_set {
     width: 270px;
     height: 180px;
     background-color: #21B6A8;
@@ -42,7 +42,7 @@
     border-radius: 22px;
 }
 
-.topic {
+.home_topic {
     font-family: 'Segoe UI';
     font-size: 30px;
     font-weight: 500;
@@ -50,7 +50,197 @@
     margin-top: 10px;
 }
 
-.wordNumbers {
+.home_pop_up {
+    background-color: beige;
+    width: 50%;
+    height: 65%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 22px;
+    border: solid 2px black;
+}
+
+.home_wordSet_topic {
+    text-align: center;
+    font-size: 40px;
+    font-family: sans-serif;
+    margin-top: 30px;
+}
+
+.home_vcb_count {
+    text-align: center;
+    font-size: 25px;
+    margin-top: 20px;
+}
+.home_unfocused_cancel {
+    position: absolute;
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 10px;
+    width: 40px;
+    height: 40px;
+    filter: none;
+    /* Default state for the image */
+    transition: filter 0.3s ease, transform 0.3s ease;
+    /* Smooth transition effect */
+}
+
+.home_unfocused_cancel:hover {
+    filter: brightness(0) saturate(100%) invert(28%) sepia(94%) saturate(5647%) hue-rotate(356deg) brightness(92%) contrast(99%);
+    transform: scale(1.1);
+    /* Optional zoom-in effect */
+}
+
+.home_start {
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    padding: 30px 50px;
+    font-size: 40px;
+    border: 2px solid black;
+    border-radius: 22px;
+    background-color: #90ee90;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    overflow: hidden;
+    font-family: cursive;
+
+}
+
+.home_start::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.6), transparent);
+    transition: left 0.5s;
+    z-index: 1;
+}
+
+.home_start:hover {
+    background-color: #77dd77;
+    /* Slightly darker green */
+    color: white;
+}
+
+.home_start:hover::before {
+    left: 100%;
+    /* Slide the light effect */
+}
+
+.home_card {
+    width: 50%;
+    height: 90%;
+    background-color: white;
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    border: solid 2px black;
+    border-radius: 22px;
+    user-select: none;
+}
+
+.home_back {
+    font-size: 25px;
+    margin: 20px;
+}
+
+.home_editWordSet {
+    margin: 0;
+    position: absolute;
+    top: 75%;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    padding: 30px 50px;
+    font-size: 40px;
+    border: 2px solid black;
+    border-radius: 22px;
+    background-color: #FADA7A;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    overflow: hidden;
+    font-family: cursive;
+
+}
+
+.home_editWordSet::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.6), transparent);
+    transition: left 0.5s;
+    z-index: 1;
+}
+
+.home_editWordSet:hover {
+    background-color: #FADA7A;
+    /* Slightly darker green */
+    color: white;
+}
+
+.home_editWordSet:hover::before {
+    left: 100%;
+    /* Slide the light effect */
+}
+
+.home_editWS {
+    width: 70%;
+    height: 90%;
+    background-color: white;
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    border: solid 2px black;
+    border-radius: 22px;
+}
+
+.home_deleteWord {
+    filter: none;
+    /* Default state for the image */
+    transition: filter 0.3s ease, transform 0.3s ease;
+    /* Smooth transition effect */
+}
+
+.home_deleteWord:hover {
+    filter: brightness(0) saturate(100%) invert(28%) sepia(94%) saturate(5647%) hue-rotate(356deg) brightness(92%) contrast(99%);
+    transform: scale(1.1);
+    /* Optional zoom-in effect */
+}
+
+.home_editTopic {
+    text-align: center;
+    display: block;
+    margin: auto;
+    position: relative;
+    top: 10px;
+    width: 400px;
+    height: 50px;
+    font-size: 30px;
+    background-color: aquamarine;
+    border-radius: 12px;
+}
+
+.home_wordNumbers {
     font-family: 'Segoe UI';
     font-size: 15px;
     font-weight: 500;
@@ -58,7 +248,103 @@
     margin-top: 10px;
 }
 
-#learn {
+.home_wordList {
+    width: 80%;
+    height: 65%;
+    justify-self: center;
+    justify-items: center;
+}
+
+.home_editInfo {
+    border: none;
+    background-color: burlywood;
+    font-size: 20px;
+    margin-top: 2.5px;
+    margin-bottom: 2.5px;
+    border-radius: 5px;
+    height: 30px;
+    padding: 5px;
+    margin-right: 5px;
+}
+
+
+
+.home_editBtn {
+    margin: auto;
+    position: relative;
+    top: 10px;
+    padding: 2%;
+    border-radius: 12px;
+    font-size: 20px;
+    border: 2px solid black;
+    border-radius: 22px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+}
+
+.home_addNewWord {
+    background-color: whitesmoke;
+    width: 25%;
+    height: 60%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 22px;
+    border: solid 2px black;
+}
+
+.home_findWord {
+    width: 300px;
+    height: 50px;
+    border: solid black 1px;
+    border-radius: 12px;
+    padding: 5px;
+    position: relative;
+    margin: auto;
+    top: 5px;
+    font-size: 20px;
+}
+
+.home_info {
+    font-size: 25px;
+    margin: 10px;
+}
+
+.home_addNote {
+    width: 350px;
+    padding: 5px;
+    font-size: 20px;
+}
+
+.home_addWord {
+    display: block;
+    margin: auto;
+    position: relative;
+    top: 30px;
+    width: 20%;
+    height: 10%;
+    font-size: 25px;
+    border: solid 1px black;
+    border-radius: 12px;
+    background-color: #FFF5D7;
+    cursor: pointer;
+}
+
+.home_addWord-disable {
+    display: block;
+    margin: auto;
+    position: relative;
+    top: 30px;
+    width: 20%;
+    height: 10%;
+    font-size: 25px;
+    border: solid 1px black;
+    border-radius: 12px;
+    background-color: gray;
+    pointer-events: none;
+}
+#home_learn {
     float: right;
     margin-bottom: 0;
     margin-right: 20px;
@@ -74,7 +360,7 @@
     cursor: pointer;
 }
 
-.statistic {
+.home_statistic {
     border: solid black 1px;
     width: 1000px;
     height: 300px;
@@ -82,11 +368,11 @@
     margin-left: 20px;
 }
 
-.no-ws-text {
+.home_no-ws-text {
     font-size: 50px;
     margin: 60px auto 0px auto;
 }
 
-.no-w-text{
+.home_no-w-text{
     font-size: 50px;
 }
