@@ -114,36 +114,36 @@ export default function FlashCard() {
     return (
         <>
             <div className="flashcard" style={isWordSetOpen || isCreateSet ? { opacity: 0.1 } : {}}  >
-                <div className="upper">
+                <div className="flashcard_upper">
 
-                    <div className="wordSets">
+                    <div className="flashcard_wordSets">
                         <div style={{ display: "flex" }}>
-                            <h1 className="title">Word Sets</h1>
-                            <div className="moveList"> {/*add type for button: move list of wordsets if there are more wordsets than the numbers of wordsets tha the area can show (currently: 4) */}
-                            <input type="image" src="../disabled_leftArrow.svg" onClick={ () => wordSetPage > 0 && setWordSetPage(wordSetPage - 1) }></input>
-                            <p style={{display: "inline", margin: "auto"}}>{ wordSetPage + 1 }</p>
-                            <input type="image" src="../enabled_rightArrow.svg" onClick={ () => wordSetPage < wsLastPage && setWordSetPage(wordSetPage + 1) }></input>
+                            <h1 className="flashcard_title">Word Sets</h1>
+                            <div className="flashcard_moveList"> {/*add type for button: move list of wordsets if there are more wordsets than the numbers of wordsets tha the area can show (currently: 4) */}
+                                <input type="image" src="../disabled_leftArrow.svg" onClick={() => wordSetPage > 0 && setWordSetPage(wordSetPage - 1)}></input>
+                                <p style={{ display: "inline", margin: "auto" }}>{wordSetPage + 1}</p>
+                                <input type="image" src="../enabled_rightArrow.svg" onClick={() => wordSetPage < wsLastPage && setWordSetPage(wordSetPage + 1)}></input>
                             </div>
                         </div>
 
                         <div style={{ display: "flex" }}>
-                            <div className="createSet">
-                                <input type="image" id="create" src="./add_wordset.svg" onClick={() => setCreateSet(true)}></input>
+                            <div className="flashcard_createSet">
+                                <input type="image" id="flashcard_create" src="./add_wordset.svg" onClick={() => setCreateSet(true)}></input>
                             </div>
-                            { wordSets.length ? wordSets.map((v, i) => <WordSetCard key={i} wordSetInfo={v} setWordSetOpen={setWordSetOpen} setLearningWordSet={setLearningWordSet} />) : <p className="no-ws-text">There's no wordsets</p> }
+                            {wordSets.length ? wordSets.map((v, i) => <WordSetCard key={i} wordSetInfo={v} setWordSetOpen={setWordSetOpen} setLearningWordSet={setLearningWordSet} />) : <p className="no-ws-text">There's no wordsets</p>}
                         </div>
                     </div>
                 </div>
 
-                <h1 className="rcmTitle">Our recommend word sets</h1>
-                <div className="moveList"> {/*add type for button: move list of wordsets if there are more wordsets than the numbers of wordsets tha the area can show (currently: 4) */}
-                    <input type="image" src="../disabled_leftArrow.svg" onClick={ () => rcmWordSetPage > 0 && setRcmWordSetPage(rcmWordSetPage - 1) }></input>
-                    <p style={{display: "inline", marginTop: "auto", marginBottom: "auto"}}>{ rcmWordSetPage + 1 }</p>
-                    <input type="image" src="../enabled_rightArrow.svg" onClick={ () => rcmWordSetPage < rcmWsLastPage && setRcmWordSetPage(rcmWordSetPage + 1) }></input>
+                <h1 className="flashcard_rcmTitle">Our recommend word sets</h1>
+                <div className="flashcard_moveList_rcm"> {/*add type for button: move list of wordsets if there are more wordsets than the numbers of wordsets tha the area can show (currently: 4) */}
+                    <input type="image" src="../disabled_leftArrow.svg" onClick={() => rcmWordSetPage > 0 && setRcmWordSetPage(rcmWordSetPage - 1)}></input>
+                    <p style={{ display: "inline", marginTop: "auto", marginBottom: "auto" }}>{rcmWordSetPage + 1}</p>
+                    <input type="image" src="../enabled_rightArrow.svg" onClick={() => rcmWordSetPage < rcmWsLastPage && setRcmWordSetPage(rcmWordSetPage + 1)}></input>
                 </div>
-                <div className="rcmWordSets">
+                <div className="flashcard_rcmWordSets">
                     <div style={{ display: "flex" }}>
-                        { rcmWordSets.map((v, i) => <RcmWordSetCard key={i} setPreviewRcmWS={setPreviewRcmWS} curWordSet={v} setViewingWordSet={setViewingWordSet} setUpdatePageSignal={setUpdatePageSignal} />) }
+                        {rcmWordSets.map((v, i) => <RcmWordSetCard key={i} setPreviewRcmWS={setPreviewRcmWS} curWordSet={v} setViewingWordSet={setViewingWordSet} setUpdatePageSignal={setUpdatePageSignal} />)}
                     </div>
                 </div>
             </div>
@@ -200,13 +200,13 @@ function WordSetPopUp({ updateWsEditSignal, learningWordSet, isWordSetOpen, setW
     return (<>
         {
             isWordSetOpen &&
-            <div className="pop_up">
-                <input type="image" className="unfocused_cancel" src="./unfocused_cancel.svg" onClick={() => { setWordSetOpen(false); setVisible(true); setTurn(false); setAddNewWord(false); setWordSetEdit(false); setWordPage(0) }}></input>
+            <div className="flashcard_pop_up">
+                <input type="image" className="flashcard_unfocused_cancel" src="./unfocused_cancel.svg" onClick={() => { setWordSetOpen(false); setVisible(true); setTurn(false); setAddNewWord(false); setWordSetEdit(false); setWordPage(0) }}></input>
                 {isVisible ? <>
-                    <h1 className="wordSet_topic">{ learningWordSet.topic }</h1>
-                    <p className="vcb_count">Vocabulary count: { learningWordSet.noWords }</p>
-                    <button className="start" onClick={() => setVisible(false)}>Start</button>
-                    <button className="editWordSet" onClick={() => setWordSetEdit(true)}>Edit word set</button>
+                    <h1 className="flashcard_wordSet_topic">{learningWordSet.topic}</h1>
+                    <p className="flashcard_vcb_count">Vocabulary count: {learningWordSet.noWords}</p>
+                    <button className="flashcard_start" onClick={() => setVisible(false)}>Start</button>
+                    <button className="flashcard_editWordSet" onClick={() => setWordSetEdit(true)}>Edit word set</button>
                 </> : <FlipCard learningWordSet={learningWordSet} setTurn={setTurn} isTurn={isTurn} />}
                 {
                     isEditWordSet && <WordSetEdit learningWordSet={learningWordSet} words={words} wLastPage={wLastPage} wordPage={wordPage} setWordPage={setWordPage} setWordSetEdit={setWordSetEdit} setAddNewWord={setAddNewWord} />
@@ -279,7 +279,7 @@ function FlipCard({ learningWordSet, setTurn, isTurn }) {
     }, [curWordIdx]);
 
     return (
-        <div className="card" onClick={() => { 
+        <div className="flashcard_card" onClick={() => {
             isTurn && curWordIdx < allWords.length - 1 && setCurWordIdx(curWordIdx + 1);
             if (curWordIdx < allWords.length - 1) {
                 setTurn(!isTurn);
@@ -290,23 +290,23 @@ function FlipCard({ learningWordSet, setTurn, isTurn }) {
             {
                 allWords.length ?
                     isTurn ?
-                    <div className="back">
-                        <div style={{ display: "flex", justifyContent: "center", fontSize: 40, marginBottom: 20 }}>
-                            <p className="word">{ allWords[curWordIdx].word }</p>
-                            { foundWord.isFound && <p className="wordType">({ foundWord.partOfSpeech })</p> }
+                        <div className="flashcard_back">
+                            <div style={{ display: "flex", justifyContent: "center", fontSize: 40, marginBottom: 20 }}>
+                                <p className="flashcard_word">{allWords[curWordIdx].word}</p>
+                                {foundWord.isFound && <p className="flashcard_wordType">({foundWord.partOfSpeech})</p>}
+                            </div>
+                            <div style={{ display: "flex" }}>
+                                {foundWord.isFound && foundWord.phonetic && <p className="flashcard_phonetic"><b>Phonetic:</b> {foundWord.phonetic}</p>}
+                            </div>
+                            {/* <p className="flashcard_meaning"><b>Meaning:</b>{ } Thẻ thông tin</p> */}
+                            {foundWord.isFound && <p className="flashcard_definition"><b>Definition:</b> {foundWord.definition}</p>}
+                            {foundWord.isFound && foundWord.example && <p className="flashcard_example"><b>Example:</b> {foundWord.example}</p>}
+                            {allWords[curWordIdx].note && <p className="flashcard_note"><b>Note:</b> {allWords[curWordIdx].note}</p>}
+                        </div> :
+                        <div className="flashcard_front">
+                            <p style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)", fontSize: 60, wordWrap: "break-word" }}>{allWords[curWordIdx].word}</p>
                         </div>
-                        <div style={{ display: "flex" }}>
-                            { foundWord.isFound && foundWord.phonetic && <p className="phonetic"><b>Phonetic:</b> { foundWord.phonetic }</p> }
-                        </div>
-                        {/* <p className="meaning"><b>Meaning:</b>{ } Thẻ thông tin</p> */}
-                        { foundWord.isFound && <p className="definition"><b>Definition:</b> { foundWord.definition }</p> }
-                        { foundWord.isFound && foundWord.example && <p className="example"><b>Example:</b> { foundWord.example }</p> }
-                        { allWords[curWordIdx].note && <p className="note"><b>Note:</b> { allWords[curWordIdx].note }</p> }
-                    </div> :
-                    <div className="front">
-                        <p style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)", fontSize: 60, wordWrap: "break-word" }}>{ allWords[curWordIdx].word }</p>
-                    </div>
-                : <p>This wordset has no word</p>
+                    : <p>This wordset has no word</p>
             }
         </div>
     );
@@ -316,7 +316,7 @@ function WordSetEdit({ learningWordSet, words, wLastPage, wordPage, setWordPage,
     const [needUpdate, setNeedUpdate] = useState(false); // signal to update words and wordset's topic
     const [changedWords, setChangedWords] = useState([]); // list of changed words
     const changedTopic = useRef(learningWordSet.topic); // change if current wordset's topic changed
-    
+
     // useEffect uses to update changed words
     useEffect(() => {
         async function updateWords(id, word, note) {
@@ -361,31 +361,31 @@ function WordSetEdit({ learningWordSet, words, wLastPage, wordPage, setWordPage,
             }
             window.alert('Words changed successfully');
         }
-        
+
         setNeedUpdate(false);
     }, [needUpdate])
-    
+
     return (
-        <div className="editWS">
+        <div className="flashcard_editWS">
             <input
                 type="text"
-                className="editTopic"
+                className="flashcard_editTopic"
                 defaultValue={learningWordSet.topic}
                 onChange={(e) => { changedTopic.current = e.target.value }}
             ></input>
             <div style={{ display: "flex", justifyContent: "center", margin: 20 }}>
-                <input type="image" src="./disabled_leftArrow.svg"  onClick={ () => wordPage > 0 && setWordPage(wordPage - 1) }></input>
-                <p style={{display: "inline", marginTop: "auto", marginBottom: "auto"}}>{ wordPage + 1 }</p>
-                <input type="image" src="./enabled_rightArrow.svg"  onClick={ () => wordPage < wLastPage && setWordPage(wordPage + 1) }></input>
-                <input type="image" className="unfocused_cancel" src="./unfocused_cancel.svg" onClick={() => { setWordSetEdit(false); setAddNewWord(false) }}></input>
+                <input type="image" src="./disabled_leftArrow.svg" onClick={() => wordPage > 0 && setWordPage(wordPage - 1)}></input>
+                <p style={{ display: "inline", marginTop: "auto", marginBottom: "auto" }}>{wordPage + 1}</p>
+                <input type="image" src="./enabled_rightArrow.svg" onClick={() => wordPage < wLastPage && setWordPage(wordPage + 1)}></input>
+                <input type="image" className="flashcard_unfocused_cancel" src="./unfocused_cancel.svg" onClick={() => { setWordSetEdit(false); setAddNewWord(false) }}></input>
             </div>
 
-            <div className="wordList">
-                { words.length ? words.map((v, i) => <WordRow key={i} wordInfo={v} setChangedWords={setChangedWords} />) : <p className="no-w-text">There's no word</p> }
+            <div className="flashcard_wordList">
+                {words.length ? words.map((v, i) => <WordRow key={i} wordInfo={v} setChangedWords={setChangedWords} />) : <p className="no-w-text">There's no word</p>}
             </div>
             <div style={{ display: "flex" }}>
-                <button className="editBtn" style={{ backgroundColor: "#81C784" }} onClick={() => { setAddNewWord(true) }}>Add new word</button>
-                <button className="editBtn" style={{ backgroundColor: "#FFEB3B" }} onClick={ () => setNeedUpdate(true) }>Apply change</button>
+                <button className="flashcard_editBtn" style={{ backgroundColor: "#81C784" }} onClick={() => { setAddNewWord(true) }}>Add new word</button>
+                <button className="flashcard_editBtn" style={{ backgroundColor: "#FFEB3B" }} onClick={() => setNeedUpdate(true)}>Apply change</button>
             </div>
         </div>
     );
@@ -426,13 +426,13 @@ function CreateWordSet({ setUpdatePageSignal, isCreateSet, setCreateSet }) {
     return (
         <>
             {isCreateSet &&
-                <div className="createNewSet">
+                <div className="flashcard_createNewSet">
                     <div>
                         <h1 style={{ display: "flex", margin: 15, fontSize: 25, marginBottom: 30 }}>Create new word set</h1>
-                        <input type="image" className="unfocused_cancel" src="./unfocused_cancel.svg" onClick={() => { { setCreateSet(false) } }}></input>
+                        <input type="image" className="flashcard_unfocused_cancel" src="./unfocused_cancel.svg" onClick={() => { { setCreateSet(false) } }}></input>
                     </div>
-                    <input type="text" id="createSet" required onChange={ (e) => setWordSetTopic(e.target.value) }></input>
-                    <input type="button" id="setName" value={"Create"} onClick={ () => setWsCreateSignal(!wsCreateSignal) }></input>
+                    <input type="text" id="flashcard_createSet" required onChange={(e) => setWordSetTopic(e.target.value)}></input>
+                    <input type="button" id="flashcard_setName" value={"Create"} onClick={() => setWsCreateSignal(!wsCreateSignal)}></input>
                 </div>
             }
         </>
@@ -524,26 +524,26 @@ function AddNewWord({ setUpdateWsEditSignal, learningWordSet, isAddNewWord, setA
         <>
             {
                 isAddNewWord &&
-                <div className="addNewWord">
+                <div className="flashcard_addNewWord">
                     <div style={{ display: "flex" }}>
-                        <input type="text" className="findWord" placeholder="Type the word you want to add" onChange={ (e) => setWordToSearch(e.target.value) }></input>
-                        <input type="image" className="unfocused_cancel" src="./unfocused_cancel.svg" onClick={() => setAddNewWord(false)}></input>
+                        <input type="text" className="flashcard_findWord" placeholder="Type the word you want to add" onChange={(e) => setWordToSearch(e.target.value)}></input>
+                        <input type="image" className="flashcard_unfocused_cancel" src="./unfocused_cancel.svg" onClick={() => setAddNewWord(false)}></input>
                     </div>
                     <div style={{ display: "flex", justifyContent: "center", fontSize: 40, marginTop: 20 }}>
-                        { foundWord.isFound && <p className="word"> { foundWord.word }</p> }
-                        { foundWord.isFound && <p className="wordType"> ({ foundWord.partOfSpeech })</p> }
+                        {foundWord.isFound && <p className="flashcard_word"> {foundWord.word}</p>}
+                        {foundWord.isFound && <p className="flashcard_wordType"> ({foundWord.partOfSpeech})</p>}
                     </div>
                     <div style={{ display: "flex" }}>
-                        { foundWord.isFound && foundWord.phonetic && <p className="info phonetic"><b>Phonetic:</b> { foundWord.phonetic }</p> }
+                        {foundWord.isFound && foundWord.phonetic && <p className="flashcard_info phonetic"><b>Phonetic:</b> {foundWord.phonetic}</p>}
                     </div>
-                    {/* <p className="info meaning"><b>Meaning:</b>{ foundWord.translatedText }</p> */}
-                    { foundWord.isFound && <p className="info definition"><b>Definition:</b> { foundWord.definition }</p> }
-                    { foundWord.isFound && foundWord.example && <p className="info example"><b>Example:</b> { foundWord.example }</p> }
+                    {/* <p className="flashcard_info flashcard_meaning"><b>Meaning:</b>{ foundWord.translatedText }</p> */}
+                    {foundWord.isFound && <p className="flashcard_info flashcard_definition"><b>Definition:</b> {foundWord.definition}</p>}
+                    {foundWord.isFound && foundWord.example && <p className="flashcard_info flashcard_example"><b>Example:</b> {foundWord.example}</p>}
                     <div style={{ display: "flex" }}>
-                        <p className="info note"><b>Note:</b></p>
-                        <input placeholder="Add your note" type="text" className="addNote" onChange={ (e) => setNote(e.target.value) }></input>
+                        <p className="flashcard_info flashcard_note"><b>Note:</b></p>
+                        <input placeholder="Add your note" type="text" className="flashcard_addNote" onChange={(e) => setNote(e.target.value)}></input>
                     </div>
-                    <input type="button" value={"Add"} className={ foundWord.isFound ? "addWord" : "addWord-disable" } onClick={ () => setAddSignal(!addSignal) }></input>
+                    <input type="button" value={"Add"} className={foundWord.isFound ? "flashcard_addWord" : "flashcard_addWord-disable"} onClick={() => setAddSignal(!addSignal)}></input>
                 </div>
             }
         </>
@@ -552,10 +552,10 @@ function AddNewWord({ setUpdateWsEditSignal, learningWordSet, isAddNewWord, setA
 
 function WordSetCard({ wordSetInfo, setWordSetOpen, setLearningWordSet }) {
     return (
-        <div className="set">
-            <p className="topic">{wordSetInfo.topic}</p>
-            <p className="wordNumbers">Number of words: {wordSetInfo.noWords}</p>  {/*show number of words in this wordset*/}
-            <button type="" id="learn" onClick={() => { setWordSetOpen(true); setLearningWordSet(wordSetInfo) }}>Learn</button>  {/*add type for button: begin to learn words in wordset*/}
+        <div className="flashcard_set">
+            <p className="flashcard_topic">{wordSetInfo.topic}</p>
+            <p className="flashcard_wordNumbers">Number of words: {wordSetInfo.noWords}</p>  {/*show number of words in this wordset*/}
+            <button type="" id="flashcard_learn" onClick={() => { setWordSetOpen(true); setLearningWordSet(wordSetInfo) }}>Learn</button>  {/*add type for button: begin to learn words in wordset*/}
         </div>
     );
 }
@@ -586,10 +586,10 @@ function WordRow({ wordInfo, setChangedWords }) {
         {!isDeleted && <div style={{ display: "flex" }}> {/*add this div to add word in this list */}
             <input
                 type="text"
-                className="editInfo"
+                className="flashcard_editInfo"
                 defaultValue={wordInfo.word}
                 required
-                onBlur={ (e) => setChangedWords(
+                onBlur={(e) => setChangedWords(
                     (old) => {
                         if (isChanged.current) {
                             const exists = old.some(item => item.id === wordInfo.id);
@@ -605,16 +605,16 @@ function WordRow({ wordInfo, setChangedWords }) {
                             }
                         }
                         return old;
-                    } 
+                    }
                 )}
-                onChange={ () => isChanged.current = true }
+                onChange={() => isChanged.current = true}
             ></input>
             <input
                 type="text"
-                className="editInfo"
+                className="flashcard_editInfo"
                 defaultValue={wordInfo.note}
                 required
-                onBlur={ (e) => setChangedWords(
+                onBlur={(e) => setChangedWords(
                     (old) => {
                         if (isChanged.current) {
                             const exists = old.some(item => item.id === wordInfo.id);
@@ -630,11 +630,11 @@ function WordRow({ wordInfo, setChangedWords }) {
                             }
                         }
                         return old;
-                    } 
+                    }
                 )}
-                onChange={ () => isChanged.current = true }
+                onChange={() => isChanged.current = true}
             ></input>
-            <input type="image" className="deleteWord" src="./unfocused_cancel.svg" style={{ padding: "1px" }} onClick={ () => { setDeleted(true); } }></input>
+            <input type="image" className="flashcard_deleteWord" src="./unfocused_cancel.svg" style={{ padding: "1px" }} onClick={() => { setDeleted(true); }}></input>
         </div>}
     </>)
 }
@@ -711,22 +711,22 @@ function PreviewRcmWordSet({ setUpdatePageSignal, viewingWordSet, rcmWords, rcmW
         <>
             {
                 isPreviewRcmWS &&
-                <div className="preview">
+                <div className="flashcard_preview">
                     <div style={{ display: "flex" }}>
-                        <input type="text" className="editTopic" value={viewingWordSet.topic} style={{ pointerEvents: "none" }}></input>
-                        <input type="image" className="unfocused_cancel" src="./unfocused_cancel.svg" onClick={() => setAddNewWord(false)}></input>
+                        <input type="text" className="flashcard_editTopic" value={viewingWordSet.topic} style={{ pointerEvents: "none" }}></input>
+                        <input type="image" className="flashcard_unfocused_cancel" src="./unfocused_cancel.svg" onClick={() => setAddNewWord(false)}></input>
                     </div>
                     <div style={{ display: "flex", justifyContent: "center", margin: 20 }}>
-                        <input type="image" src="./disabled_leftArrow.svg" onClick={ () => rcmWordPage > 0 && setRcmWordPage(rcmWordPage - 1) }></input>
-                        <p style={{display: "inline", margin: "auto"}}>{ rcmWordPage + 1 }</p>
-                        <input type="image" src="./enabled_rightArrow.svg" onClick={ () => rcmWordPage < rcmWsLastPage && setRcmWordPage(rcmWordPage + 1) }></input>
-                        <input type="image" className="unfocused_cancel" src="./unfocused_cancel.svg" onClick={() => { setPreviewRcmWS(false) }}></input>
+                        <input type="image" src="./disabled_leftArrow.svg" onClick={() => rcmWordPage > 0 && setRcmWordPage(rcmWordPage - 1)}></input>
+                        <p style={{ display: "inline", margin: "auto" }}>{rcmWordPage + 1}</p>
+                        <input type="image" src="./enabled_rightArrow.svg" onClick={() => rcmWordPage < rcmWsLastPage && setRcmWordPage(rcmWordPage + 1)}></input>
+                        <input type="image" className="flashcard_unfocused_cancel" src="./unfocused_cancel.svg" onClick={() => { setPreviewRcmWS(false) }}></input>
                     </div>
-                    <div className="wordList">
-                        { rcmWords.length ? rcmWords.map((v, i) => <RcmWordRow key={i} wordInfo={v} />) : <p className="no-w-text">There's no word</p> }
+                    <div className="flashcard_wordList">
+                        {rcmWords.length ? rcmWords.map((v, i) => <RcmWordRow key={i} wordInfo={v} />) : <p className="no-w-text">There's no word</p>}
                     </div>
                     <div style={{ display: "flex" }}>
-                        <button className="editBtn" style={{ backgroundColor: "#81C784" }} onClick={ () => setNeedSave(true) }>Add to your word sets</button>
+                        <button className="flashcard_editBtn" style={{ backgroundColor: "#81C784" }} onClick={() => setNeedSave(true)}>Add to your word sets</button>
                     </div>
                 </div>
             }
@@ -802,12 +802,12 @@ function RcmWordSetCard({ setPreviewRcmWS, curWordSet, setViewingWordSet, setUpd
     }, [needSave]);
 
     return (
-        <div className="rcmSet">
-            <p className="topic">{curWordSet.topic}</p>
-            <p className="wordNumbers">Number of words: { curWordSet.noWords }</p>  {/*show number of words in this wordset*/}
+        <div className="flashcard_rcmSet">
+            <p className="flashcard_topic">{curWordSet.topic}</p>
+            <p className="flashcard_wordNumbers">Number of words: {curWordSet.noWords}</p>  {/*show number of words in this wordset*/}
             <div style={{ display: "flex", justifyContent: "right", marginTop: 35, marginRight: 10 }}>
-                <input type="image" id="add" className="rcmButton" src="./preview.svg" style={{ padding: 10 }} onClick={() => { setPreviewRcmWS(true); setViewingWordSet(curWordSet) }}></input>
-                <input type="image" id="preview" className="rcmButton" src="./add_wordset.svg" style={{ padding: 5 }} onClick={ () => setNeedSave(true) }></input>
+                <input type="image" id="flashcard_add" className="flashcard_rcmButton" src="./preview.svg" style={{ padding: 10 }} onClick={() => { setPreviewRcmWS(true); setViewingWordSet(curWordSet) }}></input>
+                <input type="image" id="flashcard_preview" className="flashcard_rcmButton" src="./add_wordset.svg" style={{ padding: 5 }} onClick={() => setNeedSave(true)}></input>
             </div>
         </div>
     )
@@ -816,8 +816,8 @@ function RcmWordSetCard({ setPreviewRcmWS, curWordSet, setViewingWordSet, setUpd
 function RcmWordRow({ wordInfo }) {
     return (
         <div style={{ display: "flex", pointerEvents: "none" }}> {/*add this div to add word in this list */}
-            <input type="text" className="editInfo" value={wordInfo.word}></input>
-            <input type="text" className="editInfo" value={wordInfo.note}></input>
+            <input type="text" className="flashcard_editInfo" value={wordInfo.word}></input>
+            <input type="text" className="flashcard_editInfo" value={wordInfo.note}></input>
         </div>
     );
 }
