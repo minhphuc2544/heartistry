@@ -197,7 +197,7 @@ function FlipCard({ learningWordSet, setTurn, isTurn }) {
         if (allWords.length) {
             findWord(allWords[curWordIdx].word);
         }
-    }, [curWordIdx]);
+    }, [curWordIdx, allWords]);
 
     return (
         <div className="home_card" onClick={() => {
