@@ -115,7 +115,6 @@ export default function FlashCard() {
         <>
             <div className="flashcard" style={isWordSetOpen || isCreateSet ? { opacity: 0.1 } : {}}  >
                 <div className="flashcard_upper">
-
                     <div className="flashcard_wordSets">
                         <div style={{ display: "flex" }}>
                             <h1 className="flashcard_title">Word Sets</h1>
@@ -130,7 +129,7 @@ export default function FlashCard() {
                             <div className="flashcard_createSet">
                                 <input type="image" id="flashcard_create" src="./add_wordset.svg" onClick={() => setCreateSet(true)}></input>
                             </div>
-                            {wordSets.length ? wordSets.map((v, i) => <WordSetCard key={i} wordSetInfo={v} setWordSetOpen={setWordSetOpen} setLearningWordSet={setLearningWordSet} />) : <p className="no-ws-text">There's no wordsets</p>}
+                            {wordSets.length ? wordSets.map((v, i) => <WordSetCard key={i} wordSetInfo={v} setWordSetOpen={setWordSetOpen} setLearningWordSet={setLearningWordSet} />) : <p className="flashcard_no-ws-text">There is no wordsets to display</p>}
                         </div>
                     </div>
                 </div>
@@ -306,7 +305,7 @@ function FlipCard({ learningWordSet, setTurn, isTurn }) {
                         <div className="flashcard_front">
                             <p style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)", fontSize: 60, wordWrap: "break-word" }}>{allWords[curWordIdx].word}</p>
                         </div>
-                    : <p>This wordset has no word</p>
+                    : <p style={{textAlign: "center", marginTop: "50%", fontFamily: "cursive", fontSize: "35px"}}>This wordset has no word</p>
             }
         </div>
     );
@@ -381,7 +380,7 @@ function WordSetEdit({ learningWordSet, words, wLastPage, wordPage, setWordPage,
             </div>
 
             <div className="flashcard_wordList">
-                {words.length ? words.map((v, i) => <WordRow key={i} wordInfo={v} setChangedWords={setChangedWords} />) : <p className="no-w-text">There's no word</p>}
+                {words.length ? words.map((v, i) => <WordRow key={i} wordInfo={v} setChangedWords={setChangedWords} />) : <p className="flashcard_no-w-text">There is no word</p>}
             </div>
             <div style={{ display: "flex" }}>
                 <button className="flashcard_editBtn" style={{ backgroundColor: "#81C784" }} onClick={() => { setAddNewWord(true) }}>Add new word</button>

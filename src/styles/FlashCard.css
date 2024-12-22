@@ -134,6 +134,15 @@
     background-color: #A3EBB1;
 }
 
+.flashcard_no-ws-text {
+    font-size: 50px;
+    margin: auto;
+}
+.flashcard_no-w-text{
+    font-size: 50px;
+    font-family: cursive;
+}
+
 .flashcard_pop_up {
     background-color: beige;
     width: 50%;

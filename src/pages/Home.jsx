@@ -61,7 +61,7 @@ export default function Home() {
                     </div>
 
                     <div style={{ display: "flex" }}>
-                        { wordSets.length ? wordSets.map((v, i) => <WordSetCard key={i} wordSetInfo={v} setWordSetOpen={setWordSetOpen} setLearningWordSet={setLearningWordSet} />) : <p className="no-ws-text">There's no wordsets</p> }
+                        { wordSets.length ? wordSets.map((v, i) => <WordSetCard key={i} wordSetInfo={v} setWordSetOpen={setWordSetOpen} setLearningWordSet={setLearningWordSet} />) : <p className="home_no-ws-text">There is no word set to display </p> }
                     </div>
                 </div>
             </div>
@@ -227,7 +227,7 @@ function FlipCard({ learningWordSet, setTurn, isTurn }) {
                     <div className="home_front">
                         <p style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)", fontSize: 60, wordWrap: "break-word" }}>{ allWords[curWordIdx].word }</p>
                     </div>
-                : <p>This wordset has no word</p>
+                : <p style={{textAlign: "center", marginTop: "50%", fontFamily: "cursive", fontSize: "35px"}}>This wordset has no word</p>
             }
         </div>
     );
@@ -302,7 +302,7 @@ function WordSetEdit({ learningWordSet, words, wLastPage, wordPage, setWordPage,
             </div>
 
             <div className="home_wordList">
-                { words.length ? words.map((v, i) => <WordRow key={i} wordInfo={v} setChangedWords={setChangedWords} />) : <p className="no-w-text">There's no word</p> }
+                { words.length ? words.map((v, i) => <WordRow key={i} wordInfo={v} setChangedWords={setChangedWords} />) : <p className="home_no-w-text">There is no word</p> }
             </div>
             <div style={{ display: "flex" }}>
                 <button className="home_editBtn" style={{ backgroundColor: "#81C784" }} onClick={() => { setAddNewWord(true) }}>Add new word</button>

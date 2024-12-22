@@ -370,9 +370,10 @@
 
 .home_no-ws-text {
     font-size: 50px;
-    margin: 60px auto 0px auto;
+    margin: auto;
 }
 
 .home_no-w-text{
     font-size: 50px;
+    font-family: cursive;
 }
