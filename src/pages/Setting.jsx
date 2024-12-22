@@ -40,7 +40,7 @@ export default function Setting() {
                 throw new Error('Failed to upload avatar');
             }
             const data = await response.json();
-            
+
             // upload the avatar link to the database
             const requestBody = {
                 "avatarUrl": data.secure_url,
@@ -120,26 +120,26 @@ export default function Setting() {
     return (
         <div className="setting">
             <div style={{ display: "flex", backgroundColor: "#21B6A8", marginTop: "20px", borderRadius: "22px" }}>
-                <div className="userAvatar">
-                    <img src={userInfo.avatarUrl ? userInfo.avatarUrl : "./default_user.png" } onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)}></img>
+                <div className="setting_userAvatar">
+                    <img src={userInfo.avatarUrl ? userInfo.avatarUrl : "./default_user.png"} onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)}></img>
                     {
                         isHovered &&
-                        <div className="upload-button-container" onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)}>
-                            <label htmlFor="avatar-input" className="custom-file-upload">Change Avatar</label>
+                        <div className="setting_upload-button-container" onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)}>
+                            <label htmlFor="avatar-input" className="setting_custom-file-upload">Change Avatar</label>
                         </div>
                     }
                     <input accept=".png,.jpg,.jpeg" id="avatar-input" type="file" onChange={(e) => setAvatarFile(e.target.files[0])} />
                 </div>
-                <div className="userStudyInfo">
-                    <p className="title" style={{ marginTop: "60px" }}>You have studied with us { Math.ceil((new Date() - new Date(userInfo.createAt)) / (1000 * 60 * 60 * 24)) } days from { userInfo ? new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'long', day: 'numeric' }).format(new Date(userInfo.createAt)) : "NaN" }</p>
+                <div className="setting_userStudyInfo">
+                    <p className="setting_title" style={{ marginTop: "60px" }}>You have studied with us {Math.ceil((new Date() - new Date(userInfo.createAt)) / (1000 * 60 * 60 * 24))} days from {userInfo ? new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'long', day: 'numeric' }).format(new Date(userInfo.createAt)) : "NaN"}</p>
                     <div style={{ display: "flex", justifyContent: "center" }}>
                         <div>
-                            <p className="info title">Words</p>
-                            <p className="info">{ noWords }</p>
+                            <p className="setting_info setting_title">Words</p>
+                            <p className="setting_info">{noWords}</p>
                         </div>
                         <div>
-                            <p className="info title">Word sets</p>
-                            <p className="info">{ noWordSets }</p>
+                            <p className="setting_info setting_title">Word sets</p>
+                            <p className="setting_info">{noWordSets}</p>
                         </div>
                     </div>
                 </div>
@@ -214,46 +214,54 @@ function UpdateInfoZone({ userInfo }) {
     }, [needUpdate]);
 
     return (
-        <div className="userUpdateInfo">
+        <div className="setting_userUpdateInfo">
             <h1 style={{ fontSize: "45px", fontFamily: "sans-serif", margin: "20px" }}>Profile</h1>
             <div style={{ display: "flex", height: "400px", justifyContent: "center" }}>
-                <div className="updateInfo">
-                    <div>
-                        <label className="label">Username</label><br></br>
-                        <input type="text" className="input" id="username" defaultValue={userInfo.username} required style={{ marginBottom: 10, pointerEvents: "none", backgroundColor: "lightgrey" }} /><br></br>
-                    </div>
-                    <div>
-                        <label className="label">Email</label><br></br>
-                        <input onChange={(e) => setEmail(e.target.value)} defaultValue={userInfo.email} type="text" className="input" id="username" required style={{ marginBottom: 10 }} /><br></br>
-                    </div>
-                    <div>
-                        <label className="label">Phone number</label><br></br>
-                        <input onChange={(e) => setPhoneNumber(e.target.value)} defaultValue={userInfo.phoneNumber} type="tel" pattern="0[0-9]{9}" className="input" id="username" required style={{ marginBottom: 10 }} /><br></br>
-                    </div>
-                    <div>
-                        <label className="label">Full name</label><br></br>
-                        <input onChange={(e) => setFullname(e.target.value)} defaultValue={userInfo.fullname} className="input" type="text" required></input>
-                    </div>
-                    <div>
-                        <label className="label">Gender</label><br></br>
-                        <select className="optionInput" onChange={(e) => setGender(e.target.value)} defaultValue={userInfo.gender}>
-                            <option value={"male"}>Male</option>
-                            <option value={"female"}>Female</option>
-                            <option value={"unspecified"}>I prefer not to say</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label className="label">Date of Birth</label><br></br>
-                        <input onChange={(e) => setDob(e.target.value)} defaultValue={userInfo.dob} className="DoBInput" type="date" required></input>
+                <div className="setting_updateInfo">
+                    <div style={{ display: "flex" }}>
+                        <div style={{ marginRight: "20px" }}>
+                            <div>
+                                <label className="setting_label">Username</label><br></br>
+                                <input type="text" className="setting_input" id="username" defaultValue={userInfo.username} required style={{ marginBottom: 10, pointerEvents: "none", backgroundColor: "lightgrey" }} />
+                            </div>
+                            <div>
+                                <label className="setting_label">Email</label><br></br>
+                                <input onChange={(e) => setEmail(e.target.value)} defaultValue={userInfo.email} type="text" className="setting_input" id="username" required style={{ marginBottom: 10 }} />
+                            </div>
+                            <div>
+                                <label className="setting_label">Phone number</label><br></br>
+                                <input onChange={(e) => setPhoneNumber(e.target.value)} defaultValue={userInfo.phoneNumber} type="tel" pattern="0[0-9]{9}" className="setting_input" id="username" required style={{ marginBottom: 10 }} />
+                            </div>
+                        </div>
+
+                        <div>
+                            <div>
+                                <label className="setting_label">Full name</label><br></br>
+                                <input onChange={(e) => setFullname(e.target.value)} defaultValue={userInfo.fullname} className="setting_input" type="text" required></input>
+                            </div>
+                            <div>
+                                <label className="setting_label">Gender</label><br></br>
+                                <select className="setting_optionInput" onChange={(e) => setGender(e.target.value)} defaultValue={userInfo.gender}>
+                                    <option value={"male"}>Male</option>
+                                    <option value={"female"}>Female</option>
+                                    <option value={"unspecified"}>I prefer not to say</option>
+                                </select>
+                            </div>
+
+                            <div>
+                                <label className="setting_label">Date of Birth</label><br></br>
+                                <input onChange={(e) => setDob(e.target.value)} defaultValue={userInfo.dob} className="setting_DoBInput" type="date" data-date="" data-date-format="DD MM YYYY" required></input>
+                            </div>
+                        </div>
                     </div>
 
-                    <button className={needUpdate ? "updateBtn-disable" : "updateBtn"} onClick={() => setNeedUpdate(true)}>{needUpdate ? "Updated" : "Update"}</button>
+                    <button className={needUpdate ? "setting_updateBtn-disable" : "setting_updateBtn"} onClick={() => setNeedUpdate(true)}>{needUpdate ? "Updated" : "Update"}</button>
                 </div>
-                <div className="changePassword">
+                <div className="setting_changePassword">
                     {
                         isChangePassword ?
                             <ChangePassZone /> :
-                            <button className="changepwdBtn" onClick={() => setChangePassword(!isChangePassword)}>Change password</button>
+                            <button className="setting_changepwdBtn" onClick={() => setChangePassword(!isChangePassword)}>Change password</button>
                     }
                 </div>
             </div>
@@ -313,13 +321,13 @@ function ChangePassZone({ }) {
 
     return (
         <div>
-            <label className="label">Current password</label><br></br>
-            <input onChange={(e) => setCurPass(e.target.value)} type="password" className="input" id="username" required style={{ marginBottom: 10 }} /><br></br>
-            <label className="label">New password</label><br></br>
-            <input onChange={(e) => setNewPass(e.target.value)} type="password" className="input" id="username" required style={{ marginBottom: 10 }} /><br></br>
-            <label className="label">Confirm new password</label><br></br>
-            <input onChange={(e) => setNewPassConf(e.target.value)} type="password" className="input" id="username" required style={{ marginBottom: 10 }} /><br></br>
-            <button className={needChange ? "changepwdBtn-disable" : "changepwdBtn"} onClick={() => setNeedChange(true)}>{needChange ? "Changed" : "Change"}</button>
+            <label className="setting_label">Current password</label><br></br>
+            <input onChange={(e) => setCurPass(e.target.value)} type="password" className="setting_input" id="username" required style={{ marginBottom: 10 }} /><br></br>
+            <label className="setting_label">New password</label><br></br>
+            <input onChange={(e) => setNewPass(e.target.value)} type="password" className="setting_input" id="username" required style={{ marginBottom: 10 }} /><br></br>
+            <label className="setting_label">Confirm new password</label><br></br>
+            <input onChange={(e) => setNewPassConf(e.target.value)} type="password" className="setting_input" id="username" required style={{ marginBottom: 10 }} /><br></br>
+            <button className={needChange ? "setting_changepwdBtn-disable" : "setting_changepwdBtn"} onClick={() => setNeedChange(true)}>{needChange ? "Changed" : "Change"}</button>
         </div>
     );
 }
