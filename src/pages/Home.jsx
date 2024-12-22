@@ -15,7 +15,7 @@ export default function Home() {
     // for UI's purpose
     const [isWordSetOpen, setWordSetOpen] = useState(false); //check if word set is opened
     const [isAddNewWord, setAddNewWord] = useState(false); //check if user is adding new word to word set
-  
+
     // check if the access token is expired, if so, force the user to login again
     useEffect(() => {
         const access_token = Cookies.get('access_token');
@@ -54,14 +54,14 @@ export default function Home() {
                     <div style={{ display: "flex" }}>
                         <h1 className="home_title">Word Sets</h1>
                         <div className="home_moveList"> {/*add type for button: move list of wordsets if there are more wordsets than the numbers of wordsets tha the area can show (currently: 4) */}
-                            <input type="image" src="../disabled_leftArrow.svg" onClick={ () => wordSetPage > 0 && setWordSetPage(wordSetPage - 1) }></input>
-                            <p style={{display: "inline", margin: "auto"}}>{ wordSetPage + 1 }</p>
-                            <input type="image" src="../enabled_rightArrow.svg" onClick={ () => wordSetPage < wsLastPage && setWordSetPage(wordSetPage + 1) }></input>
+                            <input type="image" src="../disabled_leftArrow.svg" onClick={() => wordSetPage > 0 && setWordSetPage(wordSetPage - 1)}></input>
+                            <p style={{ display: "inline", margin: "auto" }}>{wordSetPage + 1}</p>
+                            <input type="image" src="../enabled_rightArrow.svg" onClick={() => wordSetPage < wsLastPage && setWordSetPage(wordSetPage + 1)}></input>
                         </div>
                     </div>
 
                     <div style={{ display: "flex" }}>
-                        { wordSets.length ? wordSets.map((v, i) => <WordSetCard key={i} wordSetInfo={v} setWordSetOpen={setWordSetOpen} setLearningWordSet={setLearningWordSet} />) : <p className="home_no-ws-text">There is no word set to display </p> }
+                        {wordSets.length ? wordSets.map((v, i) => <WordSetCard key={i} wordSetInfo={v} setWordSetOpen={setWordSetOpen} setLearningWordSet={setLearningWordSet} />) : <p className="home_no-ws-text">There is no word set to display </p>}
                     </div>
                 </div>
             </div>
@@ -71,7 +71,7 @@ export default function Home() {
             </div>
             <WordSetPopUp updateWsEditSignal={updateWsEditSignal} learningWordSet={learningWordSet} isWordSetOpen={isWordSetOpen} setWordSetOpen={setWordSetOpen} setAddNewWord={setAddNewWord} />
             <AddNewWord setUpdateWsEditSignal={setUpdateWsEditSignal} learningWordSet={learningWordSet} isAddNewWord={isAddNewWord} setAddNewWord={setAddNewWord} />
-            </div>
+        </div>
 
     );
 }
@@ -124,8 +124,8 @@ function WordSetPopUp({ updateWsEditSignal, learningWordSet, isWordSetOpen, setW
             <div className="home_pop_up">
                 <input type="image" className="home_unfocused_cancel" src="./unfocused_cancel.svg" onClick={() => { setWordSetOpen(false); setVisible(true); setTurn(false); setAddNewWord(false); setWordSetEdit(false); setWordPage(0) }}></input>
                 {isVisible ? <>
-                    <h1 className="home_wordSet_topic">{ learningWordSet.topic }</h1>
-                    <p className="home_vcb_count">Vocabulary count: { learningWordSet.noWords }</p>
+                    <h1 className="home_wordSet_topic">{learningWordSet.topic}</h1>
+                    <p className="home_vcb_count">Vocabulary count: {learningWordSet.noWords}</p>
                     <button className="home_start" onClick={() => setVisible(false)}>Start</button>
                     <button className="home_editWordSet" onClick={() => setWordSetEdit(true)}>Edit word set</button>
                 </> : <FlipCard learningWordSet={learningWordSet} setTurn={setTurn} isTurn={isTurn} />}
@@ -200,7 +200,7 @@ function FlipCard({ learningWordSet, setTurn, isTurn }) {
     }, [curWordIdx]);
 
     return (
-        <div className="home_card" onClick={() => { 
+        <div className="home_card" onClick={() => {
             isTurn && curWordIdx < allWords.length - 1 && setCurWordIdx(curWordIdx + 1);
             if (curWordIdx < allWords.length - 1) {
                 setTurn(!isTurn);
@@ -211,23 +211,23 @@ function FlipCard({ learningWordSet, setTurn, isTurn }) {
             {
                 allWords.length ?
                     isTurn ?
-                    <div className="home_back">
-                        <div style={{ display: "flex", justifyContent: "center", fontSize: 40, marginBottom: 20 }}>
-                            <p className="home_word">{ allWords[curWordIdx].word }</p>
-                            { foundWord.isFound && <p className="home_wordType">({ foundWord.partOfSpeech })</p> }
+                        <div className="home_back">
+                            <div style={{ display: "flex", justifyContent: "center", fontSize: 40, marginBottom: 20 }}>
+                                <p className="home_word">{allWords[curWordIdx].word}</p>
+                                {foundWord.isFound && <p className="home_wordType">({foundWord.partOfSpeech})</p>}
+                            </div>
+                            <div style={{ display: "flex" }}>
+                                {foundWord.isFound && foundWord.phonetic && <p className="home_phonetic"><b>Phonetic:</b> {foundWord.phonetic}</p>}
+                            </div>
+                            {/* <p className="home_meaning"><b>Meaning:</b>{ } Thẻ thông tin</p> */}
+                            {foundWord.isFound && <p className="home_definition"><b>Definition:</b> {foundWord.definition}</p>}
+                            {foundWord.isFound && foundWord.example && <p className="home_example"><b>Example:</b> {foundWord.example}</p>}
+                            {allWords[curWordIdx].note && <p className="home_note"><b>Note:</b> {allWords[curWordIdx].note}</p>}
+                        </div> :
+                        <div className="home_front">
+                            <p style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)", fontSize: 60, wordWrap: "break-word" }}>{allWords[curWordIdx].word}</p>
                         </div>
-                        <div style={{ display: "flex" }}>
-                            { foundWord.isFound && foundWord.phonetic && <p className="home_phonetic"><b>Phonetic:</b> { foundWord.phonetic }</p> }
-                        </div>
-                        {/* <p className="home_meaning"><b>Meaning:</b>{ } Thẻ thông tin</p> */}
-                        { foundWord.isFound && <p className="home_definition"><b>Definition:</b> { foundWord.definition }</p> }
-                        { foundWord.isFound && foundWord.example && <p className="home_example"><b>Example:</b> { foundWord.example }</p> }
-                        { allWords[curWordIdx].note && <p className="home_note"><b>Note:</b> { allWords[curWordIdx].note }</p> }
-                    </div> :
-                    <div className="home_front">
-                        <p style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)", fontSize: 60, wordWrap: "break-word" }}>{ allWords[curWordIdx].word }</p>
-                    </div>
-                : <p style={{textAlign: "center", marginTop: "50%", fontFamily: "cursive", fontSize: "35px"}}>This wordset has no word</p>
+                    : <p style={{ textAlign: "center", marginTop: "50%", fontFamily: "cursive", fontSize: "35px" }}>This wordset has no word</p>
             }
         </div>
     );
@@ -237,7 +237,7 @@ function WordSetEdit({ learningWordSet, words, wLastPage, wordPage, setWordPage,
     const [needUpdate, setNeedUpdate] = useState(false); // signal to update words and wordset's topic
     const [changedWords, setChangedWords] = useState([]); // list of changed words
     const changedTopic = useRef(learningWordSet.topic); // change if current wordset's topic changed
-    
+
     // useEffect uses to update changed words
     useEffect(() => {
         async function updateWords(id, word, note) {
@@ -282,10 +282,10 @@ function WordSetEdit({ learningWordSet, words, wLastPage, wordPage, setWordPage,
             }
             window.alert('Words changed successfully');
         }
-        
+
         setNeedUpdate(false);
     }, [needUpdate])
-    
+
     return (
         <div className="home_editWS">
             <input
@@ -295,18 +295,18 @@ function WordSetEdit({ learningWordSet, words, wLastPage, wordPage, setWordPage,
                 onChange={(e) => { changedTopic.current = e.target.value }}
             ></input>
             <div style={{ display: "flex", justifyContent: "center", margin: 20 }}>
-                <input type="image" src="./disabled_leftArrow.svg"  onClick={ () => wordPage > 0 && setWordPage(wordPage - 1) }></input>
-                <p style={{ display: "inline", marginTop: "auto", marginBottom: "auto"}}>{ wordPage + 1 }</p>
-                <input type="image" src="./enabled_rightArrow.svg"  onClick={ () => wordPage < wLastPage && setWordPage(wordPage + 1) }></input>
+                <input type="image" src="./disabled_leftArrow.svg" onClick={() => wordPage > 0 && setWordPage(wordPage - 1)}></input>
+                <p style={{ display: "inline", marginTop: "auto", marginBottom: "auto" }}>{wordPage + 1}</p>
+                <input type="image" src="./enabled_rightArrow.svg" onClick={() => wordPage < wLastPage && setWordPage(wordPage + 1)}></input>
                 <input type="image" className="home_unfocused_cancel" src="./unfocused_cancel.svg" onClick={() => { setWordSetEdit(false); setAddNewWord(false) }}></input>
             </div>
 
             <div className="home_wordList">
-                { words.length ? words.map((v, i) => <WordRow key={i} wordInfo={v} setChangedWords={setChangedWords} />) : <p className="home_no-w-text">There is no word</p> }
+                {words.length ? words.map((v, i) => <WordRow key={i} wordInfo={v} setChangedWords={setChangedWords} />) : <p className="home_no-w-text">There is no word</p>}
             </div>
             <div style={{ display: "flex" }}>
                 <button className="home_editBtn" style={{ backgroundColor: "#81C784" }} onClick={() => { setAddNewWord(true) }}>Add new word</button>
-                <button className="home_editBtn" style={{ backgroundColor: "#FFEB3B" }} onClick={ () => setNeedUpdate(true) }>Apply change</button>
+                <button className="home_editBtn" style={{ backgroundColor: "#FFEB3B" }} onClick={() => setNeedUpdate(true)}>Apply change</button>
             </div>
         </div>
     );
@@ -399,24 +399,28 @@ function AddNewWord({ setUpdateWsEditSignal, learningWordSet, isAddNewWord, setA
                 isAddNewWord &&
                 <div className="home_addNewWord">
                     <div style={{ display: "flex" }}>
-                        <input type="text" className="home_findWord" placeholder="Type the word you want to add" onChange={ (e) => setWordToSearch(e.target.value) }></input>
+                        <input type="text" className="home_findWord" placeholder="Type the word you want to add" onKeyDown={(e) => {
+                            if (e.key === "Enter") {
+                                setWordToSearch(e.target.value);
+                            }
+                        }}></input>
                         <input type="image" className="home_unfocused_cancel" src="./unfocused_cancel.svg" onClick={() => setAddNewWord(false)}></input>
                     </div>
                     <div style={{ display: "flex", justifyContent: "center", fontSize: 40, marginTop: 20 }}>
-                        { foundWord.isFound && <p className="home_word"> { foundWord.word }</p> }
-                        { foundWord.isFound && <p className="home_wordType"> ({ foundWord.partOfSpeech })</p> }
+                        {foundWord.isFound && <p className="home_word"> {foundWord.word}</p>}
+                        {foundWord.isFound && <p className="home_wordType"> ({foundWord.partOfSpeech})</p>}
                     </div>
                     <div style={{ display: "flex" }}>
-                        { foundWord.isFound && foundWord.phonetic && <p className="home_info home_phonetic"><b>Phonetic:</b> { foundWord.phonetic }</p> }
+                        {foundWord.isFound && foundWord.phonetic && <p className="home_info home_phonetic"><b>Phonetic:</b> {foundWord.phonetic}</p>}
                     </div>
                     {/* <p className="home_info home_meaning"><b>Meaning:</b>{ foundWord.translatedText }</p> */}
-                    { foundWord.isFound && <p className="home_info home_definition"><b>Definition:</b> { foundWord.definition }</p> }
-                    { foundWord.isFound && foundWord.example && <p className="home_info home_example"><b>Example:</b> { foundWord.example }</p> }
+                    {foundWord.isFound && <p className="home_info home_definition"><b>Definition:</b> {foundWord.definition}</p>}
+                    {foundWord.isFound && foundWord.example && <p className="home_info home_example"><b>Example:</b> {foundWord.example}</p>}
                     <div style={{ display: "flex" }}>
                         <p className="home_info home_note"><b>Note:</b></p>
-                        <input placeholder="Add your note" type="text" className="home_addNote" onChange={ (e) => setNote(e.target.value) }></input>
+                        <input placeholder="Add your note" type="text" className="home_addNote" onChange={(e) => setNote(e.target.value)}></input>
                     </div>
-                    <input type="button" value={"Add"} className={ foundWord.isFound ? "home_addWord" : "home_addWord-disable" } onClick={ () => setAddSignal(!addSignal) }></input>
+                    <input type="button" value={"Add"} className={foundWord.isFound ? "home_addWord" : "home_addWord-disable"} onClick={() => setAddSignal(!addSignal)}></input>
                 </div>
             }
         </>
@@ -462,7 +466,7 @@ function WordRow({ wordInfo, setChangedWords }) {
                 className="home_editInfo"
                 defaultValue={wordInfo.word}
                 required
-                onBlur={ (e) => setChangedWords(
+                onBlur={(e) => setChangedWords(
                     (old) => {
                         if (isChanged.current) {
                             const exists = old.some(item => item.id === wordInfo.id);
@@ -478,16 +482,16 @@ function WordRow({ wordInfo, setChangedWords }) {
                             }
                         }
                         return old;
-                    } 
+                    }
                 )}
-                onChange={ () => isChanged.current = true }
+                onChange={() => isChanged.current = true}
             ></input>
             <input
                 type="text"
                 className="home_editInfo"
                 defaultValue={wordInfo.note}
                 required
-                onBlur={ (e) => setChangedWords(
+                onBlur={(e) => setChangedWords(
                     (old) => {
                         if (isChanged.current) {
                             const exists = old.some(item => item.id === wordInfo.id);
@@ -503,11 +507,11 @@ function WordRow({ wordInfo, setChangedWords }) {
                             }
                         }
                         return old;
-                    } 
+                    }
                 )}
-                onChange={ () => isChanged.current = true }
+                onChange={() => isChanged.current = true}
             ></input>
-            <input type="image" className="home_deleteWord" src="./unfocused_cancel.svg" style={{ padding: "1px" }} onClick={ () => { setDeleted(true); } }></input>
+            <input type="image" className="home_deleteWord" src="./unfocused_cancel.svg" style={{ padding: "1px" }} onClick={() => { setDeleted(true); }}></input>
         </div>}
     </>)
 }

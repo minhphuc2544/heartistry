@@ -305,7 +305,7 @@ function FlipCard({ learningWordSet, setTurn, isTurn }) {
                         <div className="flashcard_front">
                             <p style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)", fontSize: 60, wordWrap: "break-word" }}>{allWords[curWordIdx].word}</p>
                         </div>
-                    : <p style={{textAlign: "center", marginTop: "50%", fontFamily: "cursive", fontSize: "35px"}}>This wordset has no word</p>
+                    : <p style={{ textAlign: "center", marginTop: "50%", fontFamily: "cursive", fontSize: "35px" }}>This wordset has no word</p>
             }
         </div>
     );
@@ -525,7 +525,11 @@ function AddNewWord({ setUpdateWsEditSignal, learningWordSet, isAddNewWord, setA
                 isAddNewWord &&
                 <div className="flashcard_addNewWord">
                     <div style={{ display: "flex" }}>
-                        <input type="text" className="flashcard_findWord" placeholder="Type the word you want to add" onChange={(e) => setWordToSearch(e.target.value)}></input>
+                        <input type="text" className="flashcard_findWord" placeholder="Type the word you want to add" onKeyDown={(e) => {
+                            if (e.key === "Enter") {
+                                setWordToSearch(e.target.value);
+                            }
+                        }}></input>
                         <input type="image" className="flashcard_unfocused_cancel" src="./unfocused_cancel.svg" onClick={() => setAddNewWord(false)}></input>
                     </div>
                     <div style={{ display: "flex", justifyContent: "center", fontSize: 40, marginTop: 20 }}>
