@@ -1,7 +1,17 @@
 import { useNavigate } from "react-router-dom";
 import "../styles/Home.css"
 import Cookies from "js-cookie";
-import { act, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import {
+    LineChart,
+    Line,
+    XAxis,
+    YAxis,
+    CartesianGrid,
+    Tooltip,
+    Legend,
+    ResponsiveContainer,
+} from "recharts";
 
 export default function Home() {
     // for API's purpose
@@ -66,13 +76,106 @@ export default function Home() {
                 </div>
             </div>
 
-            <div className="home_statistic">
+            <MyLineChart />
 
-            </div>
             <WordSetPopUp updateWsEditSignal={updateWsEditSignal} learningWordSet={learningWordSet} isWordSetOpen={isWordSetOpen} setWordSetOpen={setWordSetOpen} setAddNewWord={setAddNewWord} />
             <AddNewWord setUpdateWsEditSignal={setUpdateWsEditSignal} learningWordSet={learningWordSet} isAddNewWord={isAddNewWord} setAddNewWord={setAddNewWord} />
         </div>
 
+    );
+}
+
+function MyLineChart({ }) {
+    const [data, setData] = useState([]); // data for chart
+
+    // useEffect uses to get data for chart
+    useEffect(() => {
+        async function getData() {
+            // call api
+            const response = await fetch(`${import.meta.env.VITE_TASK_API_BASE_URL}/audit-logs/statistics`, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${Cookies.get('access_token')}`
+                }
+            });
+
+            const responseJson = await response.json();
+            // sort the data by date
+            const sortedData = responseJson.sort((a, b) => new Date(a.key) - new Date(b.key));
+            setData(sortedData);
+        }
+
+        getData();
+    }, [])
+
+    return (
+        <ResponsiveContainer width="100%" height={500}>
+            <LineChart
+                data={data}
+                margin={{ top: 30, right: 30, left: 30, bottom: 30 }}
+            >
+                {/* Background grid */}
+                <CartesianGrid strokeDasharray="3 3" stroke="#e0e0e0" />
+
+                {/* Horizontal Axis */}
+                <XAxis
+                    dataKey="key"
+                    tick={{ fill: "#333", fontSize: 12 }}
+                    axisLine={{ stroke: "#ccc" }}
+                    tickLine={{ stroke: "#ccc" }}
+                    label={{
+                        value: "Time",
+                        position: "bottom",
+                        offset: 10,
+                        style: { fill: "#555", fontWeight: "bold" },
+                    }}
+                />
+
+                {/* Vertical Axis */}
+                <YAxis
+                    tick={{ fill: "#333", fontSize: 12 }}
+                    axisLine={{ stroke: "#ccc" }}
+                    tickLine={{ stroke: "#ccc" }}
+                    label={{
+                        value: "Words Learned",
+                        angle: -90,
+                        position: "insideLeft",
+                        style: { fill: "#555", fontWeight: "bold" },
+                    }}
+                />
+
+                {/* Tooltip for interaction */}
+                <Tooltip
+                    contentStyle={{
+                        backgroundColor: "#ffffff",
+                        borderRadius: "10px",
+                        border: "1px solid #ccc",
+                    }}
+                    itemStyle={{ color: "#555" }}
+                />
+
+                {/* Legend */}
+                <Legend
+                    verticalAlign="top"
+                    height={36}
+                    iconType="square"
+                    formatter={(value) => (
+                        <span style={{ color: "#555", fontSize: "12px" }}>{value}</span>
+                    )}
+                />
+
+                {/* Line for the chart */}
+                <Line
+                    type="monotone"
+                    dataKey="value"
+                    stroke="#8884d8"
+                    strokeWidth={2}
+                    activeDot={{ r: 8, stroke: "#8884d8", strokeWidth: 2 }}
+                    dot={{ r: 4, fill: "#8884d8" }}
+                />
+            </LineChart>
+        </ResponsiveContainer>
     );
 }
 
