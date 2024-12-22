@@ -62,7 +62,7 @@ export default function Login() {
                             <label className="login_label">Password</label><br></br>
                             <input type="password" className = "login_input" id="password" required onChange={ (e) => setPassword(e.target.value) } /><br></br> <br></br>
                             <div className="login_action">
-                                <input type="button" id="login_submit" className="submit" value={"LOGIN"} onClick={() => setSubmitSignal(!submitSignal)}/><br></br><br></br>
+                                <input type="button" id="login_submit" className="login_submit" value={"LOGIN"} onClick={() => setSubmitSignal(!submitSignal)}/><br></br><br></br>
                                 <Link to={`${baseUrl}passwordrecovery`} className="login_link">Forgot your password?</Link>
                                 <Link to={`${baseUrl}signup`} className="login_link">Don't have an account? Sign up</Link>
                             </div>

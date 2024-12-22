@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import "../styles/Home.css"
 import Cookies from "js-cookie";
-import { useEffect, useRef, useState } from "react";
+import { act, useEffect, useRef, useState } from "react";
 
 export default function Home() {
     // for API's purpose
@@ -198,6 +198,35 @@ function FlipCard({ learningWordSet, setTurn, isTurn }) {
             findWord(allWords[curWordIdx].word);
         }
     }, [curWordIdx, allWords]);
+
+    // useEffect to make audit log
+    useEffect(() => {
+        async function makeAuditLog() {
+            const requestBody = {
+                action: "LEARN",
+                entity: "Word",
+                entityId: allWords[curWordIdx].id,
+                userId: Cookies.get('user_id'),
+                username: Cookies.get('username'),
+                role: Cookies.get('role'),
+                details: `Learned word: ${allWords[curWordIdx].word}`,
+            }
+
+            // call api
+            const response = await fetch(`${import.meta.env.VITE_TASK_API_BASE_URL}/audit-logs/add`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${Cookies.get('access_token')}`
+                },
+                body: JSON.stringify(requestBody),
+            });
+        }
+
+        if (isTurn) {
+            makeAuditLog();
+        }
+    }, [isTurn]);
 
     return (
         <div className="home_card" onClick={() => {
