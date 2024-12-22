@@ -65,18 +65,18 @@ export default function Dictionary() {
     }, [wordToSearch])
 
     return (
-        <div className="dictionary">
+        <div className="dictionary_dictionary">
             <div style={{ display: "flex" }}>
-                <input type="text" className="searchBar" placeholder="Search" onChange={ (e) => setWordToSearch(e.target.value) }></input>
+                <input type="text" className="dictionary_searchBar" placeholder="Search" onChange={ (e) => setWordToSearch(e.target.value) }></input>
             </div>
 
-            <div className="searchResult">
+            <div className="dictionary_searchResult">
                 { foundWord.isFound &&
                     <>
                         <div style={{ display: "flex", width: "940px", justifyContent: "center", fontSize: "45px" }} >
-                            <p className="word">{ foundWord.word }</p>
+                            <p className="dictionary_word">{ foundWord.word }</p>
                             <p style={{ whiteSpace: "pre" }}> (</p>
-                            <p className="partOfSpeech">{ foundWord.partOfSpeech }</p>
+                            <p className="dictionary_partOfSpeech">{ foundWord.partOfSpeech }</p>
                             <p>)</p>
                         </div>
                         <br></br>
@@ -86,7 +86,7 @@ export default function Dictionary() {
                     <>
                         <div style={{ display: "flex" }}>
                             <p style={{ whiteSpace: "pre", fontSize: "40px", color: "" }}>Phontetic: </p>
-                            <p className="phonetics part">{ foundWord.phonetic }</p>
+                            <p className="dictionary_phonetics dictionary_part">{ foundWord.phonetic }</p>
                         </div>
                         <br></br>
                     </>
@@ -95,7 +95,7 @@ export default function Dictionary() {
                     <>
                         <div style={{ display: "flex" }}>
                             <p style={{ whiteSpace: "pre", fontSize: "40px", color: "" }}>Definition: </p>
-                            <p className="definition part">{ foundWord.definition }</p>
+                            <p className="dictionary_definition dictionary_part">{ foundWord.definition }</p>
                         </div>
                         <br></br>
                     </>
@@ -103,10 +103,10 @@ export default function Dictionary() {
                 { foundWord.isFound && foundWord.example &&
                     <div style={{ display: "flex" }}>
                         <p style={{ whiteSpace: "pre", fontSize: "40px", color: "" }}>Example: </p>
-                        <p className="example part">{ foundWord.example }</p>
+                        <p className="dictionary_example dictionary_part">{ foundWord.example }</p>
                     </div>
                 }
-                <button className={ foundWord.isFound ? "addToWordSet" : "addToWordSet-disable"} onClick={() => setAddToWordSet(true)}>Add to word set</button>
+                <button className={ foundWord.isFound ? "dictionary_addToWordSet" : "dictionary_addToWordSet-disable"} onClick={() => setAddToWordSet(true)}>Add to word set</button>
             </div>
             <AddWordToWortSet wordToSearch={wordToSearch} isAddToWordSet={isAddToWordSet} setAddToWordSet={setAddToWordSet} />
         </div>
@@ -146,8 +146,8 @@ function AddWordToWortSet({ wordToSearch, isAddToWordSet, setAddToWordSet }) {
         <>
             {
                 isAddToWordSet &&
-                <div className="chooseWordSet">
-                    <input type="image" className="unfocused_cancel" src="./unfocused_cancel.svg" onClick={() => { setAddToWordSet(false) }}></input>
+                <div className="dictionary_chooseWordSet">
+                    <input type="image" className="dictionary_unfocused_cancel" src="./unfocused_cancel.svg" onClick={() => { setAddToWordSet(false) }}></input>
                     <h1 style={{ textAlign: "center", fontSize: "45px", fontFamily: "cursive" }}>Add word to word set</h1>
                     <div style={{ display: "flex", justifyContent: "center", margin: 20 }}>
                         <input type="image" src="./disabled_leftArrow.svg" onClick={() => wordSetPage > 0 && setWordSetPage(wordSetPage - 1)}></input>
@@ -196,12 +196,12 @@ function WordSetRow({ setUpdateWsListSignal, wordToSearch, wordSetInfo }) {
     }, [needAdd])
 
     return (
-        <div className="wordsetList"> {/*  add this one to add more word sets, 5 word sets per pages */}
-            <div className="wordsetInfo">
-                <p className="wordsetName" style={{ fontSize: "35px" }}>{ wordSetInfo.topic }</p>
-                <p className="wordsetWordNumber">Number of Words: { wordSetInfo.noWords }</p>
+        <div className="dictionary_wordsetList"> {/*  add this one to add more word sets, 5 word sets per pages */}
+            <div className="dictionary_wordsetInfo">
+                <p className="dictionary_wordsetName" style={{ fontSize: "35px" }}>{ wordSetInfo.topic }</p>
+                <p className="dictionary_wordsetWordNumber">Number of Words: { wordSetInfo.noWords }</p>
             </div>
-            <button className={ isAdded ? "added" : "add" } onClick={ () => setNeedAdd(true) }>{ isAdded ? "Added" : "Add" }</button>
+            <button className={ isAdded ? "dictionary_added" : "dictionary_add" } onClick={ () => setNeedAdd(true) }>{ isAdded ? "Added" : "Add" }</button>
         </div>
     );
 }
