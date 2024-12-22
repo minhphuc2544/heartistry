@@ -33,10 +33,27 @@
 }
 
 .signUpForm {
-    margin-top: -40px;
+    position: fixed;
+
 }
 
-#submit {
+.signup_label {
+    font-family:'Segoe UI';
+    font-size: 18px;
+    font-weight: 550;
+}
+
+.signup_input {
+    width: 350px;
+    height: 50px;
+    padding-left: 10px;
+    border-radius: 12px;
+    border: 1px solid black;
+    font-size: 22px;
+    margin-bottom: 5px;
+}
+
+#signup_submit {
     font-size: 20px;
     width: 150px;
     height: 40px;
@@ -46,22 +63,25 @@
     color: white;
     border: none;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);    
-    margin-top: 20px;
-    margin-bottom: 50px;
     cursor: pointer;
+    position: fixed;
+    top: 750px;
+    left: 1360px;
 }
 
-.optionInput {
-    width: 315px;
-    height: 40px;
+.signup_optionInput {
+    width: 350px;
+    height: 50px;
     padding-left: 10px;
     border-radius: 12px;
     border: 1px solid black;
+    font-size: 22px;
 }
-.DoBInput {
-    width: 305px;
-    height: 40px;
+.signup_DoBInput {
+    width: 350px;
+    height: 50px;
     padding-left: 10px;
     border-radius: 12px;
     border: 1px solid black;
+    font-size: 22px;
 }

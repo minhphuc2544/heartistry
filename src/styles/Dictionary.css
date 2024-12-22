@@ -3,7 +3,7 @@
     width: 84.5%;
 }
 
-.searchBar {
+.dictionary_searchBar {
     width: 1000px;
     height: 80px;
     margin-top: 50px;
@@ -15,7 +15,7 @@
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-.searchResult {
+.dictionary_searchResult {
     width: 1000px;
     height: 700px;
     background-color: white;
@@ -30,12 +30,12 @@
     padding: 30px;
 }
 
-.part {
+.dictionary_part {
     color: #2C3E50;
     /* Dark Navy */
 }
 
-.addToWordSet {
+.dictionary_addToWordSet {
     background-color: #A3EBB1;
     /* Bright Blue */
     color: black;
@@ -49,11 +49,12 @@
     cursor: pointer;
     transition: background-color 0.3s ease, box-shadow 0.3s ease;
     float: right;
-    position: relative;
-    top: 200px;
+    position: fixed;
+    top: 750px;
+    left: 1100px;
 }
 
-.addToWordSet-disable {
+.dictionary_addToWordSet-disable {
     background-color: gray;
     /* Bright Blue */
     color: black;
@@ -67,20 +68,21 @@
     cursor: pointer;
     transition: background-color 0.3s ease, box-shadow 0.3s ease;
     float: right;
-    position: relative;
-    top: 200px;
+    position: fixed;
+    top: 750px;
+    left: 1100px;
     cursor: none;
     pointer-events: none;
 }
 
-.addToWordSet:hover {
+.dictionary_addToWordSet:hover {
     background-color: #A3EBB1;
     /* Darker Blue */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     /* Hover Effect */
 }
 
-.chooseWordSet {
+.dictionary_chooseWordSet {
     background-color: beige;
     width: 40%;
     height: 65%;
@@ -92,7 +94,7 @@
     border: solid 2px black;
 }
 
-.unfocused_cancel {
+.dictionary_unfocused_cancel {
     position: absolute;
     position: absolute;
     top: 0;
@@ -106,25 +108,25 @@
     /* Smooth transition effect */
 }
 
-.unfocused_cancel:hover {
+.dictionary_unfocused_cancel:hover {
     filter: brightness(0) saturate(100%) invert(28%) sepia(94%) saturate(5647%) hue-rotate(356deg) brightness(92%) contrast(99%);
     transform: scale(1.1);
     /* Optional zoom-in effect */
 }
 
-.wordsetList {
+.dictionary_wordsetList {
     display: flex;
     justify-content: center;
     margin: 30px;
 }
 
-.wordsetInfo {
+.dictionary_wordsetInfo {
     font-family: sans-serif;
     font-size: 20px;
     margin-right: 50px;
 }
 
-.add {
+.dictionary_add {
     background-color: #A3EBB1;
     /* Bright Blue */
     color: black;
@@ -137,7 +139,7 @@
     transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-.added {
+.dictionary_added {
     background-color: gray;
     /* Bright Blue */
     color: black;
@@ -151,14 +153,14 @@
     pointer-events: none;
 }
 
-.add:hover {
+.dictionary_add:hover {
     background-color: #A3EBB1;
     /* Darker Blue */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     /* Hover Effect */
 }
 
-.vertical_separator {
+.dictionary_vertical_separator {
     width: 100px;
     height: 2px;
     background: black;

@@ -61,6 +61,13 @@ export default function Menu() {
             if (response.ok) {
                 const responseJson = await response.json();
                 setUserInfo(responseJson);
+
+                // set the user_id, username, role to cookie
+                const oneHourFromNow = new Date();
+                oneHourFromNow.setHours(oneHourFromNow.getHours() + import.meta.env.VITE_TOKEN_EXPIRE_TIME);
+                Cookies.set('user_id', responseJson.id, { expires: oneHourFromNow });
+                Cookies.set('username', responseJson.username, { expires: oneHourFromNow });
+                Cookies.set('role', responseJson.role, { expires: oneHourFromNow });
             }
 
             // call api to get number of words
@@ -84,7 +91,7 @@ export default function Menu() {
 
     return (
         <>
-            { !isMenuHidden &&
+            {!isMenuHidden &&
                 <div className="body">
                     <nav className="sidebar">
                         <div style={{ textAlign: "center" }}>
@@ -167,13 +174,19 @@ export default function Menu() {
 
                         <div className="sidebar__profile">
                             <div className="avatar__wrapper">
-                                <img onClick={() => navigate("/setting")} className="avatar" src={userInfo.avatarUrl ? userInfo.avatarUrl : "./default_user.png" } alt="Natalia Picture"></img>
+                                <img onClick={() => navigate("/setting")} className="avatar" src={userInfo.avatarUrl ? userInfo.avatarUrl : "./default_user.png"} alt="Natalia Picture"></img>
                                 <div className="online__status"></div>
                             </div>
                             <div className="avatar__name">
-                                <div onClick={() => navigate("/setting")} className="user-name" style={{cursor: "pointer"}}>{ userInfo.fullname }</div>
+                                <div onClick={() => navigate("/setting")} className="user-name" style={{ cursor: "pointer" }}>{userInfo.fullname}</div>
                             </div>
-                            <Link to={`${baseUrl}login`} className="logout" onClick={ () => { setCurPage('login'); Cookies.remove('access_token') } }>
+                            <Link to={`${baseUrl}login`} className="logout" onClick={() => {
+                                setCurPage('login');
+                                Cookies.remove('access_token');
+                                Cookies.remove('user_id');
+                                Cookies.remove('username');
+                                Cookies.remove('role')
+                            }}>
                                 <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-logout" width="24" height="24"
                                     viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
                                     stroke-linejoin="round" aria-labelledby="logout-icon" role="img">
@@ -188,19 +201,19 @@ export default function Menu() {
                     </nav>
                 </div>
             }
-            { !isUserCardHidden &&
+            {!isUserCardHidden &&
                 <div className="userInfo">
-                    <img className="userPicture" src={userInfo.avatarUrl ? userInfo.avatarUrl : "./default_user.png" }></img> {/*user avatar*/}
-                    <p className="username">{ userInfo.fullname }</p> {/*username*/}
+                    <img className="userPicture" src={userInfo.avatarUrl ? userInfo.avatarUrl : "./default_user.png"}></img> {/*user avatar*/}
+                    <p className="username">{userInfo.fullname}</p> {/*username*/}
                     <div className="duration">
                         <div style={{ display: "block", margin: 20 }}>
                             <p>Words</p>
-                            <p>{ noWords }</p>
+                            <p>{noWords}</p>
                         </div>
                         <div className="dashboard_separator"></div>
                         <div style={{ display: "block", margin: 20 }}>
                             <p>Days</p>
-                            <p>{ Math.ceil((new Date() - new Date(userInfo.createAt)) / (1000 * 60 * 60 * 24)) }</p>
+                            <p>{Math.ceil((new Date() - new Date(userInfo.createAt)) / (1000 * 60 * 60 * 24))}</p>
                         </div>
                     </div>
                 </div>

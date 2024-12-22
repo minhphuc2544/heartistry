@@ -52,25 +52,25 @@ export default function Login() {
 
     return (
         <div className="login">
-            <div className="leftContainer">
+            <div className="login_leftContainer">
                 <div className="loginArea">
                     <form className="form">
                         <div className="loginInfo">
                         <h1 style={{ fontSize: 60, textAlign: "center", fontFamily: 'Segoe UI', marginTop: -20, marginBottom: 30 }}>Sign in</h1>
-                            <label className="label">Username</label><br></br>
-                            <input type="text" className = "input" id="username" required style={{marginBottom: 10}} onChange={ (e) => setUsername(e.target.value) } /><br></br>
-                            <label className="label">Password</label><br></br>
-                            <input type="password" className = "input" id="password" required onChange={ (e) => setPassword(e.target.value) } /><br></br> <br></br>
-                            <div className="action">
-                                <input type="button" id="submit" className="submit" value={"LOGIN"} onClick={() => setSubmitSignal(!submitSignal)}/><br></br>
-                                <Link to={`${baseUrl}passwordrecovery`} className="link">Forgot your password?</Link>
-                                <Link to={`${baseUrl}signup`} className="link">Don't have an account? Sign up</Link>
+                            <label className="login_label">Username</label><br></br>
+                            <input type="text" className = "login_input" id="username" required style={{marginBottom: 10}} onChange={ (e) => setUsername(e.target.value) } /><br></br>
+                            <label className="login_label">Password</label><br></br>
+                            <input type="password" className = "login_input" id="password" required onChange={ (e) => setPassword(e.target.value) } /><br></br> <br></br>
+                            <div className="login_action">
+                                <input type="button" id="login_submit" className="login_submit" value={"LOGIN"} onClick={() => setSubmitSignal(!submitSignal)}/><br></br><br></br>
+                                <Link to={`${baseUrl}passwordrecovery`} className="login_link">Forgot your password?</Link>
+                                <Link to={`${baseUrl}signup`} className="login_link">Don't have an account? Sign up</Link>
                             </div>
                         </div>
                     </form>
                 </div>
             </div>
-            <div className="rightContainer">
+            <div className="login_rightContainer">
                 <img src="./logo_transparent.svg" alt="logo" width={1000}></img>
             </div>
         </div>

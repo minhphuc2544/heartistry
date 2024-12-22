@@ -178,7 +178,7 @@ export default function SignUp() {
                                 />
                             ))}
                             <br></br>
-                            <input type="button" className={ timeLeft ? "resend-time-remaining" : "resend-time-over" } value={`Resend OTP in ${formatTime(timeLeft)}`} onClick={() => setResendSignal(!resendSignal)}></input>
+                            <input type="button" className={ timeLeft ? "resend-time-remaining" : "resend-time-over" } value={timeLeft ? `Resend OTP in ${formatTime(timeLeft)}` : "Resend OTP"} onClick={() => setResendSignal(!resendSignal)}></input>
                         </div>
                         <input type="button" className="submit" value={"Verify"} onClick={() => setSubmitSignal(!submitSignal)}></input><br></br>
                     </form>

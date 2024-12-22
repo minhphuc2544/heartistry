@@ -12,7 +12,7 @@ export default function Document() {
     const [documents, setDocuments] = useState([]); // documents on one page of the user
     const [documentPage, setDocumentPage] = useState(0); // current page of the document page
     const [documentLastPage, setDocumentLastPage] = useState(0); // last page of the document page
-
+    
     // check if the access token is expired, if so, force the user to login again
     useEffect(() => {
         const access_token = Cookies.get('access_token');
@@ -48,24 +48,27 @@ export default function Document() {
             <div className="document">
                 <div style={{ display: "flex" }}>
 
-                    <div className="documentArea">
+                    <div className="document_documentArea">
                         <div style={{ display: "flex" }}>
                             <p style={{ fontSize: "50px", fontFamily: "sans-serif", padding: "10px", marginLeft: "20px" }}>Document</p>
-                            <div className="docMovelist"> {/*add type for button: move list of wordsets if there are more wordsets than the numbers of wordsets tha the area can show (currently: 4) */}
+                            <div className="document_docMovelist"> {/*add type for button: move list of wordsets if there are more wordsets than the numbers of wordsets tha the area can show (currently: 4) */}
                                 <input type="image" src="./disabled_leftArrow.svg" onClick={() => documentPage > 0 && setDocumentPage(documentPage - 1)}></input>
                                 <p style={{ display: "inline", margin: "auto" }}>{documentPage + 1}</p>
                                 <input type="image" src="./enabled_rightArrow.svg" onClick={() => documentPage < documentLastPage && setDocumentPage(documentPage + 1)}></input>
                             </div>
 
                         </div>
-                        <div className="documentList">
+                        <div className="document_documentList">
                             {/* add this div for each document in the list, maximum 7 documents per page */}
-                            {documents.length ? documents.map((v, i) => <DocumentRow key={i} documentInfo={v} />) : <p style={{ width: "fit-content" }} className="no-ws-text">There's no document</p>}
+                            {documents.length ? documents.map((v, i) => <DocumentRow key={i} documentInfo={v} />) : <p style={{ width: "fit-content", margin: "auto" }} className="no-ws-text">There is no document to display</p>}
                         </div>
                     </div>
                 </div>
+                <div className="document_addButton">
+                    <input type="image" src="./add_wordset.svg" className="document_addDocumentBtn" onClick={() => setAddDialog(true)}></input>
+                </div>
             </div>
-            {true && <AddDialog setAddDialog={setAddDialog} />}
+            {isAddDialog && <AddDialog setAddDialog={setAddDialog} />}
         </>
     );
 }
@@ -81,14 +84,14 @@ function AddDialog({ setAddDialog }) {
     }, [addSignal]);
 
     return (
-        <div className="createNewDoc">
+        <div className="document_createNewDoc">
             <div>
-                <h1 style={{ display: "flex", margin: 15, fontSize: 25, marginBottom: 30 }}>Create new document</h1>
-                <input type="image" className="unfocused_cancel" src="./unfocused_cancel.svg" onClick={() => setAddDialog(false)}></input>
+                <h1 style={{ display: "flex", margin: 15, fontSize: 25, marginBottom: 30 }}>Add new document</h1>
+                <input type="image" className="document_unfocused_cancel" src="./unfocused_cancel.svg" onClick={() => setAddDialog(false)}></input>
             </div>
             <input type="text" id="createSetDoc" required placeholder="Document's name" onChange={(e) => setDocName(e.target.value)}></input>
             <input type="text" id="createSetDoc" required placeholder="Document's description" onChange={(e) => setDocDescription(e.target.value)}></input>
-            <label htmlFor="file-input" className="custom-file-upload">Upload File</label>
+            <label htmlFor="file-input" className="document_custom-file-upload">Upload File</label>
             <input accept=".pdf,.doc,.docx,.txt" id="file-input" type="file" onChange={(e) => setDocFile(e.target.files[0])} />
             <input type="button" id="setNameDoc" value={"Create"} onClick={ () => setAddSignal(!addSignal) }></input>
         </div>
@@ -97,14 +100,14 @@ function AddDialog({ setAddDialog }) {
 
 function DocumentRow({ documentInfo }) {
     return (
-        <div className="documentItem">
-            <img src="./pdf_icon.svg" className="fileLogo"></img>
-            <div className="documentInfo">
-                <p className="documentName">{ documentInfo.name }</p>
-                <p className="documentDescription">{ documentInfo.description }</p>
+        <div className="document_documentItem">
+            <img src="./pdf_icon.svg" className="document_fileLogo"></img>
+            <div className="document_documentInfo">
+                <p className="document_documentName">{ documentInfo.name }</p>
+                <p className="document_documentDescription">{ documentInfo.description }</p>
             </div>
-            <input type="image" src="./preview_icon.svg" className="docButton"></input>
-            <input type="image" src="./download_icon.svg" className="docButton"></input>
+            <input type="image" src="./preview_icon.svg" className="document_docButton"></input>
+            <input type="image" src="./download_icon.svg" className="document_docButton"></input>
         </div>
     );
 }
