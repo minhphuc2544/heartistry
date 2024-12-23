@@ -34,6 +34,7 @@ export default function Menu() {
         if (curPage === 'login' || curPage === 'signup' || curPage === 'otp' || curPage === 'passwordrecovery') {
             setMenuHidden(true);
             setUserCardHidden(true);
+            setAdminHidden(true);
         } else if (curPage === 'admin/users' || curPage === 'admin/wordsets' || curPage === 'admin/words' || curPage === 'admin/approve-documents' || curPage === 'admin/audit-logs') {
             setMenuHidden(true);
             setUserCardHidden(true);
@@ -178,7 +179,7 @@ export default function Menu() {
 
                         <div className="sidebar__profile">
                             <div className="avatar__wrapper">
-                                <img onClick={() => navigate("/setting")} className="avatar" src={userInfo.avatarUrl ? userInfo.avatarUrl : "./default_user.png"} alt="Natalia Picture"></img>
+                                <img onClick={() => navigate("/setting")} className="avatar" src={userInfo.avatarUrl ? userInfo.avatarUrl : "./default_user.png"} alt="User Picture"></img>
                                 <div className="online__status"></div>
                             </div>
                             <div className="avatar__name">
@@ -227,7 +228,7 @@ export default function Menu() {
                 <div className="body" style={{ backgroundColor: "var(--sidebar-primary)" }}>
                     <nav className="sidebar">
                         <div style={{ textAlign: "center" }}>
-                            <img src={`${location.origin}/logo_transparent_greenBorder.svg`} alt="logo" className="logo"></img>
+                            <img src={`/logo_transparent_greenBorder.svg`} alt="logo" className="logo"></img>
                         </div>
                         <div className="sidebar-links">
                             <ul>
@@ -287,14 +288,15 @@ export default function Menu() {
 
                         <div className="sidebar__profile">
                             <div className="avatar__wrapper">
-                                <img onClick={() => navigate("/setting")} className="avatar" src={userInfo.avatarUrl ? userInfo.avatarUrl : "./default_user.png"} alt="Natalia Picture"></img>
+                                <img className="avatar" src={userInfo.avatarUrl ? userInfo.avatarUrl : `/default_user.png`} alt="User Picture"></img>
                                 <div className="online__status"></div>
                             </div>
                             <div className="avatar__name">
-                                <div onClick={() => navigate("/setting")} className="user-name" style={{ cursor: "pointer" }}>{userInfo.fullname}</div>
+                                <div className="user-name" style={{ cursor: "pointer" }}>{userInfo.fullname}</div>
                             </div>
                             <Link to={`${baseUrl}login`} className="logout" onClick={() => {
                                 setCurPage('login');
+
                                 Cookies.remove('access_token');
                                 Cookies.remove('user_id');
                                 Cookies.remove('username');
