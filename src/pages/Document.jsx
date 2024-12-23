@@ -12,7 +12,7 @@ export default function Document() {
     const [documents, setDocuments] = useState([]); // documents on one page of the user
     const [documentPage, setDocumentPage] = useState(0); // current page of the document page
     const [documentLastPage, setDocumentLastPage] = useState(0); // last page of the document page
-    
+
     // check if the access token is expired, if so, force the user to login again
     useEffect(() => {
         const access_token = Cookies.get('access_token');
@@ -81,6 +81,46 @@ function AddDialog({ setAddDialog }) {
 
     useEffect(() => {
         // TODO: codes to upload document to cloudiary, then get the url and post it to MySQL database
+        async function uploadFile() {
+            // upload file to Google Cloud Storage
+            const url = `https://storage.googleapis.com/upload/storage/v1/b/${import.meta.env.VITE_STORAGE_BUCKET}/o?uploadType=media&name=${docName}`;
+
+            const response = await fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': docFile.type,
+                    'Authorization': `Bearer ${import.meta.env.VITE_API_TOKEN}`
+                },
+                body: docFile,
+            });
+            if (!response.ok) {
+                throw new Error('Failed to upload file');
+            }
+            const uploadedFile = await response.json();
+            const filePublicUrl = `https://storage.cloud.google.com/${import.meta.env.VITE_STORAGE_BUCKET}/${uploadedFile.name}`;
+
+            // get the url and post it to MySQL database
+            const requestBody = {
+                "name": docName,
+                "description": docDescription,
+                "url": filePublicUrl,
+            }
+            const response1 = await fetch(`${import.meta.env.VITE_TASK_API_BASE_URL}/documents/add`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${Cookies.get('access_token')}`
+                },
+                body: JSON.stringify(requestBody),
+            });
+            if (response1.ok) {
+                window.alert("Upload document successfully, please wait for approvement from admin");
+            }
+        }
+
+        if (docFile && docName && docDescription) {
+            uploadFile();
+        }
     }, [addSignal]);
 
     return (
@@ -93,7 +133,7 @@ function AddDialog({ setAddDialog }) {
             <input type="text" id="createSetDoc" required placeholder="Document's description" onChange={(e) => setDocDescription(e.target.value)}></input>
             <label htmlFor="file-input" className="document_custom-file-upload">Upload File</label>
             <input accept=".pdf,.doc,.docx,.txt" id="file-input" type="file" onChange={(e) => setDocFile(e.target.files[0])} />
-            <input type="button" id="setNameDoc" value={"Create"} onClick={ () => setAddSignal(!addSignal) }></input>
+            <input type="button" id="setNameDoc" value={"Create"} onClick={() => setAddSignal(!addSignal)}></input>
         </div>
     )
 }
@@ -103,11 +143,18 @@ function DocumentRow({ documentInfo }) {
         <div className="document_documentItem">
             <img src="./pdf_icon.svg" className="document_fileLogo"></img>
             <div className="document_documentInfo">
-                <p className="document_documentName">{ documentInfo.name }</p>
-                <p className="document_documentDescription">{ documentInfo.description }</p>
+                <p className="document_documentName">{documentInfo.name}</p>
+                <p className="document_documentDescription">{documentInfo.description}</p>
             </div>
-            <input type="image" src="./preview_icon.svg" className="document_docButton"></input>
-            <input type="image" src="./download_icon.svg" className="document_docButton"></input>
+            <input type="image" src="./preview_icon.svg" className="document_docButton" onClick={() => { window.open(documentInfo.url) }}></input>
+            <a
+                href={documentInfo.url}
+                download={documentInfo.name}
+                className="document_docButton"
+            >
+                <img src="./download_icon.svg" alt="Download" />
+            </a>
+
         </div>
     );
 }
