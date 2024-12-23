@@ -2,10 +2,10 @@ import "../styles/Users.css";
 
 export default function User() {
     return (
-        <div className="table-container">
-            <div className="table-body">
+        <div className="user_table-container">
+            <div className="user_table-body">
                 <table>
-                    <thead className="table-header">
+                    <thead className="user_table-header">
                         <tr>
                             <th>ID</th>
                             <th>Full name</th>
@@ -19,7 +19,7 @@ export default function User() {
                             <th>Last online day</th>
                         </tr>
                     </thead>
-                    <tbody className="table-content">
+                    <tbody className="user_table-content">
                         {[
                             { ID: "1", fullName: "Lê Dương Minh Phúc", username: "minhphuc2544", email: "phucle190904@gmail.com", phoneNumber: "0339161863", dateOfBirth: "09/19/2004", gender: "male", role: "admin", createdDay: "09/19/2021", lastOnlineDay: "09/19/2021" },
                             { ID: "2", fullName: "Lê Dương Minh Phúc", username: "minhphuc2544", email: "phucle190904@gmail.com", phoneNumber: "0339161863", dateOfBirth: "09/19/2004", gender: "male", role: "admin", createdDay: "09/19/2021", lastOnlineDay: "09/19/2021" },
