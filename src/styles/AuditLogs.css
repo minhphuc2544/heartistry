@@ -40,6 +40,7 @@ body {
 .auditlogs_table-body td {
     padding: 12px;
     border-bottom: 1px solid #f0f0f0;
+    height: 59px;
 }
 
 .auditlogs_table-body tr:nth-child(even) {

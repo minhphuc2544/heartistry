@@ -18,6 +18,7 @@ export default function ApproveDocuments() {
                     <tbody className="wordsets_table-content">
                         {[
                             { ID: "1", idUser: "1", name: "Ielts for beginners", Description: "Giving Ielts starter tips and tricks to pass the Ielts test with band 5.0", url: "https://documents.com", isApproved: true },
+                            { ID: "1", idUser: "1", name: "Ielts for beginners", Description: "Giving Ielts starter tips and tricks to pass the Ielts test with band 5.0", url: "https://documents.com", isApproved: false },
                         ].map((item, index) => (
                             <tr key={index}>
                                 <td>{item.ID}</td>
