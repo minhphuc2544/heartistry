@@ -8,7 +8,7 @@ body {
 .wordsets_table-container {
     width: 100%;
     max-width: 1550px;
-    margin: 20px auto 10px auto;
+    margin: 20px auto 10px -20px;
     border: 1px solid #ccc;
     border-radius: 8px;
     overflow: hidden;
