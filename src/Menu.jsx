@@ -7,7 +7,7 @@ export default function Menu() {
     const baseUrl = import.meta.env.BASE_URL;
     const reactLocation = useLocation();
     const navigate = useNavigate();
-    const [curPage, setCurPage] = useState(reactLocation.pathname.split("/")[1]);
+    const [curPage, setCurPage] = useState(reactLocation.pathname.split("/")[1] + (!reactLocation.pathname.split("/")[2] ? "" : `/${reactLocation.pathname.split("/")[2]}`));
     const [isMenuHidden, setMenuHidden] = useState(false);
     const [isUserCardHidden, setUserCardHidden] = useState(false);
     const [userInfo, setUserInfo] = useState('');
@@ -26,7 +26,7 @@ export default function Menu() {
 
     // listening to the location state, if it changes set it to the curpage right away
     useEffect(() => {
-        setCurPage(reactLocation.pathname.split("/")[1]);
+        setCurPage(reactLocation.pathname.split("/")[1] + (!reactLocation.pathname.split("/")[2] ? "" : `/${reactLocation.pathname.split("/")[2]}`));
     }, [reactLocation])
 
     // useEffect uses turn the menu of with specific pages
@@ -34,7 +34,7 @@ export default function Menu() {
         if (curPage === 'login' || curPage === 'signup' || curPage === 'otp' || curPage === 'passwordrecovery') {
             setMenuHidden(true);
             setUserCardHidden(true);
-        } else if (curPage === 'admin') {
+        } else if (curPage === 'admin/users' || curPage === 'admin/wordsets' || curPage === 'admin/words' || curPage === 'admin/approve-documents' || curPage === 'admin/audit-logs') {
             setMenuHidden(true);
             setUserCardHidden(true);
             setAdminHidden(false);
@@ -232,7 +232,7 @@ export default function Menu() {
                         <div className="sidebar-links">
                             <ul>
                                 <li>
-                                    <Link to={`${baseUrl}admin/users`} title="Users" className="tooltip" style={getStyle('')} onClick={() => setCurPage('')}>
+                                    <Link to={`${baseUrl}admin/users`} title="Users" className="tooltip" style={getStyle('admin/users')} onClick={() => setCurPage('admin/users')}>
                                         <svg xmlns="http://www.w3.org/2000/svg" width="24"
                                             height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
                                             stroke-linejoin="round" aria-hidden="true">
@@ -247,7 +247,7 @@ export default function Menu() {
                                     </Link>
                                 </li>
                                 <li>
-                                    <Link to={`${baseUrl}admin/wordsets`} className="tooltip" style={getStyle('flashcard')} onClick={() => setCurPage('flashcard')}>
+                                    <Link to={`${baseUrl}admin/wordsets`} className="tooltip" style={getStyle('admin/wordsets')} onClick={() => setCurPage('admin/wordsets')}>
                                         <svg xmlns="http://www.w3.org/2000/svg" width="24"
                                             height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
                                             stroke-linejoin="round" aria-hidden="true">
@@ -262,14 +262,21 @@ export default function Menu() {
                                     </Link>
                                 </li>
                                 <li>
-                                    <Link to={`${baseUrl}admin/words`} title="Tasks" className="tooltip" style={getStyle('dictionary')} onClick={() => setCurPage('dictionary')}>
+                                    <Link to={`${baseUrl}admin/words`} title="Tasks" className="tooltip" style={getStyle('admin/words')} onClick={() => setCurPage('admin/words')}>
                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="icon icon-tabler icons-tabler-outline icon-tabler-checkbox"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M9 11l3 3l8 -8" /><path d="M20 12v6a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h9" /></svg>
                                         <span className="span">Words</span>
                                         <span className="tooltip__content">Words</span>
                                     </Link>
                                 </li>
                                 <li>
-                                    <Link to={`${baseUrl}admin/audit-logs`} title="Users" className="tooltip" style={getStyle('document')} onClick={() => setCurPage('document')}>
+                                    <Link to={`${baseUrl}admin/approve-documents`} title="Users" className="tooltip" style={getStyle('admin/approve-documents')} onClick={() => setCurPage('admin/approve-documents')}>
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="icon icon-tabler icons-tabler-outline icon-tabler-users"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M9 7m-4 0a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" /><path d="M3 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" /><path d="M16 3.13a4 4 0 0 1 0 7.75" /><path d="M21 21v-2a4 4 0 0 0 -3 -3.85" /></svg>
+                                        <span className="span">Approve Documents</span>
+                                        <span className="tooltip__content">Approve Documents</span>
+                                    </Link>
+                                </li>
+                                <li>
+                                    <Link to={`${baseUrl}admin/audit-logs`} title="Users" className="tooltip" style={getStyle('admin/audit-logs')} onClick={() => setCurPage('admin/audit-logs')}>
                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="icon icon-tabler icons-tabler-outline icon-tabler-users"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M9 7m-4 0a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" /><path d="M3 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" /><path d="M16 3.13a4 4 0 0 1 0 7.75" /><path d="M21 21v-2a4 4 0 0 0 -3 -3.85" /></svg>
                                         <span className="span">Audit Logs</span>
                                         <span className="tooltip__content">Audit Logs</span>
