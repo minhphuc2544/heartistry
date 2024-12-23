@@ -13,6 +13,7 @@ export default function ApproveDocuments() {
                             <th>URL</th>
                             <th>Is approved</th>
                             <th>Approve</th>
+                            <th>Delete</th>
                         </tr>
                     </thead>
                     <tbody className="wordsets_table-content">
@@ -29,11 +30,17 @@ export default function ApproveDocuments() {
                                 <td>{item.isApproved ? "true" : "false"}</td>
                                 <td>
                                     {
-                                        item.isApproved &&
+                                        !item.isApproved &&
                                         <div>
                                             <input type="image" src="../approved.svg" style={{ backgroundColor: "#34B233", borderRadius: "50%", width: "30px", height: "30px", marginRight: "10px" }}></input>
                                             <input type="image" src="../disapproved.svg" style={{ backgroundColor: "red", borderRadius: "50%", width: "30px", height: "30px" }}></input>
                                         </div>
+                                    }
+                                </td>
+                                <td>
+                                    {
+                                        item.isApproved &&
+                                        <button style={{fontSize: "15px", padding: "5px", backgroundColor: "#D23232", color: "white", border: "none", borderRadius: "5px"}}>Delete</button>
                                     }
                                 </td>
                             </tr>
@@ -41,6 +48,7 @@ export default function ApproveDocuments() {
                     </tbody>
                 </table>
             </div>
+            <input type="image" src="../add_wordset.svg" style={{ backgroundColor: "#34B233", borderRadius: "50%", width: "60px", height: "60px", marginRight: "10px", position: "fixed", top: "850px", left: "1854px" }}></input>
         </div>
     );
 }
