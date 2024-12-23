@@ -5,17 +5,17 @@ body {
   background-color: white;
 }
 
-.table-container {
+.user_table-container {
   width: 100%;
   max-width: 1550px;
-  margin: 20px auto 10px auto;
+  margin: 20px auto 10px -20px;
   border: 1px solid #ccc;
   border-radius: 8px;
   overflow: hidden;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.table-header {
+.user_table-header {
   background-color: #6c7ae0;
   color: white;
   position: sticky;
@@ -23,49 +23,49 @@ body {
 }
 
 
-
-.table-header th {
+.user_table-header th {
   padding: 12px;
   text-align: left;
 }
 
-.table-body  {
+.user_table-body  {
   max-height: 100%;
   overflow-y: auto;
 }
 
-.table-body table {
+.user_table-body table {
   width: 100%;
   border-collapse: collapse;
 }
 
-.table-body td {
+.user_table-body td {
   padding: 12px;
   border-bottom: 1px solid #f0f0f0;
+  height: 59px;
 }
 
-.table-body tr:nth-child(even) {
+.user_table-body tr:nth-child(even) {
   background-color: #f9f9f9;
 }
 
-.table-content tr:hover {
+.user_table-content tr:hover {
   background-color: #f1f1f1;
 }
 
 
-.table-body::-webkit-scrollbar {
+.user_table-body::-webkit-scrollbar {
   width: 8px; /* Width of the scrollbar */
 }
 
-.table-body::-webkit-scrollbar-track {
+.user_table-body::-webkit-scrollbar-track {
   background: #f1f1f1; /* Background of the scrollbar track */
 }
 
-.table-body::-webkit-scrollbar-thumb {
+.user_table-body::-webkit-scrollbar-thumb {
   background: #6c7ae0; /* Color of the scrollbar thumb */
   border-radius: 4px; /* Rounded corners for the thumb */
 }
 
-.table-body::-webkit-scrollbar-thumb:hover {
+.user_table-body::-webkit-scrollbar-thumb:hover {
   background: #4a5fb8; /* Darker shade on hover */
 }
