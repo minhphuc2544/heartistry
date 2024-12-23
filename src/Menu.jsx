@@ -224,7 +224,7 @@ export default function Menu() {
             }
             {
                 !isAdminHidden &&
-                <div className="body">
+                <div className="body" style={{ backgroundColor: "var(--sidebar-primary)" }}>
                     <nav className="sidebar">
                         <div style={{ textAlign: "center" }}>
                             <img src={`${location.origin}/logo_transparent_greenBorder.svg`} alt="logo" className="logo"></img>
