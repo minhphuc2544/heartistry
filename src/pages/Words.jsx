@@ -7,7 +7,7 @@ export default function Words() {
                 <thead className="words_table-header">
                     <tr>
                         <th>ID</th>
-                        <th>ID Word Set</th>
+                        <th>Word Set ID</th>
                         <th>Word</th>
                         <th>Note of words</th>
                     </tr>

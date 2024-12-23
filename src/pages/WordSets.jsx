@@ -7,7 +7,7 @@ export default function WordSets() {
                         <thead className="wordsets_table-header">
                             <tr>
                                 <th>ID</th>
-                                <th>ID User</th>
+                                <th>User ID</th>
                                 <th>Topic</th>
                                 <th>Number of words</th>
                                 <th>Is recommended</th>
