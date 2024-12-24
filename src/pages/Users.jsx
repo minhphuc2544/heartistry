@@ -41,18 +41,20 @@ export default function User() {
                     <tbody className="user_table-content">
                         {[
                             { ID: "1", fullName: "Lê Dương Minh Phúc", username: "minhphuc2544", email: "phucle190904@gmail.com", phoneNumber: "0339161863", dateOfBirth: "09/19/2004", gender: "male", role: "admin", createdDay: "09/19/2021", lastOnlineDay: "09/19/2021" },
+                            { ID: "1", fullName: "Lê Dương Minh Phúc", username: "minhphuc2544", email: "phucle190904@gmail.com", phoneNumber: "0339161863", dateOfBirth: "09/19/2004", gender: "male", role: "admin", createdDay: "09/19/2021", lastOnlineDay: "09/19/2021" },
+
                         ].map((item, index) => (
-                            <tr contentEditable='true' key={index}>
-                                <td contentEditable='true' >{item.ID}</td>
-                                <td>{item.fullName}</td>
-                                <td>{item.username}</td>
-                                <td>{item.email}</td>
-                                <td>{item.phoneNumber}</td>
-                                <td>{item.dateOfBirth}</td>
-                                <td>{item.gender}</td>
-                                <td>{item.role}</td>
-                                <td>{item.createdDay}</td>
-                                <td>{item.lastOnlineDay}</td>
+                            <tr key={index}>
+                                <td style={{backgroundColor: "lightgrey"}}>{item.ID}</td>
+                                <td contentEditable='true'>{item.fullName}</td>
+                                <td style={{backgroundColor: "lightgrey"}}>{item.username}</td>
+                                <td contentEditable='true'>{item.email}</td>
+                                <td contentEditable='true'>{item.phoneNumber}</td>
+                                <td contentEditable='true'>{item.dateOfBirth}</td>
+                                <td contentEditable='true'>{item.gender}</td>
+                                <td contentEditable='true'>{item.role}</td>
+                                <td style={{backgroundColor: "lightgrey"}}>{item.createdDay}</td>
+                                <td style={{backgroundColor: "lightgrey"}}>{item.lastOnlineDay}</td>
                                 <td style={{ display: "flex", justifyContent: "center" }}>
                                     <input type="image" src="../disapproved.svg" style={{ backgroundColor: "red", borderRadius: "50%", width: "30px", height: "30px", marginRight: "10px" }}></input>                                
                                 </td>

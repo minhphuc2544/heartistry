@@ -41,12 +41,12 @@ export default function ApproveDocuments() {
                             { ID: "1", idUser: "1", name: "Ielts for beginners", Description: "Giving Ielts starter tips and tricks to pass the Ielts test with band 5.0", url: "https://documents.com", isApproved: false },
                         ].map((item, index) => (
                             <tr key={index}>
-                                <td>{item.ID}</td>
-                                <td>{item.idUser}</td>
-                                <td>{item.name}</td>
-                                <td>{item.Description}</td>
-                                <td>{item.url}</td>
-                                <td>{item.isApproved ? "true" : "false"}</td>
+                                <td style={{backgroundColor: "lightgrey"}}>{item.ID}</td>
+                                <td style={{backgroundColor: "lightgrey"}}>{item.idUser}</td>
+                                <td contentEditable='true'>{item.name}</td>
+                                <td contentEditable='true'>{item.Description}</td>
+                                <td style={{backgroundColor: "lightgrey"}}>{item.url}</td>
+                                <td style={{backgroundColor: "lightgrey"}}>{item.isApproved ? "true" : "false"}</td>
                                 <td>
                                     {
                                         !item.isApproved &&

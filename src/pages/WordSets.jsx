@@ -39,7 +39,7 @@ export default function WordSets() {
                                 { ID: "1", idUser: "1", topic: "Education", noWords: "120", isRecommended: true },
                                 { ID: "2", idUser: "2", topic: "Environment", noWords: "50", isRecommended: false },
                             ].map((item, index) => (
-                                <tr contentEditable='true' key={index}>
+                                <tr key={index}>
                                     <td>{item.ID}</td>
                                     <td>{item.idUser}</td>
                                     <td>{item.topic}</td>
