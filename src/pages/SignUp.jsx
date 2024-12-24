@@ -53,7 +53,7 @@ export default function SignUp() {
                 alertMessage = `1. ${responseJson.message}`;
             }
             
-            cusAleMsg(alertMessage);
+            setCusAleMsg(alertMessage);
         }
         
         if (username && password && fullname && gender && dob && email && phoneNumber) {
