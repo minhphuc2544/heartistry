@@ -1,6 +1,7 @@
 import "../styles/PasswordRecovery.css"
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import CustomAlert from "../components/CustomAlert"
 export default function PasswordRecovery() {
     const baseUrl = import.meta.env.BASE_URL;
     const navigate = useNavigate();
@@ -8,6 +9,7 @@ export default function PasswordRecovery() {
     const [email, setEmail] = useState("");
     const [phoneNumber, setPhoneNumber] = useState("");
     const [submitSignal, setSubmitSignal] = useState(false);
+    const [cusAleMsg, setCusAleMsg] = useState(''); // abbreviation of CustomAlertMessage
 
     useEffect(() => {
         async function postPasswordRecoveryInfo() {
@@ -30,17 +32,11 @@ export default function PasswordRecovery() {
                 navigate('/login', { state: requestBody });
                 return;
             }
-
-            const responseJson = await response.json();
-            let alertMessage = '';
-
-            if (Array.isArray(responseJson.message)) {
-                responseJson.message.forEach((v, i) => { alertMessage += `${i + 1}. ${v}\n`; });
-            } else {
-                alertMessage = `1. ${responseJson.message}`;
+            if (!response.ok) {
+                // catch errors and notify user (response code 401)
+                setCusAleMsg("Check your information again!" + "\nWe can not find your account" );
+                return;
             }
-
-            window.alert(alertMessage);
         }
 
         if (username && email && phoneNumber) {
@@ -73,6 +69,7 @@ export default function PasswordRecovery() {
             <div className="leftContainer3">
                 <img src="./password_recovery.svg" alt="logo" width={800} height={800}></img>
             </div>
+            {cusAleMsg && <CustomAlert message={cusAleMsg} okHandler={() => { setCusAleMsg('') }} />}
         </div>
     );
 }
