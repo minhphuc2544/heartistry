@@ -15,6 +15,8 @@ export default function Document() {
     const [documentLastPage, setDocumentLastPage] = useState(0); // last page of the document page
     const [cusAleMsg, setCusAleMsg] = useState(''); // abbreviation of CustomAlertMessage
 
+    const [reloadSignal, setReloadSignal] = useState(false);
+
     // check if the access token is expired and user has 'admin' role
     useEffect(() => {
         const access_token = Cookies.get('access_token');
@@ -48,7 +50,7 @@ export default function Document() {
         }
 
         getDocumentPage()
-    }, [])
+    }, [reloadSignal])
 
     return (
         <>
@@ -75,21 +77,24 @@ export default function Document() {
                     <input type="image" src="./add_wordset.svg" className="document_addDocumentBtn" onClick={() => setAddDialog(true)}></input>
                 </div>
             </div>
-            {isAddDialog && <AddDialog setAddDialog={setAddDialog} setCusAleMsg={setCusAleMsg} />}
+            {isAddDialog && <AddDialog setAddDialog={setAddDialog} setCusAleMsg={setCusAleMsg} setReloadSignal={setReloadSignal} />}
             { cusAleMsg && <CustomAlert message={cusAleMsg} okHandler={() => { setCusAleMsg('') }} /> }
         </>
     );
 }
 
-function AddDialog({ setAddDialog, setCusAleMsg }) {
+function AddDialog({ setAddDialog, setCusAleMsg, setReloadSignal }) {
     const [docName, setDocName] = useState('');
     const [docDescription, setDocDescription] = useState('');
     const [docFile, setDocFile] = useState('');
     const [addSignal, setAddSignal] = useState(false);
 
+    const [isUploading, setIsUploading] = useState(false);
+
     useEffect(() => {
         // TODO: codes to upload document to cloudiary, then get the url and post it to MySQL database
         async function uploadFile() {
+            setIsUploading(true);
             // upload file to Google Cloud Storage
             const url = `https://storage.googleapis.com/upload/storage/v1/b/${import.meta.env.VITE_STORAGE_BUCKET}/o?uploadType=media&name=${docName}`;
 
@@ -122,6 +127,9 @@ function AddDialog({ setAddDialog, setCusAleMsg }) {
                 body: JSON.stringify(requestBody),
             });
             if (response1.ok) {
+                setIsUploading(false);
+                setReloadSignal(old => !old);
+                setAddDialog(false);
                 setCusAleMsg("Upload document successfully, please wait for approvement from admin");
             }
         }
@@ -141,7 +149,7 @@ function AddDialog({ setAddDialog, setCusAleMsg }) {
             <input type="text" id="createSetDoc" required placeholder="Document's description" onChange={(e) => setDocDescription(e.target.value)}></input>
             <label htmlFor="file-input" className="document_custom-file-upload">Upload File</label>
             <input accept=".pdf,.doc,.docx,.txt" id="file-input" type="file" onChange={(e) => setDocFile(e.target.files[0])} />
-            <input type="button" id="setNameDoc" value={"Create"} onClick={() => setAddSignal(!addSignal)}></input>
+            <input type="button" id={isUploading ? "setNameDoc-disable" : "setNameDoc"} value={isUploading ? "Uploading..." : "Create"} onClick={() => setAddSignal(!addSignal)}></input>
         </div>
     )
 }
