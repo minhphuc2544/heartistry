@@ -67,6 +67,27 @@ export default function WordSets() {
 }
 
 function DataRow({wordSetInfo}){
+    const [isRecommended, setIsRecommended] = useState(wordSetInfo.isRecommended);
+
+    useEffect(() => {
+        async function setToRecommend() {
+            const response = await fetch(`${import.meta.env.VITE_TASK_API_BASE_URL}/wordsets/${wordSetInfo.id}`, {
+                method: "PATCH",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${Cookies.get('access_token')}`
+                },
+                body: JSON.stringify({
+                    isRecommended: isRecommended
+                })
+            });
+
+            if (response.ok) {
+                console.log(wordSetInfo.id);
+            }
+        }
+        setToRecommend();
+    }, [isRecommended]);
     return (
         <tr>
             <td>{wordSetInfo.id}</td>
@@ -77,13 +98,13 @@ function DataRow({wordSetInfo}){
             <td width={200} align="center">
                 {
                     !wordSetInfo.isRecommended &&
-                    <input type="image" src="../approved.svg" style={{ backgroundColor: "#34B233", borderRadius: "50%", width: "30px", height: "30px", marginRight: "10px" }}></input>
+                    <input type="image" src="../approved.svg" style={{ backgroundColor: "#34B233", borderRadius: "50%", width: "30px", height: "30px", marginRight: "10px"}} onClick={() => setIsRecommended(!isRecommended)}></input>
                 }
             </td>
             <td  width={250} align="center"> 
                 {
                     wordSetInfo.isRecommended &&
-                    <input type="image" src="../disapproved.svg" style={{ backgroundColor: "red", borderRadius: "50%", width: "30px", height: "30px", marginRight: "10px" }}></input>
+                    <input type="image" src="../disapproved.svg" style={{ backgroundColor: "red", borderRadius: "50%", width: "30px", height: "30px", marginRight: "10px" }} onClick={() => setIsRecommended(!isRecommended)}></input>
                 }
             </td>
         </tr>
