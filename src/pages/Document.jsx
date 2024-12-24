@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "../styles/Document.css";
 import Cookies from "js-cookie";
+import CustomAlert from "../components/CustomAlert"
 
 export default function Document() {
     const navigate = useNavigate();
@@ -12,6 +13,7 @@ export default function Document() {
     const [documents, setDocuments] = useState([]); // documents on one page of the user
     const [documentPage, setDocumentPage] = useState(0); // current page of the document page
     const [documentLastPage, setDocumentLastPage] = useState(0); // last page of the document page
+    const [cusAleMsg, setCusAleMsg] = useState(''); // abbreviation of CustomAlertMessage
 
     // check if the access token is expired and user has 'admin' role
     useEffect(() => {
@@ -73,12 +75,13 @@ export default function Document() {
                     <input type="image" src="./add_wordset.svg" className="document_addDocumentBtn" onClick={() => setAddDialog(true)}></input>
                 </div>
             </div>
-            {isAddDialog && <AddDialog setAddDialog={setAddDialog} />}
+            {isAddDialog && <AddDialog setAddDialog={setAddDialog} setCusAleMsg={setCusAleMsg} />}
+            { cusAleMsg && <CustomAlert message={cusAleMsg} okHandler={() => { setCusAleMsg('') }} /> }
         </>
     );
 }
 
-function AddDialog({ setAddDialog }) {
+function AddDialog({ setAddDialog, setCusAleMsg }) {
     const [docName, setDocName] = useState('');
     const [docDescription, setDocDescription] = useState('');
     const [docFile, setDocFile] = useState('');
@@ -119,7 +122,7 @@ function AddDialog({ setAddDialog }) {
                 body: JSON.stringify(requestBody),
             });
             if (response1.ok) {
-                window.alert("Upload document successfully, please wait for approvement from admin");
+                setCusAleMsg("Upload document successfully, please wait for approvement from admin");
             }
         }
 

@@ -3,6 +3,7 @@ import "../styles/FlashCard.css"
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
+import CustomAlert from "../components/CustomAlert"
 
 export default function FlashCard() {
     // for API's purpose
@@ -27,6 +28,7 @@ export default function FlashCard() {
     const [isAddNewWord, setAddNewWord] = useState(false); //check if user is adding new word to word set
     const [isCreateSet, setCreateSet] = useState(false); // check if user is creating word set
     const [isPreviewRcmWS, setPreviewRcmWS] = useState(false); //check if user is preview recomment word set
+    const [cusAleMsg, setCusAleMsg] = useState(''); // abbreviation of CustomAlertMessage
 
     // check if the access token is expired and user has 'admin' role
     useEffect(() => {
@@ -151,15 +153,16 @@ export default function FlashCard() {
                     </div>
                 </div>
             </div>
-            <WordSetPopUp updateWsEditSignal={updateWsEditSignal} learningWordSet={learningWordSet} isWordSetOpen={isWordSetOpen} setWordSetOpen={setWordSetOpen} setAddNewWord={setAddNewWord} />
+            <WordSetPopUp updateWsEditSignal={updateWsEditSignal} learningWordSet={learningWordSet} isWordSetOpen={isWordSetOpen} setWordSetOpen={setWordSetOpen} setAddNewWord={setAddNewWord} setCusAleMsg={setCusAleMsg} />
             <CreateWordSet setUpdatePageSignal={setUpdatePageSignal} isCreateSet={isCreateSet} setCreateSet={setCreateSet} />
             <AddNewWord setUpdateWsEditSignal={setUpdateWsEditSignal} learningWordSet={learningWordSet} isAddNewWord={isAddNewWord} setAddNewWord={setAddNewWord} />
             <PreviewRcmWordSet setUpdatePageSignal={setUpdatePageSignal} viewingWordSet={viewingWordSet} rcmWords={rcmWords} rcmWsLastPage={rcmWsLastPage} rcmWordPage={rcmWordPage} setRcmWordPage={setRcmWordPage} isPreviewRcmWS={isPreviewRcmWS} setPreviewRcmWS={setPreviewRcmWS} setAddNewWord={setAddNewWord} />
+            { cusAleMsg && <CustomAlert message={cusAleMsg} okHandler={() => { setCusAleMsg('') }} /> }
         </>
     );
 }
 
-function WordSetPopUp({ updateWsEditSignal, learningWordSet, isWordSetOpen, setWordSetOpen, setAddNewWord }) {
+function WordSetPopUp({ updateWsEditSignal, learningWordSet, isWordSetOpen, setWordSetOpen, setAddNewWord, setCusAleMsg }) {
     // for API's purpose
     const WORD_PAGE_SIZE = 10;
     const [wordPage, setWordPage] = useState(0); // word page number
@@ -213,7 +216,7 @@ function WordSetPopUp({ updateWsEditSignal, learningWordSet, isWordSetOpen, setW
                     <button className="flashcard_editWordSet" onClick={() => setWordSetEdit(true)}>Edit word set</button>
                 </> : <FlipCard learningWordSet={learningWordSet} setTurn={setTurn} isTurn={isTurn} />}
                 {
-                    isEditWordSet && <WordSetEdit learningWordSet={learningWordSet} words={words} wLastPage={wLastPage} wordPage={wordPage} setWordPage={setWordPage} setWordSetEdit={setWordSetEdit} setAddNewWord={setAddNewWord} />
+                    isEditWordSet && <WordSetEdit learningWordSet={learningWordSet} words={words} wLastPage={wLastPage} wordPage={wordPage} setWordPage={setWordPage} setWordSetEdit={setWordSetEdit} setAddNewWord={setAddNewWord} setCusAleMsg={setCusAleMsg} />
                 }
             </div>
         }
@@ -316,7 +319,7 @@ function FlipCard({ learningWordSet, setTurn, isTurn }) {
     );
 }
 
-function WordSetEdit({ learningWordSet, words, wLastPage, wordPage, setWordPage, setWordSetEdit, setAddNewWord }) {
+function WordSetEdit({ learningWordSet, words, wLastPage, wordPage, setWordPage, setWordSetEdit, setAddNewWord, setCusAleMsg }) {
     const [needUpdate, setNeedUpdate] = useState(false); // signal to update words and wordset's topic
     const [changedWords, setChangedWords] = useState([]); // list of changed words
     const changedTopic = useRef(learningWordSet.topic); // change if current wordset's topic changed
@@ -363,7 +366,7 @@ function WordSetEdit({ learningWordSet, words, wLastPage, wordPage, setWordPage,
             if (changedTopic.current !== learningWordSet.topic) {
                 updateWordSet(changedTopic.current);
             }
-            window.alert('Words changed successfully');
+            setCusAleMsg('Words changed successfully');
         }
 
         setNeedUpdate(false);

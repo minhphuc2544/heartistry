@@ -1,6 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import "../styles/Login.css"
 import { useEffect, useState } from "react";
+import CustomAlert from "../components/CustomAlert"
 import Cookies from 'js-cookie';
 
 export default function Login() {
@@ -10,6 +11,7 @@ export default function Login() {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [submitSignal, setSubmitSignal] = useState(false);
+    const [cusAleMsg, setCusAleMsg] = useState(''); // abbreviation of CustomAlertMessage
 
     // remove all cookies after user back to Login Page
     useEffect(() => {
@@ -38,7 +40,7 @@ export default function Login() {
             // navigate if response code is not 200
             if (!response.ok) {
                 // catch errors and notify user (response code 401)
-                window.alert("Wrong username or password");
+                setCusAleMsg("Wrong username or password");
                 return;
             }
             // set the access_token to cookie
@@ -78,28 +80,31 @@ export default function Login() {
     }, [submitSignal])
 
     return (
-        <div className="login">
-            <div className="login_leftContainer">
-                <div className="loginArea">
-                    <form className="form">
-                        <div className="loginInfo">
-                            <h1 style={{ fontSize: 60, textAlign: "center", fontFamily: 'Segoe UI', marginTop: -20, marginBottom: 30 }}>Sign in</h1>
-                            <label className="login_label">Username</label><br></br>
-                            <input type="text" className="login_input" id="username" required style={{ marginBottom: 10 }} onChange={(e) => setUsername(e.target.value)} /><br></br>
-                            <label className="login_label">Password</label><br></br>
-                            <input type="password" className="login_input" id="password" required onChange={(e) => setPassword(e.target.value)} /><br></br> <br></br>
-                            <div className="login_action">
-                                <input type="button" id="login_submit" className="login_submit" value={"LOGIN"} onClick={() => setSubmitSignal(!submitSignal)} /><br></br><br></br>
-                                <Link to={`${baseUrl}passwordrecovery`} className="login_link">Forgot your password?</Link>
-                                <Link to={`${baseUrl}signup`} className="login_link">Don't have an account? Sign up</Link>
+        <>
+            <div className="login">
+                <div className="login_leftContainer">
+                    <div className="loginArea">
+                        <form className="form">
+                            <div className="loginInfo">
+                                <h1 style={{ fontSize: 60, textAlign: "center", fontFamily: 'Segoe UI', marginTop: -20, marginBottom: 30 }}>Sign in</h1>
+                                <label className="login_label">Username</label><br></br>
+                                <input type="text" className="login_input" id="username" required style={{ marginBottom: 10 }} onChange={(e) => setUsername(e.target.value)} /><br></br>
+                                <label className="login_label">Password</label><br></br>
+                                <input type="password" className="login_input" id="password" required onChange={(e) => setPassword(e.target.value)} /><br></br> <br></br>
+                                <div className="login_action">
+                                    <input type="button" id="login_submit" className="login_submit" value={"LOGIN"} onClick={() => setSubmitSignal(!submitSignal)} /><br></br><br></br>
+                                    <Link to={`${baseUrl}passwordrecovery`} className="login_link">Forgot your password?</Link>
+                                    <Link to={`${baseUrl}signup`} className="login_link">Don't have an account? Sign up</Link>
+                                </div>
                             </div>
-                        </div>
-                    </form>
+                        </form>
+                    </div>
+                </div>
+                <div className="login_rightContainer">
+                    <img src="./logo_transparent.svg" alt="logo" width={1000}></img>
                 </div>
             </div>
-            <div className="login_rightContainer">
-                <img src="./logo_transparent.svg" alt="logo" width={1000}></img>
-            </div>
-        </div>
+            {cusAleMsg && <CustomAlert message={cusAleMsg} okHandler={() => { setCusAleMsg('') }} />}
+        </>
     );
 }

@@ -2,6 +2,7 @@ import "../styles/Setting.css";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Cookies from "js-cookie";
+import CustomAlert from "../components/CustomAlert"
 
 export default function Setting() {
     const navigate = useNavigate();
@@ -11,6 +12,7 @@ export default function Setting() {
     const [userInfo, setUserInfo] = useState('');
     const [noWordSets, setNoWordSets] = useState(0);
     const [noWords, setNoWords] = useState(0);
+    const [cusAleMsg, setCusAleMsg] = useState(''); // abbreviation of CustomAlertMessage
 
     // check if the access token is expired and user has 'admin' role
     useEffect(() => {
@@ -60,7 +62,7 @@ export default function Setting() {
             });
             if (response1.ok) {
                 setReloadSignal(!reloadSignal);
-                window.alert("Update avatar successfully");
+                setCusAleMsg("Update avatar successfully");
             }
             setAvatarFile('');
         }
@@ -123,39 +125,42 @@ export default function Setting() {
     }, [])
 
     return (
-        <div className="setting">
-            <div style={{ display: "flex", backgroundColor: "#21B6A8", marginTop: "20px", borderRadius: "22px" }}>
-                <div className="setting_userAvatar">
-                    <img src={userInfo.avatarUrl ? userInfo.avatarUrl : "./default_user.png"} onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)}></img>
-                    {
-                        isHovered &&
-                        <div className="setting_upload-button-container" onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)}>
-                            <label htmlFor="avatar-input" className="setting_custom-file-upload">Change Avatar</label>
-                        </div>
-                    }
-                    <input accept=".png,.jpg,.jpeg" id="avatar-input" type="file" onChange={(e) => setAvatarFile(e.target.files[0])} />
-                </div>
-                <div className="setting_userStudyInfo">
-                    <p className="setting_title" style={{ marginTop: "60px" }}>You have studied with us {Math.ceil((new Date() - new Date(userInfo.createAt)) / (1000 * 60 * 60 * 24))} days from {userInfo ? new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'long', day: 'numeric' }).format(new Date(userInfo.createAt)) : "NaN"}</p>
-                    <div style={{ display: "flex", justifyContent: "center" }}>
-                        <div>
-                            <p className="setting_info setting_title">Words</p>
-                            <p className="setting_info">{noWords}</p>
-                        </div>
-                        <div>
-                            <p className="setting_info setting_title">Word sets</p>
-                            <p className="setting_info">{noWordSets}</p>
+        <>
+            <div className="setting">
+                <div style={{ display: "flex", backgroundColor: "#21B6A8", marginTop: "20px", borderRadius: "22px" }}>
+                    <div className="setting_userAvatar">
+                        <img src={userInfo.avatarUrl ? userInfo.avatarUrl : "./default_user.png"} onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)}></img>
+                        {
+                            isHovered &&
+                            <div className="setting_upload-button-container" onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)}>
+                                <label htmlFor="avatar-input" className="setting_custom-file-upload">Change Avatar</label>
+                            </div>
+                        }
+                        <input accept=".png,.jpg,.jpeg" id="avatar-input" type="file" onChange={(e) => setAvatarFile(e.target.files[0])} />
+                    </div>
+                    <div className="setting_userStudyInfo">
+                        <p className="setting_title" style={{ marginTop: "60px" }}>You have studied with us {Math.ceil((new Date() - new Date(userInfo.createAt)) / (1000 * 60 * 60 * 24))} days from {userInfo ? new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'long', day: 'numeric' }).format(new Date(userInfo.createAt)) : "NaN"}</p>
+                        <div style={{ display: "flex", justifyContent: "center" }}>
+                            <div>
+                                <p className="setting_info setting_title">Words</p>
+                                <p className="setting_info">{noWords}</p>
+                            </div>
+                            <div>
+                                <p className="setting_info setting_title">Word sets</p>
+                                <p className="setting_info">{noWordSets}</p>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <UpdateInfoZone userInfo={userInfo} />
-        </div>
+                <UpdateInfoZone userInfo={userInfo} setCusAleMsg={setCusAleMsg} />
+            </div>
+            {cusAleMsg && <CustomAlert message={cusAleMsg} okHandler={() => { setCusAleMsg('') }} />}
+        </>
     );
 }
 
-function UpdateInfoZone({ userInfo }) {
+function UpdateInfoZone({ userInfo, setCusAleMsg }) {
     // for UI's purpose
     const [isChangePassword, setChangePassword] = useState(false);
     // for API's purpose
@@ -209,7 +214,7 @@ function UpdateInfoZone({ userInfo }) {
             } else {
                 alertMessage = `1. ${responseJson.message}`;
             }
-            window.alert(alertMessage);
+            setCusAleMsg(alertMessage);
             setNeedUpdate(false);
         }
 
@@ -265,7 +270,7 @@ function UpdateInfoZone({ userInfo }) {
                 <div className="setting_changePassword">
                     {
                         isChangePassword ?
-                            <ChangePassZone /> :
+                            <ChangePassZone setCusAleMsg={setCusAleMsg} /> :
                             <button className="setting_changepwdBtn" onClick={() => setChangePassword(!isChangePassword)}>Change password</button>
                     }
                 </div>
@@ -274,7 +279,7 @@ function UpdateInfoZone({ userInfo }) {
     )
 }
 
-function ChangePassZone({ }) {
+function ChangePassZone({ setCusAleMsg }) {
     const [curPass, setCurPass] = useState('');
     const [newPass, setNewPass] = useState('');
     const [newPassConf, setNewPassConf] = useState('');
@@ -310,14 +315,14 @@ function ChangePassZone({ }) {
             } else {
                 alertMessage = `1. ${responseJson.message}`;
             }
-            window.alert(alertMessage);
+            setCusAleMsg(alertMessage);
             setNeedChange(false);
         }
 
         if (needChange) {
             if (newPass !== newPassConf) {
                 setNeedChange(false);
-                window.alert("Password confirmation does not match. Please try again.");
+                setCusAleMsg("Password confirmation does not match. Please try again.");
                 return;
             }
             changeUserPassword();

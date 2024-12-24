@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 import "../styles/Home.css"
 import Cookies from "js-cookie";
 import { useEffect, useRef, useState } from "react";
+import CustomAlert from "../components/CustomAlert"
 import {
     LineChart,
     Line,
@@ -25,6 +26,7 @@ export default function Home() {
     // for UI's purpose
     const [isWordSetOpen, setWordSetOpen] = useState(false); //check if word set is opened
     const [isAddNewWord, setAddNewWord] = useState(false); //check if user is adding new word to word set
+    const [cusAleMsg, setCusAleMsg] = useState(''); // abbreviation of CustomAlertMessage
 
     // check if the access token is expired and user has 'admin' role
     useEffect(() => {
@@ -62,31 +64,33 @@ export default function Home() {
     }, [wordSetPage])
 
     return (
-        <div className="home_home">
-            <div className="home_upper">
+        <>
+            <div className="home_home">
+                <div className="home_upper">
 
-                <div className="home_wordSets">
-                    <div style={{ display: "flex" }}>
-                        <h1 className="home_title">Word Sets</h1>
-                        <div className="home_moveList"> {/*add type for button: move list of wordsets if there are more wordsets than the numbers of wordsets tha the area can show (currently: 4) */}
-                            <input type="image" src="../disabled_leftArrow.svg" onClick={() => wordSetPage > 0 && setWordSetPage(wordSetPage - 1)}></input>
-                            <p style={{ display: "inline", margin: "auto" }}>{wordSetPage + 1}</p>
-                            <input type="image" src="../enabled_rightArrow.svg" onClick={() => wordSetPage < wsLastPage && setWordSetPage(wordSetPage + 1)}></input>
+                    <div className="home_wordSets">
+                        <div style={{ display: "flex" }}>
+                            <h1 className="home_title">Word Sets</h1>
+                            <div className="home_moveList"> {/*add type for button: move list of wordsets if there are more wordsets than the numbers of wordsets tha the area can show (currently: 4) */}
+                                <input type="image" src="../disabled_leftArrow.svg" onClick={() => wordSetPage > 0 && setWordSetPage(wordSetPage - 1)}></input>
+                                <p style={{ display: "inline", margin: "auto" }}>{wordSetPage + 1}</p>
+                                <input type="image" src="../enabled_rightArrow.svg" onClick={() => wordSetPage < wsLastPage && setWordSetPage(wordSetPage + 1)}></input>
+                            </div>
+                        </div>
+
+                        <div style={{ display: "flex" }}>
+                            {wordSets.length ? wordSets.map((v, i) => <WordSetCard key={i} wordSetInfo={v} setWordSetOpen={setWordSetOpen} setLearningWordSet={setLearningWordSet} />) : <p className="home_no-ws-text">There is no word set to display </p>}
                         </div>
                     </div>
-
-                    <div style={{ display: "flex" }}>
-                        {wordSets.length ? wordSets.map((v, i) => <WordSetCard key={i} wordSetInfo={v} setWordSetOpen={setWordSetOpen} setLearningWordSet={setLearningWordSet} />) : <p className="home_no-ws-text">There is no word set to display </p>}
-                    </div>
                 </div>
+
+                <MyLineChart />
+
+                <WordSetPopUp updateWsEditSignal={updateWsEditSignal} learningWordSet={learningWordSet} isWordSetOpen={isWordSetOpen} setWordSetOpen={setWordSetOpen} setAddNewWord={setAddNewWord} setCusAleMsg={setCusAleMsg} />
+                <AddNewWord setUpdateWsEditSignal={setUpdateWsEditSignal} learningWordSet={learningWordSet} isAddNewWord={isAddNewWord} setAddNewWord={setAddNewWord} />
             </div>
-
-            <MyLineChart />
-
-            <WordSetPopUp updateWsEditSignal={updateWsEditSignal} learningWordSet={learningWordSet} isWordSetOpen={isWordSetOpen} setWordSetOpen={setWordSetOpen} setAddNewWord={setAddNewWord} />
-            <AddNewWord setUpdateWsEditSignal={setUpdateWsEditSignal} learningWordSet={learningWordSet} isAddNewWord={isAddNewWord} setAddNewWord={setAddNewWord} />
-        </div>
-
+            {cusAleMsg && <CustomAlert message={cusAleMsg} okHandler={() => { setCusAleMsg('') }} />}
+        </>
     );
 }
 
@@ -184,7 +188,7 @@ function MyLineChart({ }) {
     );
 }
 
-function WordSetPopUp({ updateWsEditSignal, learningWordSet, isWordSetOpen, setWordSetOpen, setAddNewWord }) {
+function WordSetPopUp({ updateWsEditSignal, learningWordSet, isWordSetOpen, setWordSetOpen, setAddNewWord, setCusAleMsg }) {
     // for API's purpose
     const WORD_PAGE_SIZE = 10;
     const [wordPage, setWordPage] = useState(0); // word page number
@@ -238,7 +242,7 @@ function WordSetPopUp({ updateWsEditSignal, learningWordSet, isWordSetOpen, setW
                     <button className="home_editWordSet" onClick={() => setWordSetEdit(true)}>Edit word set</button>
                 </> : <FlipCard learningWordSet={learningWordSet} setTurn={setTurn} isTurn={isTurn} />}
                 {
-                    isEditWordSet && <WordSetEdit learningWordSet={learningWordSet} words={words} wLastPage={wLastPage} wordPage={wordPage} setWordPage={setWordPage} setWordSetEdit={setWordSetEdit} setAddNewWord={setAddNewWord} />
+                    isEditWordSet && <WordSetEdit learningWordSet={learningWordSet} words={words} wLastPage={wLastPage} wordPage={wordPage} setWordPage={setWordPage} setWordSetEdit={setWordSetEdit} setAddNewWord={setAddNewWord} setCusAleMsg={setCusAleMsg} />
                 }
             </div>
         }
@@ -370,7 +374,7 @@ function FlipCard({ learningWordSet, setTurn, isTurn }) {
     );
 }
 
-function WordSetEdit({ learningWordSet, words, wLastPage, wordPage, setWordPage, setWordSetEdit, setAddNewWord }) {
+function WordSetEdit({ learningWordSet, words, wLastPage, wordPage, setWordPage, setWordSetEdit, setAddNewWord, setCusAleMsg }) {
     const [needUpdate, setNeedUpdate] = useState(false); // signal to update words and wordset's topic
     const [changedWords, setChangedWords] = useState([]); // list of changed words
     const changedTopic = useRef(learningWordSet.topic); // change if current wordset's topic changed
@@ -417,7 +421,7 @@ function WordSetEdit({ learningWordSet, words, wLastPage, wordPage, setWordPage,
             if (changedTopic.current !== learningWordSet.topic) {
                 updateWordSet(changedTopic.current);
             }
-            window.alert('Words changed successfully');
+            setCusAleMsg('Words changed successfully');
         }
 
         setNeedUpdate(false);
