@@ -30,6 +30,11 @@ export default function AuditLogs() {
                 }
             });
 
+            if (userResponseJson.ok) {
+                const data1 = await userResponseJson.json();
+                setAuditLogs([...auditLogs, ...data1]);
+            }
+
             const taskResponseJson = await fetch(`${import.meta.env.VITE_TASK_API_BASE_URL}/audit-logs/all`, {
                 method: "GET",
                 headers: {
@@ -38,10 +43,9 @@ export default function AuditLogs() {
                 }
             });
 
-            if (userResponseJson.ok && taskResponseJson.ok) {
-                const data1 = await userResponseJson.json();
+            if (taskResponseJson.ok) {
                 const data2 = await taskResponseJson.json();
-                setAuditLogs([...data1, ...data2]);
+                setAuditLogs([...auditLogs, ...data2]);
             }
         }
         fetchAuditLogs();
@@ -85,7 +89,7 @@ function DataRow({ auditLog }) {
             <td>{auditLog.username}</td>
             <td>{auditLog.role}</td>
             <td>{auditLog.details}</td>
-            <td>{auditLog.timestamp}</td>
+            <td>{new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'long', day: 'numeric' }).format(new Date(auditLog.timestamp))}</td>
         </tr>
     )
 }
