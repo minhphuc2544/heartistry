@@ -67,8 +67,8 @@ export default function User() {
                         </tr>
                     </thead>
                     <tbody className="user_table-content">
-                        {data.map((item, index) => <DataRow key={index} userInfo={item} isMySelf={Cookies.get('username') === item.username} setData={setData} />)}
-                        {needAdd && <AddRow />}
+                        {data.map((item, index) => <DataRow key={index} userInfo={item} isMySelf={Cookies.get('username') === item.username} setData={setData} setReloadSignal={setReloadSignal} />)}
+                        {needAdd && <AddRow setReloadSignal={setReloadSignal} setNeedAdd={setNeedAdd} />}
                     </tbody>
                 </table>
             </div>
@@ -82,7 +82,7 @@ export default function User() {
     );
 }
 
-function DataRow({ userInfo, isMySelf, setData }) {
+function DataRow({ userInfo, isMySelf, setData, setReloadSignal }) {
     const [cusConMsg, setCusConMsg] = useState(''); // abbreviation of CustomConfirmMessage
     const [cusAleMsg, setCusAleMsg] = useState(''); // abbreviation of CustomAlertMessages
     const [needDelete, setNeedDelete] = useState(false);
@@ -145,6 +145,7 @@ function DataRow({ userInfo, isMySelf, setData }) {
 
             if (response.ok) {
                 // notify the changes
+                setReloadSignal(old => !old);
                 setCusAleMsg("This cell has been update");
                 return;
             }
@@ -165,7 +166,7 @@ function DataRow({ userInfo, isMySelf, setData }) {
             setIsChanged(false);
             return;
         }
-        
+
         updateUser();
     }, [needUpdate])
 
@@ -254,8 +255,9 @@ function DataRow({ userInfo, isMySelf, setData }) {
     );
 }
 
-function AddRow({ }) {
+function AddRow({ setReloadSignal, setNeedAdd }) {
     const [needCreate, setNeedCreate] = useState(false);
+    const [isAllOk, setIsAllOk] = useState(false);
 
     const [fullname, setFullname] = useState('');
     const [username, setUsername] = useState('');
@@ -264,6 +266,14 @@ function AddRow({ }) {
     const [dob, setDob] = useState('');
     const [gender, setGender] = useState('');
     const [cusAleMsg, setCusAleMsg] = useState(''); // abbreviation of CustomAlertMessages
+
+    useEffect(() => {
+        if (fullname && username && email && phoneNumber && dob && gender) {
+            setIsAllOk(true);
+        } else {
+            setIsAllOk(false);
+        }
+    }, [fullname, username, email, phoneNumber, dob, gender]);
 
     // useEffect's used to create user
     useEffect(() => {
@@ -287,8 +297,12 @@ function AddRow({ }) {
                 body: JSON.stringify(requestBody),
             });
 
+            setNeedCreate(false);
+
             if (response.ok) {
                 // notify the changes
+                setReloadSignal(old => !old)
+                setNeedAdd(false);
                 setCusAleMsg(`A user role account has been created with password: ${import.meta.env.VITE_DEFAULT_PASSWORD}`);
                 return;
             }
@@ -304,12 +318,9 @@ function AddRow({ }) {
             setCusAleMsg(alertMessage);
         }
 
-        if (!needCreate) {
-            return;
-        }
-
-        if (!fullname || !username || !email || !phoneNumber || !gender || !dob) {
-            setCusAleMsg('Please enter all the fields before leaving');
+        if (!needCreate || !isAllOk) {
+            setNeedCreate(false);
+            setIsAllOk(false);
             return;
         }
 
@@ -318,7 +329,7 @@ function AddRow({ }) {
 
     return (
         <>
-            <tr onBlur={() => setNeedCreate(true)} onFocus={() => setNeedCreate(false)}>
+            <tr onBlur={() => setNeedCreate(true)}>
                 <td style={{ backgroundColor: "lightgrey" }} />
                 <td
                     contentEditable={true}
@@ -351,7 +362,7 @@ function AddRow({ }) {
             {cusAleMsg &&
                 <CustomAlert
                     message={cusAleMsg}
-                    okHandler={() => { setCusAleMsg('') }}
+                    okHandler={() => { setCusAleMsg(''); }}
                 />
             }
         </>
