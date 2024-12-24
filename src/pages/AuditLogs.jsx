@@ -1,5 +1,19 @@
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import Cookies from "js-cookie";
 import "../styles/AuditLogs.css";
+
 export default function AuditLogs() {
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        const access_token = Cookies.get('access_token');
+        const role = Cookies.get('role');
+        if (!access_token || role !== 'admin') {
+            navigate('/login');
+        }
+    }, []);
+
     return (
         <div className="auditlogs_table-container">
                 <div className="auditlogs_table-body">

@@ -16,7 +16,8 @@ export default function Document() {
     // check if the access token is expired, if so, force the user to login again
     useEffect(() => {
         const access_token = Cookies.get('access_token');
-        if (!access_token) {
+        const role = Cookies.get('role');
+        if (!access_token || role !== 'user') {
             navigate('/login');
         }
     }, []);

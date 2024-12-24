@@ -1,5 +1,19 @@
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import Cookies from "js-cookie";
 import "../styles/ApproveDocuments.css";
+
 export default function ApproveDocuments() {
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        const access_token = Cookies.get('access_token');
+        const role = Cookies.get('role');
+        if (!access_token || role !== 'admin') {
+            navigate('/login');
+        }
+    }, []);
+
     return (
         <div className="wordsets_table-container">
             <div className="wordsets_table-body">

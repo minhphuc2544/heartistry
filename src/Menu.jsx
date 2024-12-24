@@ -64,13 +64,6 @@ export default function Menu() {
             if (response.ok) {
                 const responseJson = await response.json();
                 setUserInfo(responseJson);
-
-                // set the user_id, username, role to cookie
-                const oneHourFromNow = new Date();
-                oneHourFromNow.setHours(oneHourFromNow.getHours() + import.meta.env.VITE_TOKEN_EXPIRE_TIME);
-                Cookies.set('user_id', responseJson.id, { expires: oneHourFromNow });
-                Cookies.set('username', responseJson.username, { expires: oneHourFromNow });
-                Cookies.set('role', responseJson.role, { expires: oneHourFromNow });
             }
         }
 
@@ -180,10 +173,6 @@ function UserMenu({ getStyle, setCurPage, userInfo, baseUrl }) {
                     </div>
                     <Link to={`${baseUrl}login`} className="logout" onClick={() => {
                         setCurPage('login');
-                        Cookies.remove('access_token');
-                        Cookies.remove('user_id');
-                        Cookies.remove('username');
-                        Cookies.remove('role')
                     }}>
                         <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-logout" width="24" height="24"
                             viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
@@ -318,11 +307,6 @@ function AdminMenu({ getStyle, setCurPage, userInfo, baseUrl }) {
                     </div>
                     <Link to={`${baseUrl}login`} className="logout" onClick={() => {
                         setCurPage('login');
-
-                        Cookies.remove('access_token');
-                        Cookies.remove('user_id');
-                        Cookies.remove('username');
-                        Cookies.remove('role')
                     }}>
                         <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-logout" width="24" height="24"
                             viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"

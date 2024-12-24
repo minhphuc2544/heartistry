@@ -11,6 +11,14 @@ export default function Login() {
     const [password, setPassword] = useState("");
     const [submitSignal, setSubmitSignal] = useState(false);
 
+    // remove all cookies after user back to Login Page
+    useEffect(() => {
+        Cookies.remove('access_token');
+        Cookies.remove('user_id');
+        Cookies.remove('username');
+        Cookies.remove('role');
+    }, []);
+
     // useEffect uses to send the username and password to the api server
     useEffect(() => {
         async function postLoginInfo() {
@@ -18,31 +26,50 @@ export default function Login() {
                 "username": username,
                 "password": password
             };
-
-            // call api
+            // call api to get access_token
             const response = await fetch(`${import.meta.env.VITE_USER_API_BASE_URL}/auth/token`, {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify(requestBody),
-                }
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(requestBody),
+            }
             );
-            
-            // navigate if response code is 200
-            if (response.ok) {
-                // set the access_token to cookie
-                const responseJson = await response.json();
-                const oneHourFromNow = new Date();
-                oneHourFromNow.setHours(oneHourFromNow.getHours() + import.meta.env.VITE_TOKEN_EXPIRE_TIME);
-                Cookies.set('access_token', responseJson.access_token, { expires: oneHourFromNow });
-
-                navigate('/');
+            // navigate if response code is not 200
+            if (!response.ok) {
+                // catch errors and notify user (response code 401)
+                window.alert("Wrong username or password");
                 return;
             }
+            // set the access_token to cookie
+            const responseJson = await response.json();
+            const oneHourFromNow = new Date();
+            oneHourFromNow.setHours(oneHourFromNow.getHours() + import.meta.env.VITE_TOKEN_EXPIRE_TIME);
+            Cookies.set('access_token', responseJson.access_token, { expires: oneHourFromNow });
 
-            // catch errors and notify user (response code 401)
-            window.alert("Wrong username or password");
+            // call api to get user's info
+            const response1 = await fetch(`${import.meta.env.VITE_USER_API_BASE_URL}/users/me`, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${Cookies.get('access_token')}`,
+                }
+            }
+            );
+            if (response1.ok) {
+                const response1Json = await response1.json();
+
+                // set the username, role, id to cookies
+                Cookies.set('user_id', response1Json.id, { expires: oneHourFromNow });
+                Cookies.set('username', response1Json.username, { expires: oneHourFromNow });
+                Cookies.set('role', response1Json.role, { expires: oneHourFromNow });
+
+                if (response1Json.role === 'admin') {
+                    navigate('/admin/users');
+                    return;
+                }
+                navigate('/');
+            }
         }
 
         if (username && password) {
@@ -56,13 +83,13 @@ export default function Login() {
                 <div className="loginArea">
                     <form className="form">
                         <div className="loginInfo">
-                        <h1 style={{ fontSize: 60, textAlign: "center", fontFamily: 'Segoe UI', marginTop: -20, marginBottom: 30 }}>Sign in</h1>
+                            <h1 style={{ fontSize: 60, textAlign: "center", fontFamily: 'Segoe UI', marginTop: -20, marginBottom: 30 }}>Sign in</h1>
                             <label className="login_label">Username</label><br></br>
-                            <input type="text" className = "login_input" id="username" required style={{marginBottom: 10}} onChange={ (e) => setUsername(e.target.value) } /><br></br>
+                            <input type="text" className="login_input" id="username" required style={{ marginBottom: 10 }} onChange={(e) => setUsername(e.target.value)} /><br></br>
                             <label className="login_label">Password</label><br></br>
-                            <input type="password" className = "login_input" id="password" required onChange={ (e) => setPassword(e.target.value) } /><br></br> <br></br>
+                            <input type="password" className="login_input" id="password" required onChange={(e) => setPassword(e.target.value)} /><br></br> <br></br>
                             <div className="login_action">
-                                <input type="button" id="login_submit" className="login_submit" value={"LOGIN"} onClick={() => setSubmitSignal(!submitSignal)}/><br></br><br></br>
+                                <input type="button" id="login_submit" className="login_submit" value={"LOGIN"} onClick={() => setSubmitSignal(!submitSignal)} /><br></br><br></br>
                                 <Link to={`${baseUrl}passwordrecovery`} className="login_link">Forgot your password?</Link>
                                 <Link to={`${baseUrl}signup`} className="login_link">Don't have an account? Sign up</Link>
                             </div>

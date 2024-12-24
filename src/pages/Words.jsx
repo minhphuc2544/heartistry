@@ -1,5 +1,19 @@
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import Cookies from "js-cookie";
 import "../styles/Words.css";
+
 export default function Words() {
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        const access_token = Cookies.get('access_token');
+        const role = Cookies.get('role');
+        if (!access_token || role !== 'admin') {
+            navigate('/login');
+        }
+    }, []);
+
     return (
         <div className="words_table-container">
         <div className="words_table-body">
