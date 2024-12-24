@@ -105,7 +105,7 @@ function AddDialog({ setAddDialog, setCusAleMsg }) {
                 throw new Error('Failed to upload file');
             }
             const uploadedFile = await response.json();
-            const filePublicUrl = `https://storage.cloud.google.com/${import.meta.env.VITE_STORAGE_BUCKET}/${uploadedFile.name}`;
+            const filePublicUrl = `https://storage.cloud.google.com/${import.meta.env.VITE_STORAGE_BUCKET}/${encodeURIComponent(uploadedFile.name)}`;
 
             // get the url and post it to MySQL database
             const requestBody = {
