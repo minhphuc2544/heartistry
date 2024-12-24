@@ -7,8 +7,7 @@ import CustomConfirm from "../components/CustomConfirm"
 export default function User() {
     const navigate = useNavigate();
     const [data, setData] = useState([]); // data for the table
-    const [cusConMsg, setCusConMsg] = useState(''); // abbreviation of CustomConfirmMessage
-    
+
     // check if the token is existed and user has 'user' role
     useEffect(() => {
         const access_token = Cookies.get('access_token');
@@ -43,44 +42,38 @@ export default function User() {
     }, []);
     
     return (
-        <>
-            <div className="user_table-container">
-                <div className="user_table-body">
-                    <table>
-                        <thead className="user_table-header">
-                            <tr>
-                                <th>ID</th>
-                                <th>Full name</th>
-                                <th>Username</th>
-                                <th>Email</th>
-                                <th>Phone number</th>
-                                <th>Date of Birth</th>
-                                <th>Gender</th>
-                                <th>Role</th>
-                                <th>Created Day</th>
-                                <th>Last online day</th>
-                                <th>Delete</th>
-                            </tr>
-                        </thead>
-                        <tbody className="user_table-content">
-                            { data.map((item, index) => <DataRow key={index} userInfo={item} />) }
-                        </tbody>
-                    </table>
-                </div>
-                <input type="image" src="../add_wordset.svg" style={{ backgroundColor: "#34B233", borderRadius: "50%", width: "60px", height: "60px", marginRight: "10px", position: "fixed", top: "850px", left: "1854px" }}></input>
+        <div className="user_table-container">
+            <div className="user_table-body">
+                <table>
+                    <thead className="user_table-header">
+                        <tr>
+                            <th>ID</th>
+                            <th>Full name</th>
+                            <th>Username</th>
+                            <th>Email</th>
+                            <th>Phone number</th>
+                            <th>Date of Birth</th>
+                            <th>Gender</th>
+                            <th>Role</th>
+                            <th>Created Day</th>
+                            <th>Last online day</th>
+                            <th>Delete</th>
+                        </tr>
+                    </thead>
+                    <tbody className="user_table-content">
+                        { data.map((item, index) => {
+                            return <DataRow key={index} userInfo={item} isMySelf={Cookies.get('username') === item.username} setData={setData} />
+                        }) }
+                    </tbody>
+                </table>
             </div>
-            { cusConMsg &&
-                <CustomConfirm
-                    message={cusConMsg}
-                    yesHandler={ () => {} }
-                    noHandler={ () => {} }
-                />
-            }
-        </>
+            <input type="image" src="../add_wordset.svg" style={{ backgroundColor: "#34B233", borderRadius: "50%", width: "60px", height: "60px", marginRight: "10px", position: "fixed", top: "850px", left: "1854px" }}></input>
+        </div>
     );
 }
 
-function DataRow({ userInfo }) {
+function DataRow({ userInfo, isMySelf, setData }) {
+    const [cusConMsg, setCusConMsg] = useState(''); // abbreviation of CustomConfirmMessage
     const [needDelete, setNeedDelete] = useState(false);
 
     // useEffect's used to delete user
@@ -95,8 +88,7 @@ function DataRow({ userInfo }) {
             });
 
             if (response.ok) {
-                const responseJson = await response.json();
-                setData(responseJson);
+                setData((prevArray) => prevArray.filter((item) => item.id !== userInfo.id));
             }
         }
 
@@ -106,34 +98,45 @@ function DataRow({ userInfo }) {
     }, [needDelete])
 
     return (
-        <tr>
-            <td style={{backgroundColor: "lightgrey"}}>{userInfo.id}</td>
-            <td contentEditable='true'>{userInfo.fullname}</td>
-            <td style={{backgroundColor: "lightgrey"}}>{userInfo.username}</td>
-            <td contentEditable='true'>{userInfo.email}</td>
-            <td contentEditable='true'>{userInfo.phoneNumber}</td>
-            <td contentEditable='true'>{userInfo.dob}</td>
-            <td contentEditable='true'>{userInfo.gender}</td>
-            <td
-                contentEditable={ userInfo.role === 'admin' ? 'false' : 'true' }
-                style={userInfo.role === 'admin' ? {backgroundColor: "lightgrey"} : {}}
-                children={userInfo.role}
-            />
-            <td
-                style={{backgroundColor: "lightgrey"}}
-                children={new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'long', day: 'numeric' }).format(new Date(userInfo.createAt))}
-            />
-            <td
-                style={{backgroundColor: "lightgrey"}}
-                children={new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'long', day: 'numeric' }).format(new Date(userInfo.updateAt))}
-            />
-            <td style={{ display: "flex", justifyContent: "center" }}>
-                <input
-                    onClick={ () => setNeedDelete(true) }
-                    type="image" src="../disapproved.svg"
-                    style={{ backgroundColor: "red", borderRadius: "50%", width: "30px", height: "30px", marginRight: "10px" }}
-                />                                
-            </td>
-        </tr>
+        <>
+            { !isMySelf &&
+                <tr>
+                    <td style={{backgroundColor: "lightgrey"}}>{userInfo.id}</td>
+                    <td contentEditable='true'>{userInfo.fullname}</td>
+                    <td style={{backgroundColor: "lightgrey"}}>{userInfo.username}</td>
+                    <td contentEditable='true'>{userInfo.email}</td>
+                    <td contentEditable='true'>{userInfo.phoneNumber}</td>
+                    <td contentEditable='true'>{userInfo.dob}</td>
+                    <td contentEditable='true'>{userInfo.gender}</td>
+                    <td
+                        contentEditable={ userInfo.role === 'admin' ? 'false' : 'true' }
+                        style={userInfo.role === 'admin' ? {backgroundColor: "lightgrey"} : {}}
+                        children={userInfo.role}
+                    />
+                    <td
+                        style={{backgroundColor: "lightgrey"}}
+                        children={new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'long', day: 'numeric' }).format(new Date(userInfo.createAt))}
+                    />
+                    <td
+                        style={{backgroundColor: "lightgrey"}}
+                        children={new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'long', day: 'numeric' }).format(new Date(userInfo.updateAt))}
+                    />
+                    <td style={{ display: "flex", justifyContent: "center" }}>
+                        <input
+                            onClick={ () => setCusConMsg('This action CANNOT be undone. Are you sure you want to DELETE this user?') }
+                            type="image" src="../disapproved.svg"
+                            style={{ backgroundColor: "red", borderRadius: "50%", width: "30px", height: "30px", marginRight: "10px" }}
+                        />                                
+                    </td>
+                </tr>
+            }
+            { cusConMsg &&
+                <CustomConfirm
+                    message={cusConMsg}
+                    yesHandler={ () => { setNeedDelete(true); setCusConMsg('') } }
+                    noHandler={ () => { setNeedDelete(false); setCusConMsg('') } }
+                />
+            }
+        </>
     );
 }
