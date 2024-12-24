@@ -586,7 +586,7 @@ function WordRow({ wordInfo, setChangedWords }) {
     useEffect(() => {
         async function deleteWord() {
             // call api
-            const response = await fetch(`${import.meta.env.VITE_TASK_API_BASE_URL}/words/${wordInfo.id}`, {
+            const response = await fetch(`${import.meta.env.VITE_TASK_API_BASE_URL}/words/me/${wordInfo.id}`, {
                 method: "DELETE",
                 headers: {
                     "Content-Type": "application/json",
