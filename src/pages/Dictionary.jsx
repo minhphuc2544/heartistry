@@ -70,7 +70,7 @@ export default function Dictionary() {
     }, [wordToSearch])
 
     return (
-        <div className="dictionary_dictionary">
+        <div className="dictionary">
             <div style={{ display: "flex" }}>
                 <input type="text" className="dictionary_searchBar" placeholder="Search" onKeyDown={ (e)=> {
                     if (e.key === "Enter") {

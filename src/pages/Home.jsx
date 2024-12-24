@@ -65,7 +65,7 @@ export default function Home() {
 
     return (
         <>
-            <div className="home_home">
+            <div className="home">
                 <div className="home_upper">
 
                     <div className="home_wordSets">
@@ -101,7 +101,7 @@ function MyLineChart({ }) {
     useEffect(() => {
         async function getData() {
             // call api
-            const response = await fetch(`${import.meta.env.VITE_TASK_API_BASE_URL}/audit-logs/statistics`, {
+            const response = await fetch(`${import.meta.env.VITE_TASK_API_BASE_URL}/audit-logs/me/statistics`, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
