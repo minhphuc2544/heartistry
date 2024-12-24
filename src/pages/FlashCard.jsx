@@ -286,35 +286,36 @@ function FlipCard({ learningWordSet, setTurn, isTurn }) {
     }, [curWordIdx, allWords]);
 
     return (
-        <div className="flashcard_card" onClick={() => {
-            isTurn && curWordIdx < allWords.length - 1 && setCurWordIdx(curWordIdx + 1);
-            if (curWordIdx < allWords.length - 1) {
+        <div className={`flashcard_card ${isTurn ? 'flipped' : ''}`} onClick={() => {
+            if (isTurn && curWordIdx < allWords.length - 1) {
+                setCurWordIdx(curWordIdx + 1);
                 setTurn(!isTurn);
             } else {
-                !isTurn && setTurn(!isTurn);
+                setTurn(!isTurn);
             }
         }}>
-            {
-                allWords.length ?
-                    isTurn ?
-                        <div className="flashcard_back">
-                            <div style={{ display: "flex", justifyContent: "center", fontSize: 40, marginBottom: 20 }}>
-                                <p className="flashcard_word">{allWords[curWordIdx].word}</p>
-                                {foundWord.isFound && <p className="flashcard_wordType">({foundWord.partOfSpeech})</p>}
+            <div className="flashcard_card_inner">
+                {
+                    allWords.length ?
+                        isTurn ?
+                            <div className="flashcard_back">
+                                <div style={{ display: "flex", justifyContent: "center", fontSize: 40, marginBottom: 20 }}>
+                                    <p className="flashcard_word">{allWords[curWordIdx].word}</p>
+                                    {foundWord.isFound && <p className="flashcard_wordType">({foundWord.partOfSpeech})</p>}
+                                </div>
+                                <div style={{ display: "flex" }}>
+                                    {foundWord.isFound && foundWord.phonetic && <p className="flashcard_phonetic"><b>Phonetic:</b> {foundWord.phonetic}</p>}
+                                </div>
+                                {foundWord.isFound && <p className="flashcard_definition"><b>Definition:</b> {foundWord.definition}</p>}
+                                {foundWord.isFound && foundWord.example && <p className="flashcard_example"><b>Example:</b> {foundWord.example}</p>}
+                                {allWords[curWordIdx].note && <p className="flashcard_note"><b>Note:</b> {allWords[curWordIdx].note}</p>}
+                            </div> :
+                            <div className="flashcard_front">
+                                <p style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)", fontSize: 60, wordWrap: "break-word" }}>{allWords[curWordIdx].word}</p>
                             </div>
-                            <div style={{ display: "flex" }}>
-                                {foundWord.isFound && foundWord.phonetic && <p className="flashcard_phonetic"><b>Phonetic:</b> {foundWord.phonetic}</p>}
-                            </div>
-                            {/* <p className="flashcard_meaning"><b>Meaning:</b>{ } Thẻ thông tin</p> */}
-                            {foundWord.isFound && <p className="flashcard_definition"><b>Definition:</b> {foundWord.definition}</p>}
-                            {foundWord.isFound && foundWord.example && <p className="flashcard_example"><b>Example:</b> {foundWord.example}</p>}
-                            {allWords[curWordIdx].note && <p className="flashcard_note"><b>Note:</b> {allWords[curWordIdx].note}</p>}
-                        </div> :
-                        <div className="flashcard_front">
-                            <p style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)", fontSize: 60, wordWrap: "break-word" }}>{allWords[curWordIdx].word}</p>
-                        </div>
-                    : <p style={{ textAlign: "center", marginTop: "50%", fontFamily: "cursive", fontSize: "35px" }}>This wordset has no word</p>
-            }
+                        : <p style={{ textAlign: "center", marginTop: "50%", fontFamily: "cursive", fontSize: "35px" }}>This wordset has no word</p>
+                }
+            </div>
         </div>
     );
 }
