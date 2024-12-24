@@ -9,6 +9,11 @@ export default function User() {
     const navigate = useNavigate();
     const [data, setData] = useState([]); // data for the table
 
+    const [reloadSignal, setReloadSignal] = useState(false);
+
+    const [needAdd, setNeedAdd] = useState(false);
+
+
     // check if the token is existed and user has 'user' role
     useEffect(() => {
         const access_token = Cookies.get('access_token');
@@ -40,7 +45,7 @@ export default function User() {
         }
 
         getAllUsers();
-    }, []);
+    }, [reloadSignal]);
 
     return (
         <div className="user_table-container">
@@ -63,10 +68,16 @@ export default function User() {
                     </thead>
                     <tbody className="user_table-content">
                         {data.map((item, index) => <DataRow key={index} userInfo={item} isMySelf={Cookies.get('username') === item.username} setData={setData} />)}
+                        {needAdd && <AddRow />}
                     </tbody>
                 </table>
             </div>
-            <input type="image" src="../add_wordset.svg" style={{ backgroundColor: "#34B233", borderRadius: "50%", width: "60px", height: "60px", marginRight: "10px", position: "fixed", top: "850px", left: "1854px" }}></input>
+            <input
+                type="image"
+                src={needAdd ? "../disapproved.svg" : "../add_wordset.svg"}
+                style={{ backgroundColor: "#34B233", borderRadius: "50%", width: "60px", height: "60px", marginRight: "10px", position: "fixed", top: "850px", left: "1854px" }}
+                onClick={() => setNeedAdd(!needAdd)}
+            />
         </div>
     );
 }
@@ -120,8 +131,6 @@ function DataRow({ userInfo, isMySelf, setData }) {
                 role: role,
             };
 
-            console.log(requestBody); console.log(userInfo.id);
-
             const response = await fetch(`${import.meta.env.VITE_USER_API_BASE_URL}/users/${userInfo.id}`, {
                 method: "PATCH",
                 headers: {
@@ -131,11 +140,12 @@ function DataRow({ userInfo, isMySelf, setData }) {
                 body: JSON.stringify(requestBody),
             });
 
+            setIsChanged(false);
+            setNeedUpdate(false);
+
             if (response.ok) {
                 // notify the changes
-                setIsChanged(false);
-                setNeedUpdate(false)
-                setCusAleMsg("This user's info has been update");
+                setCusAleMsg("This cell has been update");
                 return;
             }
 
@@ -150,13 +160,13 @@ function DataRow({ userInfo, isMySelf, setData }) {
             setCusAleMsg(alertMessage);
         }
 
-        if (needUpdate && isChanged) {
-            updateUser();
+        if (!needUpdate || !isChanged) {
+            setNeedUpdate(false);
+            setIsChanged(false);
             return;
         }
-
-        setNeedUpdate(false);
-        setIsChanged(false);
+        
+        updateUser();
     }, [needUpdate])
 
     return (
@@ -170,6 +180,7 @@ function DataRow({ userInfo, isMySelf, setData }) {
                     <td
                         contentEditable={true}
                         children={userInfo.fullname}
+                        suppressContentEditableWarning={true}
                         onInput={(e) => { setFullname(e.currentTarget.textContent); setIsChanged(true) }}
                     />
                     <td
@@ -179,27 +190,32 @@ function DataRow({ userInfo, isMySelf, setData }) {
                     <td
                         contentEditable={true}
                         children={userInfo.email}
+                        suppressContentEditableWarning={true}
                         onInput={(e) => { setEmail(e.currentTarget.textContent); setIsChanged(true) }}
                     />
                     <td
                         contentEditable={true}
                         children={userInfo.phoneNumber}
+                        suppressContentEditableWarning={true}
                         onInput={(e) => { setPhoneNumber(e.currentTarget.textContent); setIsChanged(true) }}
                     />
                     <td
                         contentEditable={true}
                         children={userInfo.dob}
+                        suppressContentEditableWarning={true}
                         onInput={(e) => { setDob(e.currentTarget.textContent); setIsChanged(true) }}
                     />
                     <td
                         contentEditable={true}
                         children={userInfo.gender}
+                        suppressContentEditableWarning={true}
                         onInput={(e) => { setGender(e.currentTarget.textContent); setIsChanged(true) }}
                     />
                     <td
                         contentEditable={userInfo.role === 'admin' ? 'false' : 'true'}
                         style={userInfo.role === 'admin' ? { backgroundColor: "lightgrey" } : {}}
                         children={userInfo.role}
+                        suppressContentEditableWarning={true}
                         onInput={(e) => { setRole(e.currentTarget.textContent); setIsChanged(true) }}
                     />
                     <td
@@ -210,13 +226,15 @@ function DataRow({ userInfo, isMySelf, setData }) {
                         style={{ backgroundColor: "lightgrey" }}
                         children={new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'long', day: 'numeric' }).format(new Date(userInfo.updateAt))}
                     />
-                    <td style={{ display: "flex", justifyContent: "center" }}>
-                        <input
-                            onClick={() => setCusConMsg('This action CANNOT be undone. Are you sure you want to DELETE this user?')}
-                            type="image" src="../disapproved.svg"
-                            style={{ backgroundColor: "red", borderRadius: "50%", width: "30px", height: "30px", marginRight: "10px" }}
-                        />
-                    </td>
+                    {userInfo.role !== 'admin' &&
+                        <td style={{ display: "flex", justifyContent: "center" }}>
+                            <input
+                                onClick={() => setCusConMsg('This action CANNOT be undone. Are you sure you want to DELETE this user?')}
+                                type="image" src="../disapproved.svg"
+                                style={{ backgroundColor: "red", borderRadius: "50%", width: "30px", height: "30px", marginRight: "10px" }}
+                            />
+                        </td>
+                    }
                 </tr>
             }
             {cusConMsg &&
@@ -226,6 +244,110 @@ function DataRow({ userInfo, isMySelf, setData }) {
                     noHandler={() => { setNeedDelete(false); setCusConMsg('') }}
                 />
             }
+            {cusAleMsg &&
+                <CustomAlert
+                    message={cusAleMsg}
+                    okHandler={() => { setCusAleMsg('') }}
+                />
+            }
+        </>
+    );
+}
+
+function AddRow({ }) {
+    const [needCreate, setNeedCreate] = useState(false);
+
+    const [fullname, setFullname] = useState('');
+    const [username, setUsername] = useState('');
+    const [email, setEmail] = useState('');
+    const [phoneNumber, setPhoneNumber] = useState('');
+    const [dob, setDob] = useState('');
+    const [gender, setGender] = useState('');
+    const [cusAleMsg, setCusAleMsg] = useState(''); // abbreviation of CustomAlertMessages
+
+    // useEffect's used to create user
+    useEffect(() => {
+        async function createUser() {
+            const requestBody = {
+                fullname: fullname,
+                username: username,
+                email: email,
+                phoneNumber: phoneNumber,
+                dob: dob,
+                gender: gender,
+                password: import.meta.env.VITE_DEFAULT_PASSWORD,
+            };
+
+            const response = await fetch(`${import.meta.env.VITE_USER_API_BASE_URL}/users/add`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${Cookies.get('access_token')}`
+                },
+                body: JSON.stringify(requestBody),
+            });
+
+            if (response.ok) {
+                // notify the changes
+                setCusAleMsg(`A user role account has been created with password: ${import.meta.env.VITE_DEFAULT_PASSWORD}`);
+                return;
+            }
+
+            // catch errors and notify user
+            const responseJson = await response.json();
+            let alertMessage = '';
+            if (Array.isArray(responseJson.message)) {
+                responseJson.message.forEach((v, i) => { alertMessage += `${i + 1}. ${v}\n`; });
+            } else {
+                alertMessage = `1. ${responseJson.message}`;
+            }
+            setCusAleMsg(alertMessage);
+        }
+
+        if (!needCreate) {
+            return;
+        }
+
+        if (!fullname || !username || !email || !phoneNumber || !gender || !dob) {
+            setCusAleMsg('Please enter all the fields before leaving');
+            return;
+        }
+
+        createUser();
+    }, [needCreate])
+
+    return (
+        <>
+            <tr onBlur={() => setNeedCreate(true)} onFocus={() => setNeedCreate(false)}>
+                <td style={{ backgroundColor: "lightgrey" }} />
+                <td
+                    contentEditable={true}
+                    onInput={(e) => { setFullname(e.currentTarget.textContent); }}
+                />
+                <td
+                    contentEditable={true}
+                    onInput={(e) => { setUsername(e.currentTarget.textContent); }}
+                />
+                <td
+                    contentEditable={true}
+                    onInput={(e) => { setEmail(e.currentTarget.textContent); }}
+                />
+                <td
+                    contentEditable={true}
+                    onInput={(e) => { setPhoneNumber(e.currentTarget.textContent); }}
+                />
+                <td
+                    contentEditable={true}
+                    onInput={(e) => { setDob(e.currentTarget.textContent); }}
+                />
+                <td
+                    contentEditable={true}
+                    onInput={(e) => { setGender(e.currentTarget.textContent); }}
+                />
+                <td style={{ backgroundColor: "lightgrey" }} />
+                <td style={{ backgroundColor: "lightgrey" }} />
+                <td style={{ backgroundColor: "lightgrey" }} />
+            </tr>
             {cusAleMsg &&
                 <CustomAlert
                     message={cusAleMsg}
