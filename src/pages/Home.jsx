@@ -26,12 +26,16 @@ export default function Home() {
     const [isWordSetOpen, setWordSetOpen] = useState(false); //check if word set is opened
     const [isAddNewWord, setAddNewWord] = useState(false); //check if user is adding new word to word set
 
-    // check if the access token is expired, if so, force the user to login again
+    // check if the access token is expired and user has 'admin' role
     useEffect(() => {
         const access_token = Cookies.get('access_token');
-        const role = Cookies.get('role');
-        if (!access_token || role !== 'user') {
+        if (!access_token) {
             navigate('/login');
+            return;
+        }
+        const role = Cookies.get('role');
+        if (role === 'admin') {
+            navigate('/admin/users')
         }
     }, []);
 

@@ -28,12 +28,16 @@ export default function FlashCard() {
     const [isCreateSet, setCreateSet] = useState(false); // check if user is creating word set
     const [isPreviewRcmWS, setPreviewRcmWS] = useState(false); //check if user is preview recomment word set
 
-    // check if the access token is expired, if so, force the user to login again
+    // check if the access token is expired and user has 'admin' role
     useEffect(() => {
         const access_token = Cookies.get('access_token');
-        const role = Cookies.get('role');
-        if (!access_token || role !== 'user') {
+        if (!access_token) {
             navigate('/login');
+            return;
+        }
+        const role = Cookies.get('role');
+        if (role === 'admin') {
+            navigate('/admin/users')
         }
     }, []);
 

@@ -6,11 +6,16 @@ import "../styles/Words.css";
 export default function Words() {
     const navigate = useNavigate();
 
+    // check if the token is existed and user has 'user' role
     useEffect(() => {
         const access_token = Cookies.get('access_token');
-        const role = Cookies.get('role');
-        if (!access_token || role !== 'admin') {
+        if (!access_token) {
             navigate('/login');
+            return;
+        }
+        const role = Cookies.get('role');
+        if (role === 'user') {
+            navigate('/')
         }
     }, []);
 

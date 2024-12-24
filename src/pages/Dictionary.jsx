@@ -11,12 +11,16 @@ export default function Dictionary() {
     const [wordToSearch, setWordToSearch] = useState('');
     const [foundWord, setFoundWord] = useState({ isFound: false }); // the word that'll be found using free dictionary api
 
-    // check if the access token is expired, if so, force the user to login again
+    // check if the access token is expired and user has 'admin' role
     useEffect(() => {
         const access_token = Cookies.get('access_token');
-        const role = Cookies.get('role');
-        if (!access_token || role !== 'user') {
+        if (!access_token) {
             navigate('/login');
+            return;
+        }
+        const role = Cookies.get('role');
+        if (role === 'admin') {
+            navigate('/admin/users')
         }
     }, []);
 
