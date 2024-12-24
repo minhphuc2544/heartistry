@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 import "../styles/Users.css";
 import CustomConfirm from "../components/CustomConfirm"
+import CustomAlert from "../components/CustomAlert"
 
 export default function User() {
     const navigate = useNavigate();
@@ -40,7 +41,7 @@ export default function User() {
 
         getAllUsers();
     }, []);
-    
+
     return (
         <div className="user_table-container">
             <div className="user_table-body">
@@ -61,9 +62,7 @@ export default function User() {
                         </tr>
                     </thead>
                     <tbody className="user_table-content">
-                        { data.map((item, index) => {
-                            return <DataRow key={index} userInfo={item} isMySelf={Cookies.get('username') === item.username} setData={setData} />
-                        }) }
+                        {data.map((item, index) => <DataRow key={index} userInfo={item} isMySelf={Cookies.get('username') === item.username} setData={setData} />)}
                     </tbody>
                 </table>
             </div>
@@ -74,7 +73,18 @@ export default function User() {
 
 function DataRow({ userInfo, isMySelf, setData }) {
     const [cusConMsg, setCusConMsg] = useState(''); // abbreviation of CustomConfirmMessage
+    const [cusAleMsg, setCusAleMsg] = useState(''); // abbreviation of CustomAlertMessages
     const [needDelete, setNeedDelete] = useState(false);
+    const [needUpdate, setNeedUpdate] = useState(false);
+    const [isChanged, setIsChanged] = useState(false);
+
+    const [fullname, setFullname] = useState(userInfo.fullname);
+    const [email, setEmail] = useState(userInfo.email);
+    const [phoneNumber, setPhoneNumber] = useState(userInfo.phoneNumber);
+    const [dob, setDob] = useState(userInfo.dob);
+    const [gender, setGender] = useState(userInfo.gender);
+    const [role, setRole] = useState(userInfo.role);
+
 
     // useEffect's used to delete user
     useEffect(() => {
@@ -88,6 +98,7 @@ function DataRow({ userInfo, isMySelf, setData }) {
             });
 
             if (response.ok) {
+                // remove the deleted use from data
                 setData((prevArray) => prevArray.filter((item) => item.id !== userInfo.id));
             }
         }
@@ -97,44 +108,128 @@ function DataRow({ userInfo, isMySelf, setData }) {
         }
     }, [needDelete])
 
+    // useEffect's used to update user
+    useEffect(() => {
+        async function updateUser() {
+            const requestBody = {
+                fullname: fullname,
+                email: email,
+                phoneNumber: phoneNumber,
+                dob: dob,
+                gender: gender,
+                role: role,
+            };
+
+            console.log(requestBody); console.log(userInfo.id);
+
+            const response = await fetch(`${import.meta.env.VITE_USER_API_BASE_URL}/users/${userInfo.id}`, {
+                method: "PATCH",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${Cookies.get('access_token')}`
+                },
+                body: JSON.stringify(requestBody),
+            });
+
+            if (response.ok) {
+                // notify the changes
+                setIsChanged(false);
+                setNeedUpdate(false)
+                setCusAleMsg("This user's info has been update");
+                return;
+            }
+
+            // catch errors and notify user
+            const responseJson = await response.json();
+            let alertMessage = '';
+            if (Array.isArray(responseJson.message)) {
+                responseJson.message.forEach((v, i) => { alertMessage += `${i + 1}. ${v}\n`; });
+            } else {
+                alertMessage = `1. ${responseJson.message}`;
+            }
+            setCusAleMsg(alertMessage);
+        }
+
+        if (needUpdate && isChanged) {
+            updateUser();
+            return;
+        }
+
+        setNeedUpdate(false);
+        setIsChanged(false);
+    }, [needUpdate])
+
     return (
         <>
-            { !isMySelf &&
-                <tr>
-                    <td style={{backgroundColor: "lightgrey"}}>{userInfo.id}</td>
-                    <td contentEditable='true'>{userInfo.fullname}</td>
-                    <td style={{backgroundColor: "lightgrey"}}>{userInfo.username}</td>
-                    <td contentEditable='true'>{userInfo.email}</td>
-                    <td contentEditable='true'>{userInfo.phoneNumber}</td>
-                    <td contentEditable='true'>{userInfo.dob}</td>
-                    <td contentEditable='true'>{userInfo.gender}</td>
+            {!isMySelf &&
+                <tr onBlur={() => setNeedUpdate(true)}>
                     <td
-                        contentEditable={ userInfo.role === 'admin' ? 'false' : 'true' }
-                        style={userInfo.role === 'admin' ? {backgroundColor: "lightgrey"} : {}}
-                        children={userInfo.role}
+                        style={{ backgroundColor: "lightgrey" }}
+                        children={userInfo.id}
                     />
                     <td
-                        style={{backgroundColor: "lightgrey"}}
+                        contentEditable={true}
+                        children={userInfo.fullname}
+                        onInput={(e) => { setFullname(e.currentTarget.textContent); setIsChanged(true) }}
+                    />
+                    <td
+                        style={{ backgroundColor: "lightgrey" }}
+                        children={userInfo.username}
+                    />
+                    <td
+                        contentEditable={true}
+                        children={userInfo.email}
+                        onInput={(e) => { setEmail(e.currentTarget.textContent); setIsChanged(true) }}
+                    />
+                    <td
+                        contentEditable={true}
+                        children={userInfo.phoneNumber}
+                        onInput={(e) => { setPhoneNumber(e.currentTarget.textContent); setIsChanged(true) }}
+                    />
+                    <td
+                        contentEditable={true}
+                        children={userInfo.dob}
+                        onInput={(e) => { setDob(e.currentTarget.textContent); setIsChanged(true) }}
+                    />
+                    <td
+                        contentEditable={true}
+                        children={userInfo.gender}
+                        onInput={(e) => { setGender(e.currentTarget.textContent); setIsChanged(true) }}
+                    />
+                    <td
+                        contentEditable={userInfo.role === 'admin' ? 'false' : 'true'}
+                        style={userInfo.role === 'admin' ? { backgroundColor: "lightgrey" } : {}}
+                        children={userInfo.role}
+                        onInput={(e) => { setRole(e.currentTarget.textContent); setIsChanged(true) }}
+                    />
+                    <td
+                        style={{ backgroundColor: "lightgrey" }}
                         children={new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'long', day: 'numeric' }).format(new Date(userInfo.createAt))}
                     />
                     <td
-                        style={{backgroundColor: "lightgrey"}}
+                        style={{ backgroundColor: "lightgrey" }}
                         children={new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'long', day: 'numeric' }).format(new Date(userInfo.updateAt))}
                     />
                     <td style={{ display: "flex", justifyContent: "center" }}>
                         <input
-                            onClick={ () => setCusConMsg('This action CANNOT be undone. Are you sure you want to DELETE this user?') }
+                            onClick={() => setCusConMsg('This action CANNOT be undone. Are you sure you want to DELETE this user?')}
                             type="image" src="../disapproved.svg"
                             style={{ backgroundColor: "red", borderRadius: "50%", width: "30px", height: "30px", marginRight: "10px" }}
-                        />                                
+                        />
                     </td>
                 </tr>
             }
-            { cusConMsg &&
+            {cusConMsg &&
                 <CustomConfirm
                     message={cusConMsg}
-                    yesHandler={ () => { setNeedDelete(true); setCusConMsg('') } }
-                    noHandler={ () => { setNeedDelete(false); setCusConMsg('') } }
+                    yesHandler={() => { setNeedDelete(true); setCusConMsg('') }}
+                    noHandler={() => { setNeedDelete(false); setCusConMsg('') }}
+                />
+            }
+            {cusAleMsg &&
+                <CustomAlert
+                    message={cusAleMsg}
+                    okHandler={() => { setCusAleMsg('') }}
                 />
             }
         </>
