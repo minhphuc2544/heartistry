@@ -65,7 +65,7 @@ export default function Home() {
 
     return (
         <>
-            <div className="home">
+            <div className="home_home">
                 <div className="home_upper">
 
                     <div className="home_wordSets">
@@ -101,7 +101,7 @@ function MyLineChart({ }) {
     useEffect(() => {
         async function getData() {
             // call api
-            const response = await fetch(`${import.meta.env.VITE_TASK_API_BASE_URL}/audit-logs/me/statistics`, {
+            const response = await fetch(`${import.meta.env.VITE_TASK_API_BASE_URL}/audit-logs/statistics`, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
@@ -341,35 +341,36 @@ function FlipCard({ learningWordSet, setTurn, isTurn }) {
     }, [isTurn]);
 
     return (
-        <div className="home_card" onClick={() => {
-            isTurn && curWordIdx < allWords.length - 1 && setCurWordIdx(curWordIdx + 1);
-            if (curWordIdx < allWords.length - 1) {
+        <div className={`home_card ${isTurn ? 'flipped' : ''}`} onClick={() => {
+            if (isTurn && curWordIdx < allWords.length - 1) {
+                setCurWordIdx(curWordIdx + 1);
                 setTurn(!isTurn);
             } else {
-                !isTurn && setTurn(!isTurn);
+                setTurn(!isTurn);
             }
         }}>
-            {
-                allWords.length ?
-                    isTurn ?
-                        <div className="home_back">
-                            <div style={{ display: "flex", justifyContent: "center", fontSize: 40, marginBottom: 20 }}>
-                                <p className="home_word">{allWords[curWordIdx].word}</p>
-                                {foundWord.isFound && <p className="home_wordType">({foundWord.partOfSpeech})</p>}
+            <div className="home_card_inner">
+                {
+                    allWords.length ?
+                        isTurn ?
+                            <div className="home_back">
+                                <div style={{ display: "flex", justifyContent: "center", fontSize: 40, marginBottom: 20 }}>
+                                    <p className="home_word">{allWords[curWordIdx].word}</p>
+                                    {foundWord.isFound && <p className="home_wordType">({foundWord.partOfSpeech})</p>}
+                                </div>
+                                <div style={{ display: "flex" }}>
+                                    {foundWord.isFound && foundWord.phonetic && <p className="home_phonetic"><b>Phonetic:</b> {foundWord.phonetic}</p>}
+                                </div>
+                                {foundWord.isFound && <p className="home_definition"><b>Definition:</b> {foundWord.definition}</p>}
+                                {foundWord.isFound && foundWord.example && <p className="home_example"><b>Example:</b> {foundWord.example}</p>}
+                                {allWords[curWordIdx].note && <p className="home_note"><b>Note:</b> {allWords[curWordIdx].note}</p>}
+                            </div> :
+                            <div className="home_front">
+                                <p style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)", fontSize: 60, wordWrap: "break-word" }}>{allWords[curWordIdx].word}</p>
                             </div>
-                            <div style={{ display: "flex" }}>
-                                {foundWord.isFound && foundWord.phonetic && <p className="home_phonetic"><b>Phonetic:</b> {foundWord.phonetic}</p>}
-                            </div>
-                            {/* <p className="home_meaning"><b>Meaning:</b>{ } Thẻ thông tin</p> */}
-                            {foundWord.isFound && <p className="home_definition"><b>Definition:</b> {foundWord.definition}</p>}
-                            {foundWord.isFound && foundWord.example && <p className="home_example"><b>Example:</b> {foundWord.example}</p>}
-                            {allWords[curWordIdx].note && <p className="home_note"><b>Note:</b> {allWords[curWordIdx].note}</p>}
-                        </div> :
-                        <div className="home_front">
-                            <p style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)", fontSize: 60, wordWrap: "break-word" }}>{allWords[curWordIdx].word}</p>
-                        </div>
-                    : <p style={{ textAlign: "center", marginTop: "50%", fontFamily: "cursive", fontSize: "35px" }}>This wordset has no word</p>
-            }
+                        : <p style={{ textAlign: "center", marginTop: "50%", fontFamily: "cursive", fontSize: "35px" }}>This wordset has no word</p>
+                }
+            </div>
         </div>
     );
 }
@@ -388,7 +389,7 @@ function WordSetEdit({ learningWordSet, words, wLastPage, wordPage, setWordPage,
             }
 
             // call api
-            const response = await fetch(`${import.meta.env.VITE_TASK_API_BASE_URL}/words/me/${id}`, {
+            const response = await fetch(`${import.meta.env.VITE_TASK_API_BASE_URL}/words/${id}`, {
                 method: "PATCH",
                 headers: {
                     "Content-Type": "application/json",
@@ -404,7 +405,7 @@ function WordSetEdit({ learningWordSet, words, wLastPage, wordPage, setWordPage,
             }
 
             // call api
-            const response = await fetch(`${import.meta.env.VITE_TASK_API_BASE_URL}/wordsets/me/${learningWordSet.id}`, {
+            const response = await fetch(`${import.meta.env.VITE_TASK_API_BASE_URL}/wordsets/${learningWordSet.id}`, {
                 method: "PATCH",
                 headers: {
                     "Content-Type": "application/json",
@@ -586,7 +587,7 @@ function WordRow({ wordInfo, setChangedWords }) {
     useEffect(() => {
         async function deleteWord() {
             // call api
-            const response = await fetch(`${import.meta.env.VITE_TASK_API_BASE_URL}/words/me/${wordInfo.id}`, {
+            const response = await fetch(`${import.meta.env.VITE_TASK_API_BASE_URL}/words/${wordInfo.id}`, {
                 method: "DELETE",
                 headers: {
                     "Content-Type": "application/json",
