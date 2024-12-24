@@ -16,7 +16,7 @@ export default function PasswordRecovery() {
                 "phoneNumber": phoneNumber
             };
 
-            const response = await fetch(`${baseUrl}/users/password-recovery`, {
+            const response = await fetch(`${baseUrl}/users/password_recovery`, {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
