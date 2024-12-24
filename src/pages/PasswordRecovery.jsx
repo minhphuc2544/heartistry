@@ -1,8 +1,9 @@
 import "../styles/PasswordRecovery.css"
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 export default function PasswordRecovery() {
     const baseUrl = import.meta.env.BASE_URL;
-
+    const navigate = useNavigate();
     const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
     const [phoneNumber, setPhoneNumber] = useState("");
@@ -16,7 +17,7 @@ export default function PasswordRecovery() {
                 "phoneNumber": phoneNumber
             };
 
-            const response = await fetch(`${baseUrl}/users/password_recovery`, {
+            const response = await fetch(`${import.meta.env.VITE_USER_API_BASE_URL}/users/password_recovery`, {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
@@ -26,7 +27,7 @@ export default function PasswordRecovery() {
             );
 
             if (response.ok) {
-                navigate('/otp', { state: requestBody });
+                navigate('/login', { state: requestBody });
                 return;
             }
 
