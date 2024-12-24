@@ -1,5 +1,5 @@
 import "../styles/CustomConfirm.css";
-export default function CustomAlert({ message, yesHandler, noHandler }) {
+export default function CustomConfirm({ message, yesHandler, noHandler }) {
   return (
         <div className="alert">
             <div className="msg">
