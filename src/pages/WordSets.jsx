@@ -7,6 +7,8 @@ import "../styles/WordSets.css";
 export default function WordSets() {
     const navigate = useNavigate();
     const [wordSets, setWordSets] = useState([]);
+    const [reloadSignal, setReloadSignal] = useState(false);
+
     // check if the token is existed and user has 'user' role
     useEffect(() => {
         const access_token = Cookies.get('access_token');
@@ -32,13 +34,12 @@ export default function WordSets() {
 
             if (response.ok) {
                 const responseJson = await response.json();
-                console.log(responseJson);
                 setWordSets(responseJson);
             }
         }
 
         fetchWordSets();
-    }, []);
+    }, [reloadSignal]);
     return (
             <div className="wordsets_table-container">
                 <div className="wordsets_table-body">
@@ -56,7 +57,7 @@ export default function WordSets() {
                         </thead>
                         <tbody className="wordsets_table-content">
                             {wordSets.map((item, index) => (
-                                <DataRow key={index} wordSetInfo={item} />
+                                <DataRow key={index} wordSetInfo={item} setReloadSignal={setReloadSignal} />
                             ))}
                         </tbody>
                     </table>
@@ -66,7 +67,7 @@ export default function WordSets() {
     )
 }
 
-function DataRow({wordSetInfo}){
+function DataRow({wordSetInfo, setReloadSignal}){
     const [isRecommended, setIsRecommended] = useState(wordSetInfo.isRecommended);
 
     useEffect(() => {
@@ -83,7 +84,7 @@ function DataRow({wordSetInfo}){
             });
 
             if (response.ok) {
-                console.log(wordSetInfo.id);
+                setReloadSignal(old => !old);
             }
         }
         setToRecommend();
