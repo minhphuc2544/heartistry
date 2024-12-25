@@ -61,7 +61,7 @@ export default function ApproveDocuments() {
                         </tr>
                     </thead>
                     <tbody className="wordsets_table-content">
-                        {data.map((item, index) => <DataRow key={index} documentInfo={item} />)}
+                        {data.map((item, index) => <DataRow key={index} documentInfo={item} setReloadSignal={setReloadSignal} setData={setData} />)}
                         {needAdd && <AddRow setReloadSignal={setReloadSignal} setNeedAdd={setNeedAdd} />}
                     </tbody>
                 </table>
@@ -75,8 +75,53 @@ export default function ApproveDocuments() {
     );
 }
 
-function DataRow({ documentInfo }) {
+function DataRow({ documentInfo, setReloadSignal, setData }) {
     const [isApproved, setIsApproved] = useState(documentInfo.isApproved);
+    const [needDelete, setNeedDelete] = useState(false);
+
+    // useEffect's used to delete document
+    useEffect(() => {
+        async function deleteUser() {
+            const response = await fetch(`${import.meta.env.VITE_TASK_API_BASE_URL}/documents/${documentInfo.id}`, {
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${Cookies.get('access_token')}`
+                }
+            });
+
+            if (response.ok) {
+                // remove the deleted use from data
+                setData((prevArray) => prevArray.filter((item) => item.id !== documentInfo.id));
+            }
+        }
+
+        if (needDelete) {
+            deleteUser();
+        }
+    }, [needDelete])
+
+    useEffect(() => {
+        async function setToApprove() {
+            const response = await fetch(`${import.meta.env.VITE_TASK_API_BASE_URL}/documents/${documentInfo.id}`, {
+                method: "PATCH",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${Cookies.get('access_token')}`
+                },
+                body: JSON.stringify({
+                    name: documentInfo.name,
+                    description: documentInfo.description,
+                    isApproved: isApproved,
+                })
+            });
+
+            if (response.ok) {
+                setReloadSignal(old => !old);
+            }
+        }
+        setToApprove();
+    }, [isApproved]);
 
     return (
         <tr>
@@ -102,27 +147,26 @@ function DataRow({ documentInfo }) {
             >{documentInfo.isApproved ? "true" : "false"}</td>
             <td>
                 {!documentInfo.isApproved ?
-                    <div>
-                        <input
-                            type="image"
-                            src="../approved.svg"
-                            style={{ backgroundColor: "#34B233", borderRadius: "50%", width: "30px", height: "30px", marginRight: "10px" }}
-                            onClick={() => setIsApproved(!isApproved)}
-                        ></input>
-                    </div> :
-                    <div>
-                        <input
-                            type="image"
-                            src="../disapproved.svg"
-                            style={{ backgroundColor: "red", borderRadius: "50%", width: "30px", height: "30px" }}
-                            onClick={() => setIsApproved(!isApproved)}
-                        ></input>
-                    </div>
+                    <input
+                        type="image"
+                        src="../approved.svg"
+                        style={{ backgroundColor: "#34B233", borderRadius: "50%", width: "30px", height: "30px", marginRight: "10px" }}
+                        onClick={() => setIsApproved(!isApproved)}
+                    ></input> :
+                    <input
+                        type="image"
+                        src="../disapproved.svg"
+                        style={{ backgroundColor: "red", borderRadius: "50%", width: "30px", height: "30px" }}
+                        onClick={() => setIsApproved(!isApproved)}
+                    ></input>
                 }
             </td>
             <td>
                 {documentInfo.isApproved &&
-                    <button style={{ fontSize: "15px", padding: "5px", backgroundColor: "#D23232", color: "white", border: "none", borderRadius: "5px" }}>Delete</button>
+                    <button
+                        style={{ fontSize: "15px", padding: "5px", backgroundColor: "#D23232", color: "white", border: "none", borderRadius: "5px", cursor: "pointer" }}
+                        onClick={ () => setNeedDelete(true) }
+                    >Delete</button>
                 }
             </td>
         </tr>
