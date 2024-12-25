@@ -45,10 +45,10 @@ export default function ApproveDocuments() {
     }, [reloadSignal]);
 
     return (
-        <div className="wordsets_table-container">
-            <div className="wordsets_table-body">
+        <div className="approveDocuments_table-container">
+            <div className="approveDocuments_table-body">
                 <table>
-                    <thead className="wordsets_table-header">
+                    <thead className="approveDocuments_table-header">
                         <tr>
                             <th>ID</th>
                             <th>User ID</th>
@@ -60,7 +60,7 @@ export default function ApproveDocuments() {
                             <th>Delete</th>
                         </tr>
                     </thead>
-                    <tbody className="wordsets_table-content">
+                    <tbody className="approveDocuments_table-content">
                         {data.map((item, index) => <DataRow key={index} documentInfo={item} setReloadSignal={setReloadSignal} setData={setData} />)}
                         {needAdd && <AddRow setReloadSignal={setReloadSignal} setNeedAdd={setNeedAdd} />}
                     </tbody>
@@ -68,7 +68,7 @@ export default function ApproveDocuments() {
             </div>
             <input
                 onClick={() => setNeedAdd(!needAdd)}
-                type="image" src={needAdd ? "../disapproved.svg" : "../add_wordset.svg"}
+                type="image" src={needAdd ? "../black_cross.svg" : "../add_wordset.svg"}
                 style={{ backgroundColor: "#34B233", borderRadius: "50%", width: "60px", height: "60px", marginRight: "10px", position: "fixed", top: "850px", left: "1854px" }}
             />
         </div>
@@ -194,17 +194,11 @@ function DataRow({ documentInfo, setReloadSignal, setData }) {
                     style={{ backgroundColor: "lightgrey" }}
                 >{documentInfo.isApproved ? "true" : "false"}</td>
                 <td>
-                    {!documentInfo.isApproved ?
+                    {!documentInfo.isApproved &&
                         <input
                             type="image"
                             src="../approved.svg"
                             style={{ backgroundColor: "#34B233", borderRadius: "50%", width: "30px", height: "30px", marginRight: "10px" }}
-                            onClick={() => setIsApproved(!isApproved)}
-                        ></input> :
-                        <input
-                            type="image"
-                            src="../disapproved.svg"
-                            style={{ backgroundColor: "red", borderRadius: "50%", width: "30px", height: "30px" }}
                             onClick={() => setIsApproved(!isApproved)}
                         ></input>
                     }
@@ -270,6 +264,7 @@ function AddRow({ setReloadSignal, setNeedAdd }) {
                 "name": docName,
                 "description": docDescription,
                 "url": filePublicUrl,
+                "type": docFile.name.split('.')[1],
             }
             const response1 = await fetch(`${import.meta.env.VITE_TASK_API_BASE_URL}/documents/add`, {
                 method: "POST",
@@ -316,7 +311,7 @@ function AddRow({ setReloadSignal, setNeedAdd }) {
                         }}
                     >{isUploading ? "Uploading..." : "Upload"}</label>
                     <input
-                        accept=".pdf,.doc,.docx,.txt"
+                        accept=".pdf,.doc,.docx,.mp3"
                         id="file-input"
                         type="file"
                         onChange={(e) => {

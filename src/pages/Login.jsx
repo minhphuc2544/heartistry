@@ -3,6 +3,7 @@ import "../styles/Login.css"
 import { useEffect, useState } from "react";
 import CustomAlert from "../components/CustomAlert"
 import Cookies from 'js-cookie';
+import Loading from "../components/Loading";
 
 export default function Login() {
     const baseUrl = import.meta.env.BASE_URL;
@@ -12,6 +13,13 @@ export default function Login() {
     const [password, setPassword] = useState("");
     const [submitSignal, setSubmitSignal] = useState(false);
     const [cusAleMsg, setCusAleMsg] = useState(''); // abbreviation of CustomAlertMessage
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        // Simulate a loading delay (e.g., fetching resources)
+        const timer = setTimeout(() => setLoading(false), 2000); // 2-second delay
+        return () => clearTimeout(timer); // Cleanup timeout
+    }, []);
 
     // remove all cookies after user back to Login Page
     useEffect(() => {
@@ -81,10 +89,11 @@ export default function Login() {
 
     return (
         <>
-            <div className="login">
+            {loading && <Loading/>  }
+            <div className={`login ${loading ? "hidden" : "fade-in"}`}>
                 <div className="login_leftContainer">
                     <div className="loginArea">
-                        <form className="form">
+                        <form className="form"> 
                             <div className="loginInfo">
                                 <h1 style={{ fontSize: 60, textAlign: "center", fontFamily: 'Segoe UI', marginTop: -20, marginBottom: 30 }}>Sign in</h1>
                                 <label className="login_label">Username</label><br></br>
@@ -105,6 +114,7 @@ export default function Login() {
                 </div>
             </div>
             {cusAleMsg && <CustomAlert message={cusAleMsg} okHandler={() => { setCusAleMsg('') }} />}
+
         </>
     );
 }

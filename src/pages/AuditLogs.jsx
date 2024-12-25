@@ -88,7 +88,7 @@ function DataRow({ auditLog }) {
             <td>{auditLog.userId}</td>
             <td>{auditLog.username}</td>
             <td>{auditLog.role}</td>
-            <td>{auditLog.details}</td>
+            <td style={{wordBreak: "break-word"}}>{auditLog.details}</td>
             <td>{new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'long', day: 'numeric' }).format(new Date(auditLog.timestamp))}</td>
         </tr>
     )

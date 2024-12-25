@@ -117,6 +117,7 @@ function AddDialog({ setAddDialog, setCusAleMsg, setReloadSignal }) {
                 "name": docName,
                 "description": docDescription,
                 "url": filePublicUrl,
+                "type": docFile.name.split('.')[1],
             }
             const response1 = await fetch(`${import.meta.env.VITE_TASK_API_BASE_URL}/documents/add`, {
                 method: "POST",
@@ -148,7 +149,7 @@ function AddDialog({ setAddDialog, setCusAleMsg, setReloadSignal }) {
             <input type="text" id="createSetDoc" required placeholder="Document's name" onChange={(e) => setDocName(e.target.value)}></input>
             <input type="text" id="createSetDoc" required placeholder="Document's description" onChange={(e) => setDocDescription(e.target.value)}></input>
             <label htmlFor="file-input" className="document_custom-file-upload">Upload File</label>
-            <input accept=".pdf,.doc,.docx,.txt" id="file-input" type="file" onChange={(e) => setDocFile(e.target.files[0])} />
+            <input accept=".pdf,.doc,.docx,.mp3" id="file-input" type="file" onChange={(e) => setDocFile(e.target.files[0])} />
             <input type="button" id={isUploading ? "setNameDoc-disable" : "setNameDoc"} value={isUploading ? "Uploading..." : "Create"} onClick={() => setAddSignal(!addSignal)}></input>
         </div>
     )
@@ -157,16 +158,23 @@ function AddDialog({ setAddDialog, setCusAleMsg, setReloadSignal }) {
 function DocumentRow({ documentInfo }) {
     return (
         <div className="document_documentItem">
-            <img src="./pdf_icon.svg" className="document_fileLogo"></img>
+            <img
+                src={
+                    documentInfo.type === 'pdf' ? "./pdf_icon.svg" :
+                    documentInfo.type === 'docx' || documentInfo.type === 'doc' ? "./doc_icon.svg" :
+                    "./mp3_icon.svg"
+                }
+                className="document_fileLogo"
+            />
             <div className="document_documentInfo">
                 <p className="document_documentName">{documentInfo.name}</p>
                 <p className="document_documentDescription">{documentInfo.description}</p>
             </div>
-            <input type="image" src="./preview_icon.svg" className="document_docButton" onClick={() => { window.open(documentInfo.url) }}></input>
             <a
                 href={documentInfo.url}
                 download={documentInfo.name}
                 className="document_docButton"
+                target="_blank"
             >
                 <img src="./download_icon.svg" alt="Download" />
             </a>
