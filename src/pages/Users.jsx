@@ -146,7 +146,7 @@ function DataRow({ userInfo, isMySelf, setData, setReloadSignal }) {
             if (response.ok) {
                 // notify the changes
                 setReloadSignal(old => !old);
-                setCusAleMsg("This cell has been update");
+                setCusAleMsg("This cell has been updated");
                 return;
             }
 

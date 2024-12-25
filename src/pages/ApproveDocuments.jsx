@@ -76,8 +76,15 @@ export default function ApproveDocuments() {
 }
 
 function DataRow({ documentInfo, setReloadSignal, setData }) {
+    const [cusConMsg, setCusConMsg] = useState(''); // abbreviation of CustomConfirmMessage
+    const [cusAleMsg, setCusAleMsg] = useState(''); // abbreviation of CustomAlertMessages
     const [isApproved, setIsApproved] = useState(documentInfo.isApproved);
     const [needDelete, setNeedDelete] = useState(false);
+    const [needUpdate, setNeedUpdate] = useState(false);
+    const [isChanged, setIsChanged] = useState(false);
+
+    const [docName, setDocName] = useState('');
+    const [docDescription, setDocDescription] = useState('');
 
     // useEffect's used to delete document
     useEffect(() => {
@@ -123,53 +130,108 @@ function DataRow({ documentInfo, setReloadSignal, setData }) {
         setToApprove();
     }, [isApproved]);
 
+    // useEffect's used to update user
+    useEffect(() => {
+        async function updateDocument() {
+            const requestBody = {
+                name: docName,
+                description: docDescription,
+                isApproved: isApproved,
+            };
+
+            const response = await fetch(`${import.meta.env.VITE_TASK_API_BASE_URL}/documents/${documentInfo.id}`, {
+                method: "PATCH",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${Cookies.get('access_token')}`
+                },
+                body: JSON.stringify(requestBody),
+            });
+
+            setNeedUpdate(false);
+            setIsChanged(false);
+
+            if (response.ok) {
+                // notify the changes
+                setReloadSignal(old => !old);
+                setCusAleMsg("This cell has been updated");
+                return;
+            }
+        }
+
+        if (!needUpdate || !isChanged) {
+            setNeedUpdate(false);
+            setIsChanged(false);
+            return;
+        }
+
+        updateDocument();
+    }, [needUpdate])
+
     return (
-        <tr>
-            <td
-                style={{ backgroundColor: "lightgrey" }}
-            >{documentInfo.id}</td>
-            <td
-                style={{ backgroundColor: "lightgrey" }}
-            >{documentInfo.idUser}</td>
-            <td
-                contentEditable='true'
-                suppressContentEditableWarning={true}
-            >{documentInfo.name}</td>
-            <td
-                contentEditable='true'
-                suppressContentEditableWarning={true}
-            >{documentInfo.description}</td>
-            <td
-                style={{ backgroundColor: "lightgrey", wordBreak: "break-word" }}
-            ><a href={documentInfo.url}>{documentInfo.url}</a></td>
-            <td
-                style={{ backgroundColor: "lightgrey" }}
-            >{documentInfo.isApproved ? "true" : "false"}</td>
-            <td>
-                {!documentInfo.isApproved ?
-                    <input
-                        type="image"
-                        src="../approved.svg"
-                        style={{ backgroundColor: "#34B233", borderRadius: "50%", width: "30px", height: "30px", marginRight: "10px" }}
-                        onClick={() => setIsApproved(!isApproved)}
-                    ></input> :
-                    <input
-                        type="image"
-                        src="../disapproved.svg"
-                        style={{ backgroundColor: "red", borderRadius: "50%", width: "30px", height: "30px" }}
-                        onClick={() => setIsApproved(!isApproved)}
-                    ></input>
-                }
-            </td>
-            <td>
-                {documentInfo.isApproved &&
-                    <button
-                        style={{ fontSize: "15px", padding: "5px", backgroundColor: "#D23232", color: "white", border: "none", borderRadius: "5px", cursor: "pointer" }}
-                        onClick={ () => setNeedDelete(true) }
-                    >Delete</button>
-                }
-            </td>
-        </tr>
+        <>
+            <tr onBlur={() => setNeedUpdate(true)}>
+                <td
+                    style={{ backgroundColor: "lightgrey" }}
+                >{documentInfo.id}</td>
+                <td
+                    style={{ backgroundColor: "lightgrey" }}
+                >{documentInfo.idUser}</td>
+                <td
+                    contentEditable='true'
+                    suppressContentEditableWarning={true}
+                    onInput={(e) => { setDocName(e.currentTarget.textContent); setIsChanged(true) }}
+                >{documentInfo.name}</td>
+                <td
+                    contentEditable='true'
+                    suppressContentEditableWarning={true}
+                    onInput={(e) => { setDocDescription(e.currentTarget.textContent); setIsChanged(true) }}
+                >{documentInfo.description}</td>
+                <td
+                    style={{ backgroundColor: "lightgrey", wordBreak: "break-word" }}
+                ><a href={documentInfo.url}>{documentInfo.url}</a></td>
+                <td
+                    style={{ backgroundColor: "lightgrey" }}
+                >{documentInfo.isApproved ? "true" : "false"}</td>
+                <td>
+                    {!documentInfo.isApproved ?
+                        <input
+                            type="image"
+                            src="../approved.svg"
+                            style={{ backgroundColor: "#34B233", borderRadius: "50%", width: "30px", height: "30px", marginRight: "10px" }}
+                            onClick={() => setIsApproved(!isApproved)}
+                        ></input> :
+                        <input
+                            type="image"
+                            src="../disapproved.svg"
+                            style={{ backgroundColor: "red", borderRadius: "50%", width: "30px", height: "30px" }}
+                            onClick={() => setIsApproved(!isApproved)}
+                        ></input>
+                    }
+                </td>
+                <td>
+                    {documentInfo.isApproved &&
+                        <button
+                            style={{ fontSize: "15px", padding: "5px", backgroundColor: "#D23232", color: "white", border: "none", borderRadius: "5px", cursor: "pointer" }}
+                            onClick={() => setCusConMsg('This action CANNOT be undone. Are you sure you want to DELETE this document?')}
+                        >Delete</button>
+                    }
+                </td>
+            </tr>
+            {cusConMsg &&
+                <CustomConfirm
+                    message={cusConMsg}
+                    yesHandler={() => { setNeedDelete(true); setCusConMsg('') }}
+                    noHandler={() => { setNeedDelete(false); setCusConMsg('') }}
+                />
+            }
+            {cusAleMsg &&
+                <CustomAlert
+                    message={cusAleMsg}
+                    okHandler={() => { setCusAleMsg('') }}
+                />
+            }
+        </>
     );
 }
 
