@@ -146,6 +146,7 @@ function MyLineChart({ }) {
                     tick={{ fill: "#333", fontSize: 12 }}
                     axisLine={{ stroke: "#ccc" }}
                     tickLine={{ stroke: "#ccc" }}
+                    domain={[0, 12]}
                     label={{
                         value: "Words Learned",
                         angle: -90,
@@ -180,7 +181,7 @@ function MyLineChart({ }) {
                     dataKey="value"
                     stroke="#8884d8"
                     strokeWidth={2}
-                    activeDot={{ r: 20, stroke: "#8884d8", strokeWidth: 2 }}
+                    activeDot={{ r: 8, stroke: "#8884d8", strokeWidth: 2 }}
                     dot={{ r: 4, fill: "#8884d8" }}
                 />
             </LineChart>
