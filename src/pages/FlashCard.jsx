@@ -285,6 +285,35 @@ function FlipCard({ learningWordSet, setTurn, isTurn }) {
         }
     }, [curWordIdx, allWords]);
 
+    // useEffect to make audit log
+    useEffect(() => {
+        async function makeAuditLog() {
+            const requestBody = {
+                action: "LEARN",
+                entity: "Word",
+                entityId: allWords[curWordIdx].id,
+                userId: Cookies.get('user_id'),
+                username: Cookies.get('username'),
+                role: Cookies.get('role'),
+                details: `Learned word: ${allWords[curWordIdx].word}`,
+            }
+
+            // call api
+            const response = await fetch(`${import.meta.env.VITE_TASK_API_BASE_URL}/audit-logs/add`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${Cookies.get('access_token')}`
+                },
+                body: JSON.stringify(requestBody),
+            });
+        }
+
+        if (isTurn) {
+            makeAuditLog();
+        }
+    }, [isTurn]);
+
     return (
         <div className={`flashcard_card ${isTurn ? 'flipped' : ''}`} onClick={() => {
             if (isTurn && curWordIdx < allWords.length - 1) {
