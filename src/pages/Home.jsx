@@ -180,7 +180,7 @@ function MyLineChart({ }) {
                     dataKey="value"
                     stroke="#8884d8"
                     strokeWidth={2}
-                    activeDot={{ r: 8, stroke: "#8884d8", strokeWidth: 2 }}
+                    activeDot={{ r: 20, stroke: "#8884d8", strokeWidth: 2 }}
                     dot={{ r: 4, fill: "#8884d8" }}
                 />
             </LineChart>
