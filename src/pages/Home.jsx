@@ -101,7 +101,7 @@ function MyLineChart({ }) {
     useEffect(() => {
         async function getData() {
             // call api
-            const response = await fetch(`${import.meta.env.VITE_TASK_API_BASE_URL}/audit-logs/statistics`, {
+            const response = await fetch(`${import.meta.env.VITE_TASK_API_BASE_URL}/audit-logs/me/statistics`, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
@@ -389,7 +389,7 @@ function WordSetEdit({ learningWordSet, words, wLastPage, wordPage, setWordPage,
             }
 
             // call api
-            const response = await fetch(`${import.meta.env.VITE_TASK_API_BASE_URL}/words/${id}`, {
+            const response = await fetch(`${import.meta.env.VITE_TASK_API_BASE_URL}/words/me/${id}`, {
                 method: "PATCH",
                 headers: {
                     "Content-Type": "application/json",
