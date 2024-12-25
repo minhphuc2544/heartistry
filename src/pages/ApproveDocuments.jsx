@@ -270,6 +270,7 @@ function AddRow({ setReloadSignal, setNeedAdd }) {
                 "name": docName,
                 "description": docDescription,
                 "url": filePublicUrl,
+                "type": docFile.name.split('.')[1],
             }
             const response1 = await fetch(`${import.meta.env.VITE_TASK_API_BASE_URL}/documents/add`, {
                 method: "POST",
@@ -316,7 +317,7 @@ function AddRow({ setReloadSignal, setNeedAdd }) {
                         }}
                     >{isUploading ? "Uploading..." : "Upload"}</label>
                     <input
-                        accept=".pdf,.doc,.docx,.txt"
+                        accept=".pdf,.doc,.docx,.mp3"
                         id="file-input"
                         type="file"
                         onChange={(e) => {
