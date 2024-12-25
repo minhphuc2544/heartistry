@@ -194,17 +194,11 @@ function DataRow({ documentInfo, setReloadSignal, setData }) {
                     style={{ backgroundColor: "lightgrey" }}
                 >{documentInfo.isApproved ? "true" : "false"}</td>
                 <td>
-                    {!documentInfo.isApproved ?
+                    {!documentInfo.isApproved &&
                         <input
                             type="image"
                             src="../approved.svg"
                             style={{ backgroundColor: "#34B233", borderRadius: "50%", width: "30px", height: "30px", marginRight: "10px" }}
-                            onClick={() => setIsApproved(!isApproved)}
-                        ></input> :
-                        <input
-                            type="image"
-                            src="../disapproved.svg"
-                            style={{ backgroundColor: "red", borderRadius: "50%", width: "30px", height: "30px" }}
                             onClick={() => setIsApproved(!isApproved)}
                         ></input>
                     }
