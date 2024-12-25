@@ -45,10 +45,10 @@ export default function ApproveDocuments() {
     }, [reloadSignal]);
 
     return (
-        <div className="wordsets_table-container">
-            <div className="wordsets_table-body">
+        <div className="approveDocuments_table-container">
+            <div className="approveDocuments_table-body">
                 <table>
-                    <thead className="wordsets_table-header">
+                    <thead className="approveDocuments_table-header">
                         <tr>
                             <th>ID</th>
                             <th>User ID</th>
@@ -60,7 +60,7 @@ export default function ApproveDocuments() {
                             <th>Delete</th>
                         </tr>
                     </thead>
-                    <tbody className="wordsets_table-content">
+                    <tbody className="approveDocuments_table-content">
                         {data.map((item, index) => <DataRow key={index} documentInfo={item} setReloadSignal={setReloadSignal} setData={setData} />)}
                         {needAdd && <AddRow setReloadSignal={setReloadSignal} setNeedAdd={setNeedAdd} />}
                     </tbody>
