@@ -73,3 +73,22 @@ body {
     background: #4a5fb8;
     /* Darker shade on hover */
 }
+
+.upload-button {
+    border: 1px solid black;
+    border-radius: 10px;
+    background-color: #21B6A8;
+    padding: 10px 15px;
+    font-family: cursive;
+    cursor: pointer;
+}
+
+.upload-button-disable {
+    border: 1px solid black;
+    border-radius: 10px;
+    background-color: gray;
+    padding: 10px 15px;
+    font-family: cursive;
+    cursor: none;
+    pointer-events: none;
+}
