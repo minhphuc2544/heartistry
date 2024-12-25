@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 import "../styles/Home.css"
 import Cookies from "js-cookie";
 import { useEffect, useRef, useState } from "react";
+import CustomAlert from "../components/CustomAlert"
 import {
     LineChart,
     Line,
@@ -25,12 +26,18 @@ export default function Home() {
     // for UI's purpose
     const [isWordSetOpen, setWordSetOpen] = useState(false); //check if word set is opened
     const [isAddNewWord, setAddNewWord] = useState(false); //check if user is adding new word to word set
+    const [cusAleMsg, setCusAleMsg] = useState(''); // abbreviation of CustomAlertMessage
 
-    // check if the access token is expired, if so, force the user to login again
+    // check if the access token is expired and user has 'admin' role
     useEffect(() => {
         const access_token = Cookies.get('access_token');
         if (!access_token) {
             navigate('/login');
+            return;
+        }
+        const role = Cookies.get('role');
+        if (role === 'admin') {
+            navigate('/admin/users')
         }
     }, []);
 
@@ -57,31 +64,33 @@ export default function Home() {
     }, [wordSetPage])
 
     return (
-        <div className="home_home">
-            <div className="home_upper">
+        <>
+            <div className="home_home">
+                <div className="home_upper">
 
-                <div className="home_wordSets">
-                    <div style={{ display: "flex" }}>
-                        <h1 className="home_title">Word Sets</h1>
-                        <div className="home_moveList"> {/*add type for button: move list of wordsets if there are more wordsets than the numbers of wordsets tha the area can show (currently: 4) */}
-                            <input type="image" src="../disabled_leftArrow.svg" onClick={() => wordSetPage > 0 && setWordSetPage(wordSetPage - 1)}></input>
-                            <p style={{ display: "inline", margin: "auto" }}>{wordSetPage + 1}</p>
-                            <input type="image" src="../enabled_rightArrow.svg" onClick={() => wordSetPage < wsLastPage && setWordSetPage(wordSetPage + 1)}></input>
+                    <div className="home_wordSets">
+                        <div style={{ display: "flex" }}>
+                            <h1 className="home_title">Word Sets</h1>
+                            <div className="home_moveList"> {/*add type for button: move list of wordsets if there are more wordsets than the numbers of wordsets tha the area can show (currently: 4) */}
+                                <input type="image" src="../disabled_leftArrow.svg" onClick={() => wordSetPage > 0 && setWordSetPage(wordSetPage - 1)}></input>
+                                <p style={{ display: "inline", margin: "auto" }}>{wordSetPage + 1}</p>
+                                <input type="image" src="../enabled_rightArrow.svg" onClick={() => wordSetPage < wsLastPage && setWordSetPage(wordSetPage + 1)}></input>
+                            </div>
+                        </div>
+
+                        <div style={{ display: "flex" }}>
+                            {wordSets.length ? wordSets.map((v, i) => <WordSetCard key={i} wordSetInfo={v} setWordSetOpen={setWordSetOpen} setLearningWordSet={setLearningWordSet} />) : <p className="home_no-ws-text">There is no word set to display </p>}
                         </div>
                     </div>
-
-                    <div style={{ display: "flex" }}>
-                        {wordSets.length ? wordSets.map((v, i) => <WordSetCard key={i} wordSetInfo={v} setWordSetOpen={setWordSetOpen} setLearningWordSet={setLearningWordSet} />) : <p className="home_no-ws-text">There is no word set to display </p>}
-                    </div>
                 </div>
+
+                <MyLineChart />
+
+                <WordSetPopUp updateWsEditSignal={updateWsEditSignal} learningWordSet={learningWordSet} isWordSetOpen={isWordSetOpen} setWordSetOpen={setWordSetOpen} setAddNewWord={setAddNewWord} setCusAleMsg={setCusAleMsg} />
+                <AddNewWord setUpdateWsEditSignal={setUpdateWsEditSignal} learningWordSet={learningWordSet} isAddNewWord={isAddNewWord} setAddNewWord={setAddNewWord} />
             </div>
-
-            <MyLineChart />
-
-            <WordSetPopUp updateWsEditSignal={updateWsEditSignal} learningWordSet={learningWordSet} isWordSetOpen={isWordSetOpen} setWordSetOpen={setWordSetOpen} setAddNewWord={setAddNewWord} />
-            <AddNewWord setUpdateWsEditSignal={setUpdateWsEditSignal} learningWordSet={learningWordSet} isAddNewWord={isAddNewWord} setAddNewWord={setAddNewWord} />
-        </div>
-
+            {cusAleMsg && <CustomAlert message={cusAleMsg} okHandler={() => { setCusAleMsg('') }} />}
+        </>
     );
 }
 
@@ -179,7 +188,7 @@ function MyLineChart({ }) {
     );
 }
 
-function WordSetPopUp({ updateWsEditSignal, learningWordSet, isWordSetOpen, setWordSetOpen, setAddNewWord }) {
+function WordSetPopUp({ updateWsEditSignal, learningWordSet, isWordSetOpen, setWordSetOpen, setAddNewWord, setCusAleMsg }) {
     // for API's purpose
     const WORD_PAGE_SIZE = 10;
     const [wordPage, setWordPage] = useState(0); // word page number
@@ -233,7 +242,7 @@ function WordSetPopUp({ updateWsEditSignal, learningWordSet, isWordSetOpen, setW
                     <button className="home_editWordSet" onClick={() => setWordSetEdit(true)}>Edit word set</button>
                 </> : <FlipCard learningWordSet={learningWordSet} setTurn={setTurn} isTurn={isTurn} />}
                 {
-                    isEditWordSet && <WordSetEdit learningWordSet={learningWordSet} words={words} wLastPage={wLastPage} wordPage={wordPage} setWordPage={setWordPage} setWordSetEdit={setWordSetEdit} setAddNewWord={setAddNewWord} />
+                    isEditWordSet && <WordSetEdit learningWordSet={learningWordSet} words={words} wLastPage={wLastPage} wordPage={wordPage} setWordPage={setWordPage} setWordSetEdit={setWordSetEdit} setAddNewWord={setAddNewWord} setCusAleMsg={setCusAleMsg} />
                 }
             </div>
         }
@@ -332,40 +341,41 @@ function FlipCard({ learningWordSet, setTurn, isTurn }) {
     }, [isTurn]);
 
     return (
-        <div className="home_card" onClick={() => {
-            isTurn && curWordIdx < allWords.length - 1 && setCurWordIdx(curWordIdx + 1);
-            if (curWordIdx < allWords.length - 1) {
+        <div className={`home_card ${isTurn ? 'flipped' : ''}`} onClick={() => {
+            if (isTurn && curWordIdx < allWords.length - 1) {
+                setCurWordIdx(curWordIdx + 1);
                 setTurn(!isTurn);
             } else {
-                !isTurn && setTurn(!isTurn);
+                setTurn(!isTurn);
             }
         }}>
-            {
-                allWords.length ?
-                    isTurn ?
-                        <div className="home_back">
-                            <div style={{ display: "flex", justifyContent: "center", fontSize: 40, marginBottom: 20 }}>
-                                <p className="home_word">{allWords[curWordIdx].word}</p>
-                                {foundWord.isFound && <p className="home_wordType">({foundWord.partOfSpeech})</p>}
+            <div className="home_card_inner">
+                {
+                    allWords.length ?
+                        isTurn ?
+                            <div className="home_back">
+                                <div style={{ display: "flex", justifyContent: "center", fontSize: 40, marginBottom: 20 }}>
+                                    <p className="home_word">{allWords[curWordIdx].word}</p>
+                                    {foundWord.isFound && <p className="home_wordType">({foundWord.partOfSpeech})</p>}
+                                </div>
+                                <div style={{ display: "flex" }}>
+                                    {foundWord.isFound && foundWord.phonetic && <p className="home_phonetic"><b>Phonetic:</b> {foundWord.phonetic}</p>}
+                                </div>
+                                {foundWord.isFound && <p className="home_definition"><b>Definition:</b> {foundWord.definition}</p>}
+                                {foundWord.isFound && foundWord.example && <p className="home_example"><b>Example:</b> {foundWord.example}</p>}
+                                {allWords[curWordIdx].note && <p className="home_note"><b>Note:</b> {allWords[curWordIdx].note}</p>}
+                            </div> :
+                            <div className="home_front">
+                                <p style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)", fontSize: 60, wordWrap: "break-word" }}>{allWords[curWordIdx].word}</p>
                             </div>
-                            <div style={{ display: "flex" }}>
-                                {foundWord.isFound && foundWord.phonetic && <p className="home_phonetic"><b>Phonetic:</b> {foundWord.phonetic}</p>}
-                            </div>
-                            {/* <p className="home_meaning"><b>Meaning:</b>{ } Thẻ thông tin</p> */}
-                            {foundWord.isFound && <p className="home_definition"><b>Definition:</b> {foundWord.definition}</p>}
-                            {foundWord.isFound && foundWord.example && <p className="home_example"><b>Example:</b> {foundWord.example}</p>}
-                            {allWords[curWordIdx].note && <p className="home_note"><b>Note:</b> {allWords[curWordIdx].note}</p>}
-                        </div> :
-                        <div className="home_front">
-                            <p style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)", fontSize: 60, wordWrap: "break-word" }}>{allWords[curWordIdx].word}</p>
-                        </div>
-                    : <p style={{ textAlign: "center", marginTop: "50%", fontFamily: "cursive", fontSize: "35px" }}>This wordset has no word</p>
-            }
+                        : <p style={{ textAlign: "center", marginTop: "50%", fontFamily: "cursive", fontSize: "35px" }}>This wordset has no word</p>
+                }
+            </div>
         </div>
     );
 }
 
-function WordSetEdit({ learningWordSet, words, wLastPage, wordPage, setWordPage, setWordSetEdit, setAddNewWord }) {
+function WordSetEdit({ learningWordSet, words, wLastPage, wordPage, setWordPage, setWordSetEdit, setAddNewWord, setCusAleMsg }) {
     const [needUpdate, setNeedUpdate] = useState(false); // signal to update words and wordset's topic
     const [changedWords, setChangedWords] = useState([]); // list of changed words
     const changedTopic = useRef(learningWordSet.topic); // change if current wordset's topic changed
@@ -412,7 +422,7 @@ function WordSetEdit({ learningWordSet, words, wLastPage, wordPage, setWordPage,
             if (changedTopic.current !== learningWordSet.topic) {
                 updateWordSet(changedTopic.current);
             }
-            window.alert('Words changed successfully');
+            setCusAleMsg('Words changed successfully');
         }
 
         setNeedUpdate(false);

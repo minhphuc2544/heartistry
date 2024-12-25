@@ -1,6 +1,7 @@
 import "../styles/SignUp.css"
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import CustomAlert from "../components/CustomAlert"
 
 export default function SignUp() {
     const navigate = useNavigate();
@@ -12,6 +13,7 @@ export default function SignUp() {
     const [email, setEmail] = useState("");
     const [phoneNumber, setPhoneNumber] = useState("");
     const [submitSignal, setSubmitSignal] = useState(false);
+    const [cusAleMsg, setCusAleMsg] = useState(''); // abbreviation of CustomAlertMessage
     
     useEffect(() => {
         async function postSignUpInfo() {
@@ -51,7 +53,7 @@ export default function SignUp() {
                 alertMessage = `1. ${responseJson.message}`;
             }
             
-            window.alert(alertMessage);
+            setCusAleMsg(alertMessage);
         }
         
         if (username && password && fullname && gender && dob && email && phoneNumber) {
@@ -60,52 +62,55 @@ export default function SignUp() {
     }, [submitSignal]);
    
     return (
-        <div className="signup">
-            <div className="rightPart">
-                <div className="signUpArea">
-                    <p style={{ fontSize: 50, textAlign: "center", fontFamily: "'Segoe UI'", position: "fixed", bottom: "770px" }}>Create new account</p>
-                    <form className="signUpForm">
-                        <div>
-                            <label className="signup_label">Username</label><br></br>
-                            <input className="signup_input" type="text" required onChange={ (e) => setUsername(e.target.value) }></input>
-                        </div>
-                        <div>
-                            <label className="signup_label">Password</label><br></br>
-                            <input className="signup_input" type="password" required onChange={ (e) => setPassword(e.target.value) }></input>
-                        </div>
-                        <div>
-                            <label className="signup_label">Full name</label><br></br>
-                            <input className="signup_input" type="text" required onChange={ (e) => setFullname(e.target.value) }></input>
-                        </div>
-                        <div>
-                            <label className="signup_label">Gender</label><br></br>
-                            <select className="signup_optionInput" onChange={ (e) => setGender(e.target.value) }>
-                                <option value={"male"}>Male</option>
-                                <option value={"female"}>Female</option>
-                                <option value={"unspecified"}>I prefer not to say</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label className="signup_label">Date of Birth</label><br></br>
-                            <input className="signup_DoBInput" type="date" required onChange={ (e) => setDob(e.target.value) }></input>
-                        </div>
-                        <div>
-                            <label className="signup_label">Email</label><br></br>
-                            <input className="signup_input" type="email" required onChange={ (e) => setEmail(e.target.value) }></input>
-                        </div>
-                        <div>
-                            <label className="signup_label">Phone number</label><br></br>
-                            <input className="signup_input" type="tel" pattern="0[0-9]{9}" required onChange={ (e) => setPhoneNumber(e.target.value) }></input>
-                        </div>
-                        <div className="action">
-                            <input type="button" id="signup_submit" onClick={() => setSubmitSignal(!submitSignal)} value={"SIGN UP"}></input><br></br>
-                        </div>
-                    </form>
+        <>
+            <div className="signup">
+                <div className="rightPart">
+                    <div className="signUpArea">
+                        <p style={{ fontSize: 50, textAlign: "center", fontFamily: "'Segoe UI'", position: "fixed", bottom: "770px" }}>Create new account</p>
+                        <form className="signUpForm">
+                            <div>
+                                <label className="signup_label">Username</label><br></br>
+                                <input className="signup_input" type="text" required onChange={ (e) => setUsername(e.target.value) }></input>
+                            </div>
+                            <div>
+                                <label className="signup_label">Password</label><br></br>
+                                <input className="signup_input" type="password" required onChange={ (e) => setPassword(e.target.value) }></input>
+                            </div>
+                            <div>
+                                <label className="signup_label">Full name</label><br></br>
+                                <input className="signup_input" type="text" required onChange={ (e) => setFullname(e.target.value) }></input>
+                            </div>
+                            <div>
+                                <label className="signup_label">Gender</label><br></br>
+                                <select className="signup_optionInput" onChange={ (e) => setGender(e.target.value) }>
+                                    <option value={"male"}>Male</option>
+                                    <option value={"female"}>Female</option>
+                                    <option value={"unspecified"}>I prefer not to say</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label className="signup_label">Date of Birth</label><br></br>
+                                <input className="signup_DoBInput" type="date" required onChange={ (e) => setDob(e.target.value) }></input>
+                            </div>
+                            <div>
+                                <label className="signup_label">Email</label><br></br>
+                                <input className="signup_input" type="email" required onChange={ (e) => setEmail(e.target.value) }></input>
+                            </div>
+                            <div>
+                                <label className="signup_label">Phone number</label><br></br>
+                                <input className="signup_input" type="tel" pattern="0[0-9]{9}" required onChange={ (e) => setPhoneNumber(e.target.value) }></input>
+                            </div>
+                            <div className="action">
+                                <input type="button" id="signup_submit" onClick={() => setSubmitSignal(!submitSignal)} value={"SIGN UP"}></input><br></br>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div className="leftPart">
+                    <img src="./signup.svg" alt="logo" width={600} height={600}></img>
                 </div>
             </div>
-            <div className="leftPart">
-                <img src="./signup.svg" alt="logo" width={600} height={600}></img>
-            </div>
-        </div>
+            {cusAleMsg && <CustomAlert message={cusAleMsg} okHandler={() => { setCusAleMsg('') }} />}
+        </>
     );
 }

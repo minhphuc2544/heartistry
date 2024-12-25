@@ -1,7 +1,9 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import "../styles/OTPVerification.css"
 import { useEffect, useState } from "react";
-export default function SignUp() {
+import CustomAlert from "../components/CustomAlert"
+
+export default function OTPVerification() {
     const navigate = useNavigate();
     const location = useLocation();
     const [otp, setOtp] = useState(new Array(6).fill(""));
@@ -10,6 +12,7 @@ export default function SignUp() {
     const [restartTimerSignal, setRestartTimerSignal] = useState(false);
     const [timeLeft, setTimeLeft] = useState(60);
     const userSignUpInfo = location.state || {};
+    const [cusAleMsg, setCusAleMsg] = useState(''); // abbreviation of CustomAlertMessage
 
     const handleChange = (value, index) => {
         if (!/^\d?$/.test(value)) return; // Allow only digits or empty values
@@ -41,7 +44,7 @@ export default function SignUp() {
     useEffect(() => {
         async function postOtpVerfication() {
             if (!userSignUpInfo) {
-                window.alert('Please sign up before entering OTP!');
+                setCusAleMsg('Please sign up before entering OTP!');
                 return;
             }
 
@@ -84,7 +87,7 @@ export default function SignUp() {
                 alertMessage = `1. ${responseJson.message}`;
             }
             
-            window.alert(alertMessage);
+            setCusAleMsg(alertMessage);
         }
 
         if (otp[5]) {
@@ -117,7 +120,7 @@ export default function SignUp() {
             
             // navigate if response code is 200
             if (response.ok) {
-                window.alert('OTP resent!');
+                setCusAleMsg('OTP resent!');
                 setTimeLeft(60);
                 setRestartTimerSignal(!restartTimerSignal);
                 return;
@@ -133,7 +136,7 @@ export default function SignUp() {
                 alertMessage = `1. ${responseJson.message}`;
             }
             
-            window.alert(alertMessage);
+            setCusAleMsg(alertMessage);
         }
         
         if (!timeLeft) {
@@ -157,37 +160,40 @@ export default function SignUp() {
     }, [restartTimerSignal]);
 
     return (
-        <div className="otp">
-            <div className="rightContainer4">
-                <div className="otpArea">
-                    <form className="otpForm">
-                        <h1 style={{ fontSize: 50, textAlign: "center", fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif", margin: 0 }}>OTP Verification</h1>
-                        <p style={{ fontSize: 25, textAlign: "center", fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif", marginTop: 0, marginBottom: 50 }}>OTP has been sent via Email to your email</p>
-                        <div className="otpNumbers">
-                            {otp.map((value, index) => (
-                                <input
-                                    key={index}
-                                    id={`otp-input-${index}`}
-                                    type="text"
-                                    inputMode="numeric"
-                                    maxLength="1"
-                                    value={value}
-                                    onChange={(e) => handleChange(e.target.value, index)}
-                                    onKeyDown={(e) => handleBackspace(e, index)}
-                                    className="inputOTP"
-                                />
-                            ))}
-                            <br></br>
-                            <input type="button" className={ timeLeft ? "resend-time-remaining" : "resend-time-over" } value={timeLeft ? `Resend OTP in ${formatTime(timeLeft)}` : "Resend OTP"} onClick={() => setResendSignal(!resendSignal)}></input>
-                        </div>
-                        <input type="button" className="submit" value={"Verify"} onClick={() => setSubmitSignal(!submitSignal)}></input><br></br>
-                    </form>
+        <>
+            <div className="otp">
+                <div className="rightContainer4">
+                    <div className="otpArea">
+                        <form className="otpForm">
+                            <h1 style={{ fontSize: 50, textAlign: "center", fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif", margin: 0 }}>OTP Verification</h1>
+                            <p style={{ fontSize: 25, textAlign: "center", fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif", marginTop: 0, marginBottom: 50 }}>OTP has been sent via Email to your email</p>
+                            <div className="otpNumbers">
+                                {otp.map((value, index) => (
+                                    <input
+                                        key={index}
+                                        id={`otp-input-${index}`}
+                                        type="text"
+                                        inputMode="numeric"
+                                        maxLength="1"
+                                        value={value}
+                                        onChange={(e) => handleChange(e.target.value, index)}
+                                        onKeyDown={(e) => handleBackspace(e, index)}
+                                        className="inputOTP"
+                                    />
+                                ))}
+                                <br></br>
+                                <input type="button" className={ timeLeft ? "resend-time-remaining" : "resend-time-over" } value={timeLeft ? `Resend OTP in ${formatTime(timeLeft)}` : "Resend OTP"} onClick={() => setResendSignal(!resendSignal)}></input>
+                            </div>
+                            <input type="button" className="submit" value={"Verify"} onClick={() => setSubmitSignal(!submitSignal)}></input><br></br>
+                        </form>
+                    </div>
                 </div>
-            </div>
 
-            <div className="leftContainer4">
-                <img src="./otp.svg" alt="logo" width={600} height={600}></img>
+                <div className="leftContainer4">
+                    <img src="./otp.svg" alt="logo" width={600} height={600}></img>
+                </div>
+                {cusAleMsg && <CustomAlert message={cusAleMsg} okHandler={() => { setCusAleMsg('') }} />}
             </div>
-        </div>
+        </>
     );
 }

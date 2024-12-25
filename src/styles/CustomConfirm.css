@@ -1,0 +1,103 @@
+.alert {
+    position: fixed;
+    background-color: beige;
+    width: 400px;
+    height: 200px;
+    top: 30px;
+    left: 850px;
+    border: black 1px solid;
+    border-radius: 22px;
+}
+
+.msg {
+    font-size: 25px;
+    margin: 20px;
+    align-items: center;
+}
+
+.yes_button {
+    margin: 0;
+    position: absolute;
+    top: 80%;
+    left: 85%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    padding: 10px 30px;
+    font-size: 20px;
+    border: 2px solid black;
+    border-radius: 22px;
+    background-color: red;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    overflow: hidden;
+    font-family: cursive;
+
+}
+
+.yes_button::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.6), transparent);
+    transition: left 0.5s;
+    z-index: 1;
+}
+
+.yes_button:hover {
+    background-color: #77dd77;
+    /* Slightly darker green */
+    color: white;
+}
+
+.yes_button:hover::before {
+    left: 100%;
+    /* Slide the light effect */
+}
+
+
+.no_button {
+    margin: 0;
+    position: absolute;
+    top: 80%;
+    left: 60%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    padding: 10px 30px;
+    font-size: 20px;
+    border: 2px solid black;
+    border-radius: 22px;
+    background-color: #90ee90;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    overflow: hidden;
+    font-family: cursive;
+
+}
+
+.no_button::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.6), transparent);
+    transition: left 0.5s;
+    z-index: 1;
+}
+
+.no_button:hover {
+    background-color: #77dd77;
+    /* Slightly darker green */
+    color: white;
+}
+
+.no_button:hover::before {
+    left: 100%;
+    /* Slide the light effect */
+}
