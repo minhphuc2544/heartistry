@@ -74,7 +74,7 @@ export default function User() {
             </div>
             <input
                 type="image"
-                src={needAdd ? "../disapproved.svg" : "../add_wordset.svg"}
+                src={needAdd ? "../black_cross.svg" : "../add_wordset.svg"}
                 style={{ backgroundColor: "#34B233", borderRadius: "50%", width: "60px", height: "60px", marginRight: "10px", position: "fixed", top: "850px", left: "1854px" }}
                 onClick={() => setNeedAdd(!needAdd)}
             />

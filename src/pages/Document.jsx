@@ -158,16 +158,23 @@ function AddDialog({ setAddDialog, setCusAleMsg, setReloadSignal }) {
 function DocumentRow({ documentInfo }) {
     return (
         <div className="document_documentItem">
-            <img src="./pdf_icon.svg" className="document_fileLogo"></img>
+            <img
+                src={
+                    documentInfo.type === 'pdf' ? "./pdf_icon.svg" :
+                    documentInfo.type === 'docx' || documentInfo.type === 'doc' ? "./doc_icon.svg" :
+                    "./mp3_icon.svg"
+                }
+                className="document_fileLogo"
+            />
             <div className="document_documentInfo">
                 <p className="document_documentName">{documentInfo.name}</p>
                 <p className="document_documentDescription">{documentInfo.description}</p>
             </div>
-            <input type="image" src="./preview_icon.svg" className="document_docButton" onClick={() => { window.open(documentInfo.url) }}></input>
             <a
                 href={documentInfo.url}
                 download={documentInfo.name}
                 className="document_docButton"
+                target="_blank"
             >
                 <img src="./download_icon.svg" alt="Download" />
             </a>
