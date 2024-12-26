@@ -21,6 +21,16 @@ Heartistry is a React and Vite-based web application designed to help users lear
   - The English word on the front.
   - Additional information (pronunciation, definition, examples) on the back.
 
+## Related Projects
+
+Heartistry consists of multiple services. Here are the related repositories:
+
+- [Heartistry Frontend (this repo)](https://github.com/votranphi/heartistry): The web-based user interface, built with React and Vite.
+- [Heartistry Backend User/Auth API](https://github.com/votranphi/heartistry-user-api): The backend API built with NestJS that handles authentication, email verification, and user management.
+- [Heartistry Backend Task API](https://github.com/votranphi/heartistry-task-api): A Spring Boot service that manages tasks and metrics.
+
+These services work together to provide a seamless learning experience.
+
 ## Tech Stack
 
 - **Frontend**: React + Vite
@@ -101,3 +111,10 @@ We welcome contributions! If you'd like to contribute to Heartistry, follow thes
 ## Acknowledgements
 
 Heartistry was developed to make learning English vocabulary more effective and enjoyable. Thank you for using Heartistry!
+
+## Credits
+Contributors:
+- Vo Tran Phi (Student ID: 22521081)  
+Github link: [votranphi](https://github.com/votranphi) 
+- Le Duong Minh Phuc (Student ID: 22521116)  
+Github link: [minhphuc2544](https://github.com/minhphuc2544)
