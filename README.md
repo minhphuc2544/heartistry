@@ -3,6 +3,7 @@
 ![Repo Size](https://img.shields.io/github/repo-size/votranphi/heartistry)
 ![Last Commit](https://img.shields.io/github/last-commit/votranphi/heartistry)
 ![Open Issues](https://img.shields.io/github/issues/votranphi/heartistry)
+![Vercel Badge](https://deploy-badge.vercel.app/vercel/deploy-badge)
 ![License](https://img.shields.io/github/license/votranphi/heartistry)
 
 ![React](https://img.shields.io/badge/React-18.3.1-blue)
