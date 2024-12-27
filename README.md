@@ -1,5 +1,18 @@
 # Heartistry - English Learning Web Application
 
+![Repo Size](https://img.shields.io/github/repo-size/votranphi/heartistry)
+![Last Commit](https://img.shields.io/github/last-commit/votranphi/heartistry)
+![Open Issues](https://img.shields.io/github/issues/votranphi/heartistry)
+![License](https://img.shields.io/github/license/votranphi/heartistry)
+
+![React](https://img.shields.io/badge/React-18.3.1-blue)
+![Vite](https://img.shields.io/badge/Vite-5.4.10-blueviolet)
+![ESLint](https://img.shields.io/badge/ESLint-9.13.0-yellowgreen)
+![Recharts](https://img.shields.io/badge/Recharts-2.15.0-orange)
+
+![GitHub Stars](https://img.shields.io/github/stars/votranphi/heartistry)
+![GitHub Forks](https://img.shields.io/github/forks/votranphi/heartistry)
+
 Heartistry is a React and Vite-based web application designed to help users learn English vocabulary efficiently through Flashcards. Users can create their own vocabulary sets (Wordsets) or use suggested sets to study and memorize words in a fun and interactive way.
 
 ## Features
@@ -30,11 +43,6 @@ Heartistry consists of multiple services. Here are the related repositories:
 - [Heartistry Backend Task API](https://github.com/votranphi/heartistry-task-api): A Spring Boot service that manages tasks and metrics.
 
 These services work together to provide a seamless learning experience.
-
-## Tech Stack
-
-- **Frontend**: React + Vite
-- **Authentication**: JSON Web Token (JWT), OTP verification for email
 
 ## Getting Started
 
