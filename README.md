@@ -11,9 +11,6 @@
 ![ESLint](https://img.shields.io/badge/ESLint-9.13.0-yellowgreen)
 ![Recharts](https://img.shields.io/badge/Recharts-2.15.0-orange)
 
-![GitHub Stars](https://img.shields.io/github/stars/votranphi/heartistry)
-![GitHub Forks](https://img.shields.io/github/forks/votranphi/heartistry)
-
 Heartistry is a React and Vite-based web application designed to help users learn English vocabulary efficiently through Flashcards. Users can create their own vocabulary sets (Wordsets) or use suggested sets to study and memorize words in a fun and interactive way.
 
 ## Features
