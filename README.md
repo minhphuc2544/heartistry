@@ -116,10 +116,6 @@ Heartistry was developed to make learning English vocabulary more effective and 
 
 This project is licensed under the [MIT License](LICENSE). See the `LICENSE` file for details.
 
-## Third-Party Licenses
-This project uses third-party dependencies, which are licensed separately. See the `THIRD_PARTY_LICENSES` file for details.
-
-
 ## Credits
 Contributors:
 - Vo Tran Phi (Student ID: 22521081)  
