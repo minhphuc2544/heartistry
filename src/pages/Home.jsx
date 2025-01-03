@@ -65,7 +65,7 @@ export default function Home() {
 
     return (
         <>
-            <div className="home_home">
+            <div className="home">
                 <div className="home_upper">
 
                     <div className="home_wordSets">
@@ -359,12 +359,10 @@ function FlipCard({ learningWordSet, setTurn, isTurn }) {
                                     <p className="home_word">{allWords[curWordIdx].word}</p>
                                     {foundWord.isFound && <p className="home_wordType">({foundWord.partOfSpeech})</p>}
                                 </div>
-                                <div style={{ display: "flex" }}>
-                                    {foundWord.isFound && foundWord.phonetic && <p className="home_phonetic"><b>Phonetic:</b> {foundWord.phonetic}</p>}
-                                </div>
-                                {foundWord.isFound && <p className="home_definition"><b>Definition:</b> {foundWord.definition}</p>}
-                                {foundWord.isFound && foundWord.example && <p className="home_example"><b>Example:</b> {foundWord.example}</p>}
-                                {allWords[curWordIdx].note && <p className="home_note"><b>Note:</b> {allWords[curWordIdx].note}</p>}
+                                {foundWord.isFound && foundWord.phonetic && <p className="home_word_info"><b>Phonetic:</b> {foundWord.phonetic}</p>}
+                                {foundWord.isFound && <p className="home_word_info"><b>Definition:</b> {foundWord.definition}</p>}
+                                {foundWord.isFound && foundWord.example && <p className="home_word_info"><b>Example:</b> {foundWord.example}</p>}
+                                {allWords[curWordIdx].note && <p className="home_word_info"><b>Note:</b> {allWords[curWordIdx].note}</p>}
                             </div> :
                             <div className="home_front">
                                 <p style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)", fontSize: 60, wordWrap: "break-word" }}>{allWords[curWordIdx].word}</p>
