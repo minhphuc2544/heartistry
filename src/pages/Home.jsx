@@ -141,8 +141,15 @@ function MyLineChart({ }) {
                     tick={{ fill: "#333", fontSize: 12 }}
                     axisLine={{ stroke: "#ccc" }}
                     tickLine={{ stroke: "#ccc" }}
+                    tickFormatter={(date) =>
+                        new Intl.DateTimeFormat("en-US", {
+                            month: "short",
+                            day: "numeric",
+                            year: "numeric",
+                        }).format(new Date(date))
+                    }
                     label={{
-                        value: "Time",
+                        value: "Words Learned Over Time",
                         position: "bottom",
                         offset: 10,
                         style: { fill: "#555", fontWeight: "bold" },
@@ -172,6 +179,13 @@ function MyLineChart({ }) {
                     }}
                     itemStyle={{ color: "#555" }}
                     formatter={(value) => [`${value}`, "word"]}
+                    labelFormatter={(label) =>
+                        new Intl.DateTimeFormat("en-US", {
+                            month: "short",
+                            day: "numeric",
+                            year: "numeric",
+                        }).format(new Date(label))
+                    }
                 />
 
                 {/* Legend */}
@@ -195,21 +209,6 @@ function MyLineChart({ }) {
                     activeDot={{ r: 8, stroke: "#8884d8", strokeWidth: 2 }}
                     dot={{ r: 4, fill: "#8884d8" }}
                 />
-
-                {/* Title below the chart */}
-                <text
-                    x="50%"
-                    y="100%"
-                    textAnchor="middle"
-                    dominantBaseline="hanging"
-                    style={{
-                        fontSize: "16px",
-                        fontWeight: "bold",
-                        fill: "#333",
-                    }}
-                >
-                    Words Learned Over Time
-                </text>
             </LineChart>
         </ResponsiveContainer>
     );
