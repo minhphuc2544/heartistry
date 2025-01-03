@@ -510,29 +510,21 @@
 }
 
 .flashcard_phonetic {
-    width: 300px;
-    height: 50px;
     margin: 10px 10px 10px 10px;
     font-size: 20px;
 }
 
 .flashcard_definition {
-    width: 300px;
-    height: 50px;
     margin: 10px 10px 10px 10px;
     font-size: 20px;
 }
 
 .flashcard_example {
-    width: 300px;
-    height: 50px;
     margin: 10px 10px 10px 10px;
     font-size: 20px;
 }
 
 .flashcard_note {
-    width: 300px;
-    height: 50px;
     margin: 10px 10px 10px 10px;
     font-size: 20px;
 }
