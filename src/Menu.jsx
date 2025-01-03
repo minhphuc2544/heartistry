@@ -86,7 +86,7 @@ function UserMenu({ getStyle, setCurPage, userInfo, baseUrl }) {
         <div className="body">
             <nav className="sidebar">
                 <div style={{ textAlign: "center" }}>
-                    <img src="./logo_transparent_greenBorder.svg" alt="logo" className="logo"></img>
+                    <img src={`${location.origin}/logo_transparent_greenBorder.svg`} alt="logo" className="logo"></img>
                 </div>
                 <div className="sidebar-links">
                     <ul>
@@ -165,7 +165,7 @@ function UserMenu({ getStyle, setCurPage, userInfo, baseUrl }) {
 
                 <div className="sidebar__profile">
                     <div className="avatar__wrapper">
-                        <img onClick={() => navigate("/setting")} className="avatar" src={userInfo.avatarUrl ? userInfo.avatarUrl : "./default_user.png"} alt="User Picture"></img>
+                        <img onClick={() => navigate("/setting")} className="avatar" src={userInfo.avatarUrl ? userInfo.avatarUrl : `${location.origin}/default_user.png`} alt="User Picture"></img>
                         <div className="online__status"></div>
                     </div>
                     <div className="avatar__name">
@@ -217,7 +217,7 @@ function UserCard({ userInfo, reactLocation }) {
 
     return (
         <div className="userInfo">
-            <img className="userPicture" src={userInfo.avatarUrl ? userInfo.avatarUrl : "./default_user.png"}></img> {/*user avatar*/}
+            <img className="userPicture" src={userInfo.avatarUrl ? userInfo.avatarUrl : `${location.origin}/default_user.png`}></img> {/*user avatar*/}
             <p className="username">{userInfo.fullname}</p> {/*username*/}
             <div className="duration">
                 <div style={{ display: "block", margin: 20 }}>
