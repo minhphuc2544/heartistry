@@ -68,6 +68,7 @@ export default function WordSets() {
 
 function DataRow({wordSetInfo, setReloadSignal}){
     const [isRecommended, setIsRecommended] = useState(wordSetInfo.isRecommended);
+    const [needRecommend, setNeedRecommend] = useState(false);
 
     useEffect(() => {
         async function setToRecommend() {
@@ -82,12 +83,16 @@ function DataRow({wordSetInfo, setReloadSignal}){
                 })
             });
 
+            setNeedRecommend(false);
+
             if (response.ok) {
                 setReloadSignal(old => !old);
             }
         }
-        setToRecommend();
-    }, [isRecommended]);
+        if (needRecommend) {
+            setToRecommend();
+        }
+    }, [needRecommend]);
     return (
         <tr>
             <td>{wordSetInfo.id}</td>
@@ -98,13 +103,13 @@ function DataRow({wordSetInfo, setReloadSignal}){
             <td width={200} align="center">
                 {
                     !wordSetInfo.isRecommended &&
-                    <input type="image" src="../approved.svg" style={{ backgroundColor: "#34B233", borderRadius: "50%", width: "30px", height: "30px", marginRight: "10px"}} onClick={() => setIsRecommended(!isRecommended)}></input>
+                    <input type="image" src="../approved.svg" style={{ backgroundColor: "#34B233", borderRadius: "50%", width: "30px", height: "30px", marginRight: "10px"}} onClick={() => {setIsRecommended(!isRecommended); setNeedRecommend(true);}}></input>
                 }
             </td>
             <td  width={250} align="center"> 
                 {
                     wordSetInfo.isRecommended &&
-                    <input type="image" src="../disapproved.svg" style={{ backgroundColor: "red", borderRadius: "50%", width: "30px", height: "30px", marginRight: "10px" }} onClick={() => setIsRecommended(!isRecommended)}></input>
+                    <input type="image" src="../disapproved.svg" style={{ backgroundColor: "red", borderRadius: "50%", width: "30px", height: "30px", marginRight: "10px" }} onClick={() => {setIsRecommended(!isRecommended); setNeedRecommend(true);}}></input>
                 }
             </td>
         </tr>
