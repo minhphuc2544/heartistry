@@ -81,6 +81,7 @@ function DataRow({ documentInfo, setReloadSignal, setData }) {
     const [isApproved, setIsApproved] = useState(documentInfo.isApproved);
     const [needDelete, setNeedDelete] = useState(false);
     const [needUpdate, setNeedUpdate] = useState(false);
+    const [needApprove, setNeedApprove] = useState(false);
     const [isChanged, setIsChanged] = useState(false);
 
     const [docName, setDocName] = useState('');
@@ -96,6 +97,8 @@ function DataRow({ documentInfo, setReloadSignal, setData }) {
                     "Authorization": `Bearer ${Cookies.get('access_token')}`
                 }
             });
+
+            setNeedApprove(false);
 
             if (response.ok) {
                 // remove the deleted use from data
@@ -127,10 +130,13 @@ function DataRow({ documentInfo, setReloadSignal, setData }) {
                 setReloadSignal(old => !old);
             }
         }
-        setToApprove();
-    }, [isApproved]);
 
-    // useEffect's used to update user
+        if (needApprove) {
+            setToApprove();
+        }
+    }, [needApprove]);
+
+    // useEffect's used to update document
     useEffect(() => {
         async function updateDocument() {
             const requestBody = {
@@ -199,7 +205,7 @@ function DataRow({ documentInfo, setReloadSignal, setData }) {
                             type="image"
                             src="../approved.svg"
                             style={{ backgroundColor: "#34B233", borderRadius: "50%", width: "30px", height: "30px", marginRight: "10px" }}
-                            onClick={() => setIsApproved(!isApproved)}
+                            onClick={() => {setIsApproved(!isApproved); setNeedApprove(true)}}
                         ></input>
                     }
                 </td>
