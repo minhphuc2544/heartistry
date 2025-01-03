@@ -32,7 +32,7 @@ export default function AuditLogs() {
 
             if (userResponseJson.ok) {
                 const data1 = await userResponseJson.json();
-                setAuditLogs([...auditLogs, ...data1]);
+                setAuditLogs(old => [...old, ...data1]);
             }
 
             const taskResponseJson = await fetch(`${import.meta.env.VITE_TASK_API_BASE_URL}/audit-logs/all`, {
@@ -45,7 +45,7 @@ export default function AuditLogs() {
 
             if (taskResponseJson.ok) {
                 const data2 = await taskResponseJson.json();
-                setAuditLogs([...auditLogs, ...data2]);
+                setAuditLogs(old => [...old, ...data2]);
             }
         }
         fetchAuditLogs();
