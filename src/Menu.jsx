@@ -239,7 +239,7 @@ function AdminMenu({ getStyle, setCurPage, userInfo, baseUrl }) {
         <div className="body" style={{ backgroundColor: "var(--sidebar-primary)" }}>
             <nav className="sidebar">
                 <div style={{ textAlign: "center" }}>
-                    <img src={`/logo_transparent_greenBorder.svg`} alt="logo" className="logo"></img>
+                    <img src={`${location.origin}/logo_transparent_greenBorder.svg`} alt="logo" className="logo"></img>
                 </div>
                 <div className="sidebar-links">
                     <ul>
@@ -299,7 +299,7 @@ function AdminMenu({ getStyle, setCurPage, userInfo, baseUrl }) {
 
                 <div className="sidebar__profile">
                     <div className="avatar__wrapper">
-                        <img className="avatar" src={userInfo.avatarUrl ? userInfo.avatarUrl : `/default_user.png`} alt="User Picture"></img>
+                        <img className="avatar" src={userInfo.avatarUrl ? userInfo.avatarUrl : `${location.origin}/default_user.png`} alt="User Picture"></img>
                         <div className="online__status"></div>
                     </div>
                     <div className="avatar__name">
