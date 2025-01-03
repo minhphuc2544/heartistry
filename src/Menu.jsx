@@ -93,8 +93,8 @@ function UserMenu({ getStyle, setCurPage, userInfo, baseUrl }) {
                         <li>
                             <Link to={`${baseUrl}`} title="Home" className="tooltip" style={getStyle('')} onClick={() => setCurPage('')}>
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24"
-                                    height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
-                                    stroke-linejoin="round" aria-hidden="true">
+                                    height="24" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round"
+                                    strokeLinejoin="round" aria-hidden="true">
                                     <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                                     <path d="M4 4h6v8h-6z" />
                                     <path d="M4 16h6v4h-6z" />
@@ -108,8 +108,8 @@ function UserMenu({ getStyle, setCurPage, userInfo, baseUrl }) {
                         <li>
                             <Link to={`${baseUrl}flashcard`} className="tooltip" style={getStyle('flashcard')} onClick={() => setCurPage('flashcard')}>
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24"
-                                    height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
-                                    stroke-linejoin="round" aria-hidden="true">
+                                    height="24" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round"
+                                    strokeLinejoin="round" aria-hidden="true">
                                     <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                                     <path d="M3 12m0 1a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v6a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1z" />
                                     <path d="M9 8m0 1a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v10a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1z" />
@@ -122,14 +122,14 @@ function UserMenu({ getStyle, setCurPage, userInfo, baseUrl }) {
                         </li>
                         <li>
                             <Link to={`${baseUrl}dictionary`} title="Tasks" className="tooltip" style={getStyle('dictionary')} onClick={() => setCurPage('dictionary')}>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="icon icon-tabler icons-tabler-outline icon-tabler-checkbox"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M9 11l3 3l8 -8" /><path d="M20 12v6a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h9" /></svg>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="icon icon-tabler icons-tabler-outline icon-tabler-checkbox"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M9 11l3 3l8 -8" /><path d="M20 12v6a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h9" /></svg>
                                 <span className="span">Dictionary</span>
                                 <span className="tooltip__content">Dictionary</span>
                             </Link>
                         </li>
                         <li>
                             <Link to={`${baseUrl}document`} title="Users" className="tooltip" style={getStyle('document')} onClick={() => setCurPage('document')}>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="icon icon-tabler icons-tabler-outline icon-tabler-users"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M9 7m-4 0a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" /><path d="M3 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" /><path d="M16 3.13a4 4 0 0 1 0 7.75" /><path d="M21 21v-2a4 4 0 0 0 -3 -3.85" /></svg>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="icon icon-tabler icons-tabler-outline icon-tabler-users"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M9 7m-4 0a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" /><path d="M3 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" /><path d="M16 3.13a4 4 0 0 1 0 7.75" /><path d="M21 21v-2a4 4 0 0 0 -3 -3.85" /></svg>
                                 <span className="span">Documents</span>
                                 <span className="tooltip__content">Documents</span>
                             </Link>
@@ -141,8 +141,8 @@ function UserMenu({ getStyle, setCurPage, userInfo, baseUrl }) {
                     <ul>
                         <li>
                             <Link to={`${baseUrl}setting`} title="Settings" className="tooltip" style={getStyle('setting')} onClick={() => setCurPage('setting')}>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke-width="2"
-                                    stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" strokeWidth="2"
+                                    stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                                     <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                                     <path
                                         d="M10.325 4.317c.426 -1.756 2.924 -1.756 3.35 0a1.724 1.724 0 0 0 2.573 1.066c1.543 -.94 3.31 .826 2.37 2.37a1.724 1.724 0 0 0 1.065 2.572c1.756 .426 1.756 2.924 0 3.35a1.724 1.724 0 0 0 -1.066 2.573c.94 1.543 -.826 3.31 -2.37 2.37a1.724 1.724 0 0 0 -2.572 1.065c-.426 1.756 -2.924 1.756 -3.35 0a1.724 1.724 0 0 0 -2.573 -1.066c-1.543 .94 -3.31 -.826 -2.37 -2.37a1.724 1.724 0 0 0 -1.065 -2.572c-1.756 -.426 -1.756 -2.924 0 -3.35a1.724 1.724 0 0 0 1.066 -2.573c-.94 -1.543 .826 -3.31 2.37 -2.37c1 .608 2.296 .07 2.572 -1.065z">
@@ -155,7 +155,7 @@ function UserMenu({ getStyle, setCurPage, userInfo, baseUrl }) {
                         </li>
                         <li>
                             <a href="https://www.facebook.com/heartistry.english" target="_blank" title="Support" className="tooltip">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="icon icon-tabler icons-tabler-outline icon-tabler-info-square-rounded"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M12 9h.01" /><path d="M11 12h1v4h1" /><path d="M12 3c7.2 0 9 1.8 9 9s-1.8 9 -9 9s-9 -1.8 -9 -9s1.8 -9 9 -9z" /></svg>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="icon icon-tabler icons-tabler-outline icon-tabler-info-square-rounded"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M12 9h.01" /><path d="M11 12h1v4h1" /><path d="M12 3c7.2 0 9 1.8 9 9s-1.8 9 -9 9s-9 -1.8 -9 -9s1.8 -9 9 -9z" /></svg>
                                 <span className="span">Support</span>
                                 <span className="tooltip__content">Support</span>
                             </a>
@@ -175,8 +175,8 @@ function UserMenu({ getStyle, setCurPage, userInfo, baseUrl }) {
                         setCurPage('login');
                     }}>
                         <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-logout" width="24" height="24"
-                            viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
-                            stroke-linejoin="round" aria-labelledby="logout-icon" role="img">
+                            viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round"
+                            strokeLinejoin="round" aria-labelledby="logout-icon" role="img">
                             <title id="logout-icon">log out</title>
                             <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                             <path d="M14 8v-2a2 2 0 0 0 -2 -2h-7a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h7a2 2 0 0 0 2 -2v-2"></path>
@@ -222,12 +222,12 @@ function UserCard({ userInfo, reactLocation }) {
             <div className="duration">
                 <div style={{ display: "block", margin: 20 }}>
                     <p>Words</p>
-                    <p>{noWords}</p>
+                    <p>{noWords.toString()}</p>
                 </div>
                 <div className="dashboard_separator"></div>
                 <div style={{ display: "block", margin: 20 }}>
                     <p>Days</p>
-                    <p>{Math.ceil((new Date() - new Date(userInfo.createAt)) / (1000 * 60 * 60 * 24))}</p>
+                    <p>{Math.ceil((new Date() - new Date(userInfo.createAt)) / (1000 * 60 * 60 * 24)).toString()}</p>
                 </div>
             </div>
         </div>
@@ -246,8 +246,8 @@ function AdminMenu({ getStyle, setCurPage, userInfo, baseUrl }) {
                         <li>
                             <Link to={`${baseUrl}admin/users`} title="Users" className="tooltip" style={getStyle('admin/users')} onClick={() => setCurPage('admin/users')}>
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24"
-                                    height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
-                                    stroke-linejoin="round" aria-hidden="true">
+                                    height="24" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round"
+                                    strokeLinejoin="round" aria-hidden="true">
                                     <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                                     <path d="M4 4h6v8h-6z" />
                                     <path d="M4 16h6v4h-6z" />
@@ -261,8 +261,8 @@ function AdminMenu({ getStyle, setCurPage, userInfo, baseUrl }) {
                         <li>
                             <Link to={`${baseUrl}admin/wordsets`} className="tooltip" style={getStyle('admin/wordsets')} onClick={() => setCurPage('admin/wordsets')}>
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24"
-                                    height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
-                                    stroke-linejoin="round" aria-hidden="true">
+                                    height="24" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round"
+                                    strokeLinejoin="round" aria-hidden="true">
                                     <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                                     <path d="M3 12m0 1a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v6a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1z" />
                                     <path d="M9 8m0 1a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v10a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1z" />
@@ -275,21 +275,21 @@ function AdminMenu({ getStyle, setCurPage, userInfo, baseUrl }) {
                         </li>
                         <li>
                             <Link to={`${baseUrl}admin/words`} title="Tasks" className="tooltip" style={getStyle('admin/words')} onClick={() => setCurPage('admin/words')}>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="icon icon-tabler icons-tabler-outline icon-tabler-checkbox"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M9 11l3 3l8 -8" /><path d="M20 12v6a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h9" /></svg>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="icon icon-tabler icons-tabler-outline icon-tabler-checkbox"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M9 11l3 3l8 -8" /><path d="M20 12v6a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h9" /></svg>
                                 <span className="span">Words</span>
                                 <span className="tooltip__content">Words</span>
                             </Link>
                         </li>
                         <li>
                             <Link to={`${baseUrl}admin/approve-documents`} title="Users" className="tooltip" style={getStyle('admin/approve-documents')} onClick={() => setCurPage('admin/approve-documents')}>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="icon icon-tabler icons-tabler-outline icon-tabler-users"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M9 7m-4 0a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" /><path d="M3 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" /><path d="M16 3.13a4 4 0 0 1 0 7.75" /><path d="M21 21v-2a4 4 0 0 0 -3 -3.85" /></svg>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="icon icon-tabler icons-tabler-outline icon-tabler-users"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M9 7m-4 0a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" /><path d="M3 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" /><path d="M16 3.13a4 4 0 0 1 0 7.75" /><path d="M21 21v-2a4 4 0 0 0 -3 -3.85" /></svg>
                                 <span className="span">Approve Documents</span>
                                 <span className="tooltip__content">Approve Documents</span>
                             </Link>
                         </li>
                         <li>
                             <Link to={`${baseUrl}admin/audit-logs`} title="Users" className="tooltip" style={getStyle('admin/audit-logs')} onClick={() => setCurPage('admin/audit-logs')}>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="icon icon-tabler icons-tabler-outline icon-tabler-users"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M9 7m-4 0a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" /><path d="M3 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" /><path d="M16 3.13a4 4 0 0 1 0 7.75" /><path d="M21 21v-2a4 4 0 0 0 -3 -3.85" /></svg>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="icon icon-tabler icons-tabler-outline icon-tabler-users"><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M9 7m-4 0a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" /><path d="M3 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" /><path d="M16 3.13a4 4 0 0 1 0 7.75" /><path d="M21 21v-2a4 4 0 0 0 -3 -3.85" /></svg>
                                 <span className="span">Audit Logs</span>
                                 <span className="tooltip__content">Audit Logs</span>
                             </Link>
@@ -309,8 +309,8 @@ function AdminMenu({ getStyle, setCurPage, userInfo, baseUrl }) {
                         setCurPage('login');
                     }}>
                         <svg xmlns="http://www.w3.org/2000/svg" className="icon icon-tabler icon-tabler-logout" width="24" height="24"
-                            viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
-                            stroke-linejoin="round" aria-labelledby="logout-icon" role="img">
+                            viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round"
+                            strokeLinejoin="round" aria-labelledby="logout-icon" role="img">
                             <title id="logout-icon">log out</title>
                             <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                             <path d="M14 8v-2a2 2 0 0 0 -2 -2h-7a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h7a2 2 0 0 0 2 -2v-2"></path>
