@@ -512,47 +512,27 @@
 .flashcard_phonetic {
     width: 300px;
     height: 50px;
-    border: solid black 1px;
-    border-radius: 12px;
-    padding: 5px;
-    position: relative;
-    margin: auto;
-    top: 5px;
+    margin: 10px 10px 10px 10px;
     font-size: 20px;
 }
 
 .flashcard_definition {
     width: 300px;
     height: 50px;
-    border: solid black 1px;
-    border-radius: 12px;
-    padding: 5px;
-    position: relative;
-    margin: auto;
-    top: 5px;
+    margin: 10px 10px 10px 10px;
     font-size: 20px;
 }
 
 .flashcard_example {
     width: 300px;
     height: 50px;
-    border: solid black 1px;
-    border-radius: 12px;
-    padding: 5px;
-    position: relative;
-    margin: auto;
-    top: 5px;
+    margin: 10px 10px 10px 10px;
     font-size: 20px;
 }
 
 .flashcard_note {
     width: 300px;
     height: 50px;
-    border: solid black 1px;
-    border-radius: 12px;
-    padding: 5px;
-    position: relative;
-    margin: auto;
-    top: 5px;
+    margin: 10px 10px 10px 10px;
     font-size: 20px;
 }
