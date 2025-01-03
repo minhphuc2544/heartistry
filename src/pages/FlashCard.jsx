@@ -31,17 +31,17 @@ export default function FlashCard() {
     const [cusAleMsg, setCusAleMsg] = useState(''); // abbreviation of CustomAlertMessage
 
     // check if the access token is expired and user has 'admin' role
-    useEffect(() => {
-        const access_token = Cookies.get('access_token');
-        if (!access_token) {
-            navigate('/login');
-            return;
-        }
-        const role = Cookies.get('role');
-        if (role === 'admin') {
-            navigate('/admin/users')
-        }
-    }, []);
+    // useEffect(() => {
+    //     const access_token = Cookies.get('access_token');
+    //     if (!access_token) {
+    //         navigate('/login');
+    //         return;
+    //     }
+    //     const role = Cookies.get('role');
+    //     if (role === 'admin') {
+    //         navigate('/admin/users')
+    //     }
+    // }, []);
 
     // useEffect uses to get a page of wordset
     useEffect(() => {
