@@ -171,6 +171,7 @@
     width: 100%;
     height: 100%;
     backface-visibility: hidden;
+    padding: 15px;
     background-color: white; /* Ensure the card has a white background */
     border-radius: 22px; /* Match the existing border-radius */
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2); /* Add some shadow for better visibility */
@@ -179,6 +180,7 @@
 .home_back {
     transform: rotateY(180deg);
     font-size: 25px;
+    padding: 15px;
 }
 
 .home_editWordSet {
@@ -402,22 +404,3 @@
     font-family: cursive;
 }
 
-.home_phonetic {
-    margin: 10px 10px 10px 10px;
-    font-size: 20px;
-}
-
-.home_definition {
-    margin: 10px 10px 10px 10px;
-    font-size: 20px;
-}
-
-.home_example {
-    margin: 10px 10px 10px 10px;
-    font-size: 20px;
-}
-
-.home_note {
-    margin: 10px 10px 10px 10px;
-    font-size: 20px;
-}
