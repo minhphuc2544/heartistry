@@ -65,7 +65,7 @@ export default function Home() {
 
     return (
         <>
-            <div className="home">
+            <div className="home_home">
                 <div className="home_upper">
 
                     <div className="home_wordSets">
@@ -96,6 +96,7 @@ export default function Home() {
 
 function MyLineChart({ }) {
     const [data, setData] = useState([]); // data for chart
+    const [verticalLength, setVerticalLength] = useState(12); // initialize the vertical default length to 12
 
     // useEffect uses to get data for chart
     useEffect(() => {
@@ -110,8 +111,15 @@ function MyLineChart({ }) {
             });
 
             const responseJson = await response.json();
-            // sort the data by date
-            const sortedData = responseJson.sort((a, b) => new Date(a.key) - new Date(b.key));
+            let maxValue = verticalLength;
+            // sort the data by date, also find the max vertical length
+            const sortedData = responseJson.sort((a, b) => {
+                if (a.value > maxValue) maxValue = a.value;
+                if (b.value > maxValue) maxValue = b.value;
+
+                return new Date(a.key) - new Date(b.key);
+            });
+            setVerticalLength(maxValue);
             setData(sortedData);
         }
 
@@ -124,6 +132,17 @@ function MyLineChart({ }) {
                 data={data}
                 margin={{ top: 30, right: 30, left: 30, bottom: 30 }}
             >
+                {/* Chart Title */}
+                <text
+                    x="50%"
+                    y={20}
+                    textAnchor="middle"
+                    dominantBaseline="middle"
+                    style={{ fontSize: "18px", fontWeight: "bold", fill: "#555" }}
+                >
+                    Words Learned Over Time
+                </text>
+
                 {/* Background grid */}
                 <CartesianGrid strokeDasharray="3 3" stroke="#e0e0e0" />
 
@@ -146,7 +165,7 @@ function MyLineChart({ }) {
                     tick={{ fill: "#333", fontSize: 12 }}
                     axisLine={{ stroke: "#ccc" }}
                     tickLine={{ stroke: "#ccc" }}
-                    domain={[0, 12]}
+                    domain={[0, verticalLength]}
                     label={{
                         value: "Words Learned",
                         angle: -90,
@@ -163,6 +182,7 @@ function MyLineChart({ }) {
                         border: "1px solid #ccc",
                     }}
                     itemStyle={{ color: "#555" }}
+                    formatter={(value) => [`${value}`, "word"]}
                 />
 
                 {/* Legend */}
@@ -359,10 +379,12 @@ function FlipCard({ learningWordSet, setTurn, isTurn }) {
                                     <p className="home_word">{allWords[curWordIdx].word}</p>
                                     {foundWord.isFound && <p className="home_wordType">({foundWord.partOfSpeech})</p>}
                                 </div>
-                                {foundWord.isFound && foundWord.phonetic && <p className="home_word_info"><b>Phonetic:</b> {foundWord.phonetic}</p>}
-                                {foundWord.isFound && <p className="home_word_info"><b>Definition:</b> {foundWord.definition}</p>}
-                                {foundWord.isFound && foundWord.example && <p className="home_word_info"><b>Example:</b> {foundWord.example}</p>}
-                                {allWords[curWordIdx].note && <p className="home_word_info"><b>Note:</b> {allWords[curWordIdx].note}</p>}
+                                <div style={{ display: "flex" }}>
+                                    {foundWord.isFound && foundWord.phonetic && <p className="home_phonetic"><b>Phonetic:</b> {foundWord.phonetic}</p>}
+                                </div>
+                                {foundWord.isFound && <p className="home_definition"><b>Definition:</b> {foundWord.definition}</p>}
+                                {foundWord.isFound && foundWord.example && <p className="home_example"><b>Example:</b> {foundWord.example}</p>}
+                                {allWords[curWordIdx].note && <p className="home_note"><b>Note:</b> {allWords[curWordIdx].note}</p>}
                             </div> :
                             <div className="home_front">
                                 <p style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)", fontSize: 60, wordWrap: "break-word" }}>{allWords[curWordIdx].word}</p>
