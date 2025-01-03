@@ -132,17 +132,6 @@ function MyLineChart({ }) {
                 data={data}
                 margin={{ top: 30, right: 30, left: 30, bottom: 30 }}
             >
-                {/* Chart Title */}
-                <text
-                    x="50%"
-                    y={20}
-                    textAnchor="middle"
-                    dominantBaseline="middle"
-                    style={{ fontSize: "18px", fontWeight: "bold", fill: "#555" }}
-                >
-                    Words Learned Over Time
-                </text>
-
                 {/* Background grid */}
                 <CartesianGrid strokeDasharray="3 3" stroke="#e0e0e0" />
 
@@ -191,7 +180,9 @@ function MyLineChart({ }) {
                     height={36}
                     iconType="square"
                     formatter={(value) => (
-                        <span style={{ color: "#555", fontSize: "12px" }}>{value}</span>
+                        <span style={{ color: "#555", fontSize: "12px" }}>
+                            {value === "value" ? "word" : value}
+                        </span>
                     )}
                 />
 
@@ -204,6 +195,21 @@ function MyLineChart({ }) {
                     activeDot={{ r: 8, stroke: "#8884d8", strokeWidth: 2 }}
                     dot={{ r: 4, fill: "#8884d8" }}
                 />
+
+                {/* Title below the chart */}
+                <text
+                    x="50%"
+                    y="100%"
+                    textAnchor="middle"
+                    dominantBaseline="hanging"
+                    style={{
+                        fontSize: "16px",
+                        fontWeight: "bold",
+                        fill: "#333",
+                    }}
+                >
+                    Words Learned Over Time
+                </text>
             </LineChart>
         </ResponsiveContainer>
     );
