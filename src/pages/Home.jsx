@@ -65,7 +65,7 @@ export default function Home() {
 
     return (
         <>
-            <div className="home_home">
+            <div className="home">
                 <div className="home_upper">
 
                     <div className="home_wordSets">
